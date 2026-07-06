@@ -215,9 +215,19 @@ Installers are built automatically in the cloud by GitHub Actions:
    (or, if you pushed a tag, from the repo's **Releases** page).
 3. Double-click the `.exe` (Windows) or `.dmg` (macOS) to install.
 
-> First launch may show an "unknown developer" warning (the app is unsigned —
-> no paid Apple/Microsoft certificate). **Windows:** click *More info → Run
-> anyway*. **macOS:** right-click the app → *Open* → *Open*.
+> First launch warning (the app is unsigned — no paid Apple/Microsoft
+> certificate; it's safe, just not certificate-signed):
+>
+> - **Windows:** click *More info → Run anyway*.
+> - **macOS:** right-click the app → *Open* → *Open*.
+> - **macOS says "damaged and can't be opened / move to Bin":** this is
+>   Gatekeeper blocking the unsigned download, not real damage. Drag the app
+>   into **Applications**, then open **Terminal** and run:
+>   ```
+>   xattr -cr "/Applications/DET Practice.app"
+>   ```
+>   Then open the app normally. If it still refuses, also run
+>   `codesign --force --deep -s - "/Applications/DET Practice.app"` and open again.
 
 ### Build the installer yourself (optional)
 
