@@ -1,0 +1,194 @@
+[
+  {
+    "id": "ph1",
+    "img": "photos/ph1.jpg",
+    "credit": { "title": "Sharing is caring (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Sharing_is_caring_(Unsplash).jpg" },
+    "alt": "Seen from above, two hands cut a lattice-topped pie on a round wooden board at an outdoor picnic, surrounded by plates, cups, a book and flowers on a grey blanket.",
+    "modelWritten": "This photo shows an outdoor picnic seen from above. A woman is using a knife and a serving tool to cut a slice from a homemade pie, which sits on a round wooden cutting board dusted with sugar. Around the blanket there are empty plates, glasses, an orange book about tea, and some white flowers. It looks like a relaxed afternoon picnic in the countryside.",
+    "modelSpoken": "This is a picture of a picnic, taken from above. In the middle there is a homemade pie on a round wooden board, and a woman is cutting a slice with a knife. She has already taken one piece out. Around the pie I can see plates with forks and spoons, some glasses, a small white cup, and an orange book about tea. Everything is arranged on a grey blanket, so I think they are enjoying a calm afternoon outside."
+  },
+  {
+    "id": "ph2",
+    "img": "photos/ph2.jpg",
+    "credit": { "title": "Chef's Station (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Chef%27s_Station_(Unsplash).jpg" },
+    "alt": "A dark wooden kitchen table seen from above with a large cutting board, a cast-iron frying pan, two knives, a mortar and pestle, fresh herbs, garlic, an orange and small dishes of spices.",
+    "modelWritten": "This photo shows cooking preparations on a dark wooden table, seen from above. There is a large wooden cutting board on the left and an empty cast-iron frying pan at the bottom. Between them someone has arranged fresh rosemary, a head of garlic, an orange, and small white dishes filled with salt, pepper and other spices. Two large knives and a stone mortar and pestle complete the scene, so it seems a meal is about to be cooked.",
+    "modelSpoken": "This picture shows a kitchen table just before someone starts cooking. It is taken from above, and the table is made of dark wood. On the left there is a big wooden cutting board, and near the bottom I can see a black cast-iron pan. In the middle there are fresh green herbs, garlic, an orange, and little dishes with salt and different spices. There are also two sharp knives and a mortar and pestle, so I imagine someone is preparing to season and cook a nice dinner."
+  },
+  {
+    "id": "ph3",
+    "img": "photos/ph3.jpg",
+    "credit": { "title": "Summer Reading (Unsplash)", "author": "Morgan Harper Nichols", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Summer_Reading_(Unsplash).jpg" },
+    "alt": "A stack of six books, including novels and a web-design manual, piled on a wooden table with a softly blurred background.",
+    "modelWritten": "This photo shows a pile of six books stacked on a wooden table. The books cover very different topics: there is a memoir about writing, a book of street photography, a psychology textbook, and even a manual about building websites. The titles are printed on the spines, which face the camera. The background is blurred, which makes the colorful stack the clear focus of the image. It looks like someone's summer reading list.",
+    "modelSpoken": "In this picture I can see a stack of books on a wooden table. There are about six books piled on top of each other, and their spines face the camera so I can read some titles. One is about writing, another is about psychology, and the bottom one teaches web design, so the owner clearly has many interests. The background is completely blurred, and the light is soft and warm. It looks like a reading list waiting for a quiet weekend."
+  },
+  {
+    "id": "ph4",
+    "img": "photos/ph4.jpg",
+    "credit": { "title": "Adidas soccer ball on a grass pitch (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Adidas_soccer_ball_on_a_grass_pitch_(Unsplash).jpg" },
+    "alt": "A white football with red and yellow markings lying on the green grass of a pitch, with a blurred grey background.",
+    "modelWritten": "This photo shows a single white football lying on a green grass pitch. The ball is decorated with red, orange and yellow shapes and has a few dark scuff marks, so it has clearly been used in games. The grass around it is short and well cut, like a real playing field. In the background I can see a blurred grey wall or empty stands. The picture suggests a quiet moment before or after a match.",
+    "modelSpoken": "This is a close-up picture of a football on a grass field. The ball is mostly white, with a colorful red and yellow pattern, and I can see some dirt on it, which tells me it has been played with a lot. It is lying still on short green grass, probably on a proper pitch, because the background looks like a stadium wall, although it is blurred. Nobody is in the frame, so maybe the players are taking a break, or the match has not started yet."
+  },
+  {
+    "id": "ph5",
+    "img": "photos/ph5.jpg",
+    "credit": { "title": "Street Fruit Seller at work (Unsplash)", "author": "Igor Ovsyannykov", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Street_Fruit_Seller_at_work_(Unsplash).jpg" },
+    "alt": "A street vendor in an orange shirt places a cut guava beside an old red weighing scale on a wooden cart piled with green and yellow guavas.",
+    "modelWritten": "This photo shows a street fruit seller at work. A man wearing an orange shirt and jeans is standing behind his wooden cart, placing a guava that has been cut with a cross pattern next to his scale. The old-fashioned weighing scale is red with a metal bowl, and several black weights sit beside it. Behind him there is a large pile of green and yellow guavas with fresh leaves. It looks like a busy market street somewhere warm.",
+    "modelSpoken": "In this picture I can see a fruit seller at his stall on the street. He is wearing an orange long-sleeved shirt and blue jeans, and he is arranging a piece of fruit, I think a guava, next to an old red weighing scale with a metal bowl on top. On his wooden cart there are also some black weights and a plastic bag. Behind him there is a huge pile of green and yellow guavas mixed with leaves, so his stall looks full and fresh. It seems like an ordinary working day at a street market."
+  },
+  {
+    "id": "ph6",
+    "img": "photos/ph6.jpg",
+    "credit": { "title": "Riding a bike in the park (Unsplash)", "author": "Fritz Bielmeier", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Riding_a_bike_in_the_park_(Unsplash).jpg" },
+    "alt": "A woman in dark clothes rides a bicycle with a bag in the front basket along a gravel path in a sunlit park, with benches, a wooden fence and trees behind her.",
+    "modelWritten": "This photo shows a woman riding a bicycle through a park in the late afternoon. She is wearing a dark top and a patterned skirt, and there is a large black bag in the basket at the front of her bike. She is riding along a wide gravel path, and behind her I can see green benches, a low wooden fence, tall trees and a person sitting in the distance. Warm sunlight is shining through the leaves, which gives the whole scene a peaceful summer feeling.",
+    "modelSpoken": "This picture shows a park on a sunny evening. On the right, a woman with curly hair is riding a bicycle towards the camera along a wide gravel path. She is dressed in a dark long-sleeved top and a short patterned skirt, and she carries a big black bag in the front basket of the bike. Behind her there are green park benches, a wooden fence, and tall leafy trees, and someone is relaxing on a bench in the background. The sunlight is soft and golden, so it feels like a calm end to the day."
+  },
+  {
+    "id": "ph7",
+    "img": "photos/ph7.jpg",
+    "credit": { "title": "Walking Dogs (Unsplash)", "author": "Matt Nelson", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Walking_Dogs_(Unsplash).jpg" },
+    "alt": "A dog walker's arm holds the leashes of four different dogs sitting together on red brick pavement in a city park, one of them yawning widely.",
+    "modelWritten": "This photo shows a dog walker with four dogs in a city park. Only the person's arm is visible on the left, holding all four leashes together. The dogs are sitting in a row on red brick pavement: a black and white husky, a brown short-haired dog, a spotted grey dog with a pink collar that is yawning widely, and a fluffy brown and white shepherd looking up. Behind them there are trees, a dark fence, and city buildings with blue shop awnings, so this is clearly a walk in the middle of a busy city.",
+    "modelSpoken": "In this picture a person is walking four dogs in a city park. I can only see the person's arm, which is holding all the leashes at once. The four dogs are sitting nicely on red brick ground. From left to right there is a husky, a slim brown dog, a grey spotted dog with a pink collar that is yawning with its mouth wide open, and a very fluffy brown and white dog looking up at the owner. In the background I can see trees, a fence, some people on benches, and buildings with blue awnings, so it must be a small park inside a big city."
+  },
+  {
+    "id": "ph8",
+    "img": "photos/ph8.jpg",
+    "credit": { "title": "Train station in red and gray (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Train_station_in_red_and_gray_(Unsplash).jpg" },
+    "alt": "A crowd of commuters waits on the platform of an elevated train station with a red metal roof, glass panels and electronic signs overhead.",
+    "modelWritten": "This photo shows a crowded platform at an elevated train station. Dozens of commuters are standing in line close to the platform edge, most of them wearing hoodies, caps and jackets, waiting for the next train to arrive. The station has a dramatic red metal roof, long rows of lights, glass panels along the sides, and electronic displays hanging from the ceiling. The picture is mostly grey with strong red details, which gives it a moody, urban atmosphere.",
+    "modelSpoken": "This picture was taken at a busy train station platform. A big crowd of people is waiting for the train; they are standing in a long line that stretches away from the camera. Most people are wearing casual clothes like hoodies and baseball caps, and one man in the front is talking on his phone. The station itself is elevated, with a red metal roof, glass windows along the platform, and electronic signs hanging above. The colors are mostly grey and red, and the sky looks cloudy, so it feels like a normal, slightly tiring commute."
+  },
+  {
+    "id": "ph9",
+    "img": "photos/ph9.jpg",
+    "credit": { "title": "Bridal bouquet (Unsplash)", "author": "Tamara Menzi", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Bridal_bouquet_(Unsplash).jpg" },
+    "alt": "A bride in a white lace dress holds a bouquet of pink and cream roses and green hydrangeas; her face is softly blurred behind the flowers.",
+    "modelWritten": "This photo shows a bride holding her wedding bouquet. The bouquet fills the center of the image and is made of pink and cream roses, small white flowers, and big green hydrangea leaves at the bottom. The bride is wearing a white lace dress, and a ring is visible on the hand that holds the flowers. Her face and the fence behind her are softly blurred, so all the attention goes to the beautiful bouquet. The photo feels romantic and was probably taken on her wedding day.",
+    "modelSpoken": "In this picture a bride is holding a big bouquet of flowers, and the flowers are the main focus of the photo. The bouquet has pink roses, cream and white flowers, and some large green leaves at the bottom. The woman is wearing a white lace wedding dress, and I can see a ring on her finger, so this is probably her wedding day. Her face and the background, which looks like a wooden fence in a garden, are out of focus. The colors are soft and light, and the whole photo feels very romantic and happy."
+  },
+  {
+    "id": "ph10",
+    "img": "photos/ph10.jpg",
+    "credit": { "title": "Birthday Cake with Candles (Unsplash)", "author": "Annie Spratt", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Birthday_Cake_with_Candles_(Unsplash_M20ylqCzSZw).jpg" },
+    "alt": "A birthday cake in a dark room topped with lit colorful candles shaped like letters that spell HAPPY BIRTHDAY.",
+    "modelWritten": "This photo shows a birthday cake photographed in a dark room. The cake is decorated with white icing and colorful triangle shapes, and on top there are burning candles shaped like letters. Together the letters spell the words HAPPY BIRTHDAY, and each one is a different bright color, such as green, red, purple and blue. The small flames light up the top of the cake while everything around it stays black, which makes the moment feel warm and festive, just before someone blows out the candles.",
+    "modelSpoken": "This is a picture of a birthday cake in a dark room. The special thing about this cake is the candles: they are shaped like colorful letters, and together they spell happy birthday. Every letter is a different color, like green, yellow, red, purple and blue, and each one has a small flame on top. The cake itself is white with little colorful decorations that look like flags. Because the room is completely dark, the candle light makes the scene feel warm and exciting, and I imagine someone is about to make a wish and blow them out."
+  },
+  {
+    "id": "ph11",
+    "img": "photos/ph11.jpg",
+    "credit": { "title": "Confused. (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Confused._(Unsplash).jpg" },
+    "alt": "A young barista in a black T-shirt and smartwatch works at a coffee-shop counter with a receipt printer, coffee machines, cups and wooden shelves behind him.",
+    "modelWritten": "This photo shows a young barista working behind the counter of a coffee shop. He has a modern haircut and a short beard, wears a black T-shirt and a smartwatch, and is concentrating on the till or receipt machine in front of him. Around him I can see the tools of a cafe: a coffee grinder, stacks of paper cups, bottles of syrup, and wooden shelves decorated with plants and white mugs. The atmosphere looks casual and modern, like a small independent coffee shop.",
+    "modelSpoken": "In this picture a young man is working in a coffee shop. He is standing behind the counter, looking down at the cash register, where a long receipt is coming out of the printer. He is wearing a black T-shirt and a smartwatch, and he has a trendy haircut and a short beard. Around him there is typical cafe equipment: a coffee grinder, piles of takeaway cups, bottles, and a sink at the back. On the wooden shelves behind him there are plants and white cups, so the cafe looks modern and cozy."
+  },
+  {
+    "id": "ph12",
+    "img": "photos/ph12.jpg",
+    "credit": { "title": "Love (Unsplash SfjmMT4rb7Y)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Love_(Unsplash_SfjmMT4rb7Y).jpg" },
+    "alt": "A young girl with a dark ponytail, wearing a floral dress, crouches on a sandy beach and draws a large heart in the sand with her finger.",
+    "modelWritten": "This photo shows a young girl playing on a sandy beach. She is crouching with her back to the camera, so I can see her dark ponytail and her white dress with orange flower patterns. With one finger she is drawing in the sand, and she has already finished a large heart shape next to her. The sand around her is smooth with a few small footprints and shells. The picture captures a quiet, sweet moment of a child entertaining herself by the sea.",
+    "modelSpoken": "This picture shows a little girl on a beach. She is crouching down on the sand with her back to the camera, and she has long dark hair tied in a ponytail. She is wearing a sleeveless dress with a pretty orange and white flower pattern. The most charming detail is that she has drawn a big heart in the sand with her finger, and she is still finishing it. The sand fills the whole background, so the girl and her heart are the only things in the photo, which makes it feel calm and innocent."
+  },
+  {
+    "id": "ph14",
+    "img": "photos/ph14.jpg",
+    "credit": { "title": "Plaid shirt guitarist (Unsplash)", "author": "Zachrie Friesen", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Plaid_shirt_guitarist_(Unsplash).jpg" },
+    "alt": "A guitarist in a green plaid shirt plays an electric guitar on a dark stage lit with blue light, with other band members blurred in the background.",
+    "modelWritten": "This photo shows a musician performing on stage. The picture focuses on a man in a green plaid shirt playing a black electric guitar; his face is outside the frame, so we mainly see his arms and instrument. The stage is dark and lit with cold blue light, which gives the scene a moody concert atmosphere. In the blurred background another band member is raising a hand, and I can also see microphone stands. It looks like a live show in a club or at a festival.",
+    "modelSpoken": "This picture was taken at a concert. In the front there is a guitarist wearing a green and black plaid shirt and jeans, and he is playing a black electric guitar with a strap over his shoulder. We cannot see his face, only his body and hands, which makes the guitar the center of the photo. The stage is quite dark, with blue lights shining across it, and behind him I can see another musician raising his hand and some microphone stands. The atmosphere feels energetic, like the middle of a live performance."
+  },
+  {
+    "id": "ph15",
+    "img": "photos/ph15.jpg",
+    "credit": { "title": "Sunrise hiking views (Unsplash)", "author": "Aneta Ivanova", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Sunrise_hiking_views_(Unsplash).jpg" },
+    "alt": "A hiker with a large backpack stands silhouetted on a grassy ridge at sunrise, looking at mountains and pink clouds in the distance.",
+    "modelWritten": "This photo shows a hiker standing on a mountain ridge at sunrise. The man is seen from behind as a dark silhouette, wearing shorts, hiking boots and a large backpack. He is looking down at the view: rolling mountains partly covered by soft pink and orange clouds. The sky above is pastel pink and grey, and a small pile of stones sits on the grass beside him. The image captures the quiet, rewarding moment at the end of a long climb.",
+    "modelSpoken": "In this picture a hiker is standing on top of a hill very early in the morning. I can only see his dark silhouette from behind, but I can tell he is wearing shorts, boots and a big backpack with straps. In front of him there is a beautiful view of mountains, and low clouds are glowing pink and orange because the sun is rising. There is also a small pile of rocks next to him on the grass, which hikers often build to mark the path. The scene feels peaceful and a little bit magical."
+  },
+  {
+    "id": "ph21",
+    "img": "photos/ph21.jpg",
+    "credit": { "title": "Clear Umbrella Rain Liverpool (Unsplash)", "author": "Freddie Marriage", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Clear_Umbrella_Rain_Liverpool_(Unsplash).jpg" },
+    "alt": "The view from underneath a transparent umbrella covered in raindrops, with the dark shape of a tall city building visible through it.",
+    "modelWritten": "This photo was taken from underneath a transparent umbrella on a rainy day. The plastic surface of the umbrella is covered with hundreds of raindrops of different sizes, and its thin black metal ribs spread out from the handle like a spider web. Through the wet plastic we can see the blurry dark outline of a tall city building against a grey sky. The picture turns an ordinary rainy walk in the city into something quite artistic.",
+    "modelSpoken": "This is a creative photo taken from under a see-through umbrella while it is raining. The whole picture is filled by the umbrella itself, and I can see its black metal frame and the silver handle in the corner. The plastic is covered with lots of raindrops, some big and some tiny. Behind the umbrella everything is blurry, but I can recognize the dark shape of a tall building and a grey sky, so the person must be walking in a city. The photo really makes me feel the mood of a wet, cloudy day."
+  },
+  {
+    "id": "ph22",
+    "img": "photos/ph22.jpg",
+    "credit": { "title": "Ice Cream Dessert (Unsplash)", "author": "Alex Jones", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Ice_Cream_Dessert_(Unsplash).jpg" },
+    "alt": "A hand holds up a waffle cone filled with scoops of cookies-and-cream ice cream, wrapped in a white paper holder, against a blurred sunset background.",
+    "modelWritten": "This photo shows a hand holding an ice cream cone outdoors. The waffle cone is wrapped in a white paper holder and is filled with generous scoops of cookies-and-cream ice cream, with dark chocolate pieces visible in the white cream. The background is completely blurred, but the warm orange and golden colors suggest the sun is setting. The photo looks like a small everyday pleasure captured at the end of a nice day.",
+    "modelSpoken": "In this picture someone is holding an ice cream cone up for the camera. The hand belongs to a woman, I think, because I can see painted fingernails. The waffle cone sits inside a white paper wrapper, and on top there are big scoops of white ice cream with dark chocolate cookie pieces, so it is probably cookies and cream flavor. The background is totally out of focus, with soft orange and golden colors, so I believe it is sunset time. It looks like a warm evening, perfect for eating ice cream outside."
+  },
+  {
+    "id": "ph23",
+    "img": "photos/ph23.jpg",
+    "credit": { "title": "White and yellow camping tent in the middle of forest", "author": "Andrew Scofield", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:White_and_yellow_camping_tent_in_the_middle_of_forest.jpg" },
+    "alt": "Two camping tents stand on the ground of a misty forest, with morning sunbeams shining down through tall trees behind them.",
+    "modelWritten": "This photo shows a campsite in the middle of a forest, early in the morning. In the center there is a white and yellow dome tent, and on the left I can see the edge of a second, green tent. Some camping gear, like a dark sleeping bag, is lying on the ground beside them. What makes the picture special is the light: rays of morning sun are breaking through the tall trees and the mist, creating bright beams across the whole scene. It looks cold, quiet and very beautiful.",
+    "modelSpoken": "This picture shows a camping trip in a forest. There are two tents on the ground: the main one is white and yellow, shaped like a dome, and there is a green one at the edge of the picture. I can also see some equipment lying next to the tents, maybe a sleeping bag or backpacks. It seems to be early morning, because the sunlight is coming through the tall trees in visible rays, and there is mist or smoke in the air. The whole scene looks quiet and fresh, like the campers are still asleep inside."
+  },
+  {
+    "id": "ph13",
+    "img": "photos/ph13.jpg",
+    "credit": { "title": "Harvesting the Wheat Crop (Unsplash)", "author": "Meric Tuna", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Harvesting_the_Wheat_Crop_(Unsplash).jpg" },
+    "alt": "Golden ears of wheat fill the foreground while a combine harvester works in the blurred background of a sunny field.",
+    "modelWritten": "This photo shows a wheat field during the harvest. The foreground is filled with ripe, golden ears of wheat that are sharply in focus, bending slightly in the wind. In the background, out of focus, a large combine harvester is driving through the field, raising a small cloud of dust behind it. The sky above is pale and clear. The picture captures the busiest moment of the farming year, when the dry crop is finally being collected.",
+    "modelSpoken": "This picture shows a farm during harvest time. In the front I can see golden wheat very close up, so close that every ear and stem is clear and detailed. Behind the wheat, in the blurry part of the photo, there is a big harvesting machine, a combine, moving across the field and lifting some dust into the air. The colors are warm and yellow, and the sky is light blue, so it looks like a hot, dry summer day. The whole scene feels like the end of a long season of work."
+  },
+  {
+    "id": "ph16",
+    "img": "photos/ph16.jpg",
+    "credit": { "title": "Typing on a mac (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Typing_on_a_mac_(Unsplash).jpg" },
+    "alt": "A close-up of a man's hands typing on a laptop keyboard at a dark wooden table, with a bright window blurred in the background.",
+    "modelWritten": "This photo is a close-up of someone working on a laptop. Two hands are typing on the keyboard of a silver laptop that stands on a dark wooden table; a ring is visible on one finger. Next to the laptop there is a dark mug, probably with coffee. The background is completely blurred, with bright light coming from a window, so the attention stays on the hands. The image suggests concentration — someone writing an email, an essay, or working from home.",
+    "modelSpoken": "In this picture I can see a person typing on a laptop, filmed very close up. Only the hands are visible: they are resting on the keyboard of a silver laptop, and the person wears a ring on one finger, so he might be married. The laptop stands on a dark wooden table, and next to it there is a dark cup, which is probably coffee or tea. The background is out of focus, but there is a lot of light coming from a window. It looks like a normal working day, maybe in a cafe or a home office."
+  },
+  {
+    "id": "ph17",
+    "img": "photos/ph17.jpg",
+    "credit": { "title": "People watching planes fly (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:People_watching_planes_fly_(Unsplash).jpg" },
+    "alt": "Two men seen from behind sit at a huge airport terminal window, watching passenger planes parked on the sunny runway below.",
+    "modelWritten": "This photo shows two passengers waiting at an airport. They are seen from behind, sitting in front of an enormous glass wall that looks out over the airfield. Below them, several white passenger planes are parked at the gates, connected to covered boarding bridges, and the sky above the runway is bright blue with thin clouds. One man has grey hair and the other dark hair, and both wear light shirts. The scene feels calm, like a long wait before boarding.",
+    "modelSpoken": "This picture was taken inside an airport terminal. Two men are sitting with their backs to the camera in front of a huge window that covers the whole wall. Through the glass we can see the airfield: there are some white airplanes parked at their gates, a boarding bridge for passengers, and empty runway areas. The weather outside looks perfect, with a bright blue sky. The two men seem relaxed, just watching the planes while they wait for their flight. It reminds me of the quiet moments before traveling somewhere far away."
+  },
+  {
+    "id": "ph18",
+    "img": "photos/ph18.jpg",
+    "credit": { "title": "Hoop Dream (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Hoop_Dream_(Unsplash).jpg" },
+    "alt": "A basketball hoop with a worn rope net photographed from directly below, against a pale white backboard and sky.",
+    "modelWritten": "This photo shows a basketball hoop photographed from an unusual angle — directly below. We look straight up through the black metal ring and the old rope net, which is tied in a classic diamond pattern and looks a little worn. Behind the hoop there is a pale, round backboard and a washed-out white sky, so the whole image is almost colorless. Because of the perspective, the simple street basketball hoop looks abstract, almost like a piece of art.",
+    "modelSpoken": "This is a very creative picture of a basketball hoop. The photographer is standing exactly under the basket and shooting straight up, so we see the black ring and the net from below. The net is made of thick rope and looks quite old and used. Behind it there is a round, faded backboard, and the sky is almost white, so the photo has very few colors. Nobody is playing in the picture; it is just the hoop itself. The strange angle makes something very ordinary look really interesting."
+  },
+  {
+    "id": "ph19",
+    "img": "photos/ph19.jpg",
+    "credit": { "title": "Mix of paints (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Mix_of_paints_(Unsplash).jpg" },
+    "alt": "A clay dish used as a painter's palette, full of bright blobs of yellow, red, purple, green and blue paint with a thin brush resting in it, on a paint-splattered cloth.",
+    "modelWritten": "This photo shows an artist's palette in the middle of work. A round clay dish is being used to mix paints, and it is covered with thick, fresh blobs of color: bright yellow, red, purple, green, white and several shades of blue. A thin paintbrush rests across the dish, its handle also stained with paint. The cloth underneath is completely covered in old paint splashes of every color. The picture is full of energy and clearly belongs to someone who paints a lot.",
+    "modelSpoken": "In this picture I can see an artist's equipment from above. There is a round clay plate that the artist uses as a palette, and it is full of fresh paint in many bright colors: yellow, red, purple, green, blue and white. A small thin brush is lying on the plate, and it has clearly been used already. Everything around the plate, the cloth or canvas underneath, is covered with hundreds of old paint stains. You can feel that this is a messy but creative place where somebody paints almost every day."
+  },
+  {
+    "id": "ph20",
+    "img": "photos/ph20.jpg",
+    "credit": { "title": "Fresh Green Beans (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Fresh_Green_Beans_(Unsplash).jpg" },
+    "alt": "A large pile of fresh green beans heaped in a rough wooden crate, with cucumbers blurred in the background at a market.",
+    "modelWritten": "This photo shows fresh green beans for sale, probably at a farmers' market. The long, thin beans are piled high in a rough wooden crate, and their bright green color stands out against the brown wood. Some beans still have their small stems attached, which suggests they were picked recently. In the dark, blurred background I can just recognize some cucumbers in another box. The picture makes the vegetables look very fresh and natural.",
+    "modelSpoken": "This is a close-up picture of vegetables at a market. A big wooden box is completely full of fresh green beans; they are long and thin, and they are piled on top of each other in every direction. The wood of the box looks rough and natural, which fits the farm atmosphere. In the background, which is dark and out of focus, I think I can see some cucumbers in another crate. Everything looks very fresh, like it was harvested this morning and brought straight to the market."
+  },
+  {
+    "id": "ph24",
+    "img": "photos/ph24.jpg",
+    "credit": { "title": "Eating Pancakes (Unsplash)", "author": "Unsplash contributor", "license": "CC0", "source": "https://commons.wikimedia.org/wiki/File:Eating_Pancakes_(Unsplash).jpg" },
+    "alt": "A hand spoons whipped cream onto a tall stack of pancakes with blueberries on a white plate, next to a jug of maple syrup on a rustic wooden table.",
+    "modelWritten": "This photo shows a delicious breakfast being prepared on a rustic wooden table. A tall stack of golden-brown pancakes sits on a decorative white plate, sprinkled with cinnamon and surrounded by fresh blueberries. A hand is adding a big spoonful of whipped cream on top of the stack. On the left there is a glass jug full of maple syrup, and behind the plate stands a metal mug. The warm light makes the whole meal look homemade and very inviting.",
+    "modelSpoken": "This picture shows someone finishing a really tasty-looking breakfast. In the center there is a high stack of pancakes on a beautiful white plate, and a hand is putting whipped cream on top with a spoon. There are fresh blueberries on the plate and some cinnamon powder sprinkled around. On the left side I can see a small glass jug filled with maple syrup, ready to be poured, and there is also a silver mug in the background. The table is old dark wood, and the warm light makes everything look cozy and homemade."
+  }
+]

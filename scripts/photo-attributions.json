@@ -1,0 +1,29 @@
+[
+  {
+    "id": "ph1",
+    "file": "photos/ph1.jpg",
+    "title": "File:Sharing is caring (Unsplash).jpg",
+    "author": "Toa Heftiba heftiba",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Sharing_is_caring_(Unsplash).jpg",
+    "sizeKB": 489
+  },
+  {
+    "id": "ph2",
+    "file": "photos/ph2.jpg",
+    "title": "File:Chef's Station (Unsplash).jpg",
+    "author": "Todd Quackenbush toddquackenbush",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Chef%27s_Station_(Unsplash).jpg",
+    "sizeKB": 267
+  },
+  {
+    "id": "ph12",
+    "file": "photos/ph12.jpg",
+    "title": "File:Love (Unsplash SfjmMT4rb7Y).jpg",
+    "author": "Jakob Owens jakobowens1",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Love_(Unsplash_SfjmMT4rb7Y).jpg",
+    "sizeKB": 284
+  }
+]

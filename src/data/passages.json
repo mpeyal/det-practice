@@ -1,0 +1,342 @@
+[
+  {
+    "id": "ir1",
+    "topic": "Morning routines",
+    "level": "easy",
+    "passage": "Many people believe that a good morning sets the tone for the whole day. When they wake up early, they feel calm and {1} to face their tasks. A short walk outside can {2} the mind and make the body feel awake. Some people prefer to drink a warm cup of tea while they {3} their plans for the day. Others enjoy a few quiet minutes of reading before the house grows {4}. Eating a simple breakfast gives the body the {5} it needs to work well until lunch. A steady routine also helps people avoid the stress of rushing. Over time, these small habits can {6} into a pattern that feels natural and easy. In the end, a peaceful start often leads to a more {7} and pleasant day.",
+    "blanks": [
+      {"options": ["ready", "tired", "afraid", "bored"], "answer": "ready", "explanation": "Feeling calm and prepared to face tasks means being ready, not tired or afraid."},
+      {"options": ["clear", "block", "hide", "break"], "answer": "clear", "explanation": "A walk outside clears the mind, meaning it makes thinking fresh and sharp."},
+      {"options": ["review", "forget", "lose", "ignore"], "answer": "review", "explanation": "People go over their plans for the day, which means they review them."},
+      {"options": ["busy", "empty", "silent", "dark"], "answer": "busy", "explanation": "Quiet reading happens before the house becomes busy with activity."},
+      {"options": ["energy", "sleep", "worry", "noise"], "answer": "energy", "explanation": "Breakfast gives the body energy to work well until lunch."},
+      {"options": ["grow", "shrink", "fall", "stop"], "answer": "grow", "explanation": "Small habits grow into a natural pattern over time."},
+      {"options": ["productive", "wasteful", "sleepy", "empty"], "answer": "productive", "explanation": "A peaceful start leads to a more productive day, meaning more gets done."}
+    ],
+    "highlight": [
+      {"question": "What can a short walk outside do for the body?", "answer": "make the body feel awake", "explanation": "The passage says a walk clears the mind and makes the body feel awake."},
+      {"question": "What does a steady routine help people avoid?", "answer": "the stress of rushing", "explanation": "The passage states that a routine helps people avoid the stress of rushing."}
+    ],
+    "mainIdea": {
+      "options": [
+        "A calm and steady morning routine can make the rest of the day easier and more pleasant.",
+        "Breakfast is the only part of the morning that truly matters for health.",
+        "People who wake up late are always more successful in their careers.",
+        "Reading in the morning is the best way to learn a new language quickly."
+      ],
+      "answer": "A calm and steady morning routine can make the rest of the day easier and more pleasant.",
+      "explanation": "The passage describes how quiet morning habits lead to a smoother, more productive day."
+    },
+    "title": {
+      "options": ["A Peaceful Start", "The History of Tea", "Cooking a Big Breakfast", "The Science of Sleep"],
+      "answer": "A Peaceful Start",
+      "explanation": "The passage focuses on how a calm morning start shapes the whole day."
+    }
+  },
+  {
+    "id": "ir2",
+    "topic": "Public libraries",
+    "level": "easy",
+    "passage": "Public libraries are more than just quiet rooms full of books. They {1} people of every age to read, study, and learn for free. Many libraries now {2} computers and internet access to those who do not have them at home. Children can join reading clubs, while adults attend classes to {3} new skills. Some libraries even {4} tools, musical instruments, and board games to their members. Because entry is free, a library can {5} the whole community without asking for money. Friendly staff are always ready to {6} visitors find the information they need. For many towns, the local library remains a warm and welcoming {7} where anyone is invited to spend a peaceful afternoon.",
+    "blanks": [
+      {"options": ["allow", "forbid", "force", "warn"], "answer": "allow", "explanation": "Libraries allow people to read and learn for free, giving them the chance to do so."},
+      {"options": ["offer", "hide", "sell", "remove"], "answer": "offer", "explanation": "Libraries offer computers and internet access to those who lack them."},
+      {"options": ["learn", "lose", "avoid", "waste"], "answer": "learn", "explanation": "Adults attend classes to learn new skills."},
+      {"options": ["lend", "steal", "break", "buy"], "answer": "lend", "explanation": "Libraries lend tools and instruments to members, letting them borrow items."},
+      {"options": ["serve", "charge", "reject", "ignore"], "answer": "serve", "explanation": "Because entry is free, the library can serve the whole community."},
+      {"options": ["help", "stop", "confuse", "leave"], "answer": "help", "explanation": "Staff are ready to help visitors find information they need."},
+      {"options": ["place", "problem", "danger", "secret"], "answer": "place", "explanation": "The library is described as a warm and welcoming place to spend time."}
+    ],
+    "highlight": [
+      {"question": "What can children do at many libraries?", "answer": "Children can join reading clubs", "explanation": "The passage states that children can join reading clubs at libraries."},
+      {"question": "Why can a library serve the whole community?", "answer": "Because entry is free", "explanation": "The passage explains that free entry lets the library serve everyone."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Public libraries offer free resources and services that benefit an entire community.",
+        "Libraries are slowly disappearing because people only read on their phones now.",
+        "Only children and students are allowed to use most public libraries.",
+        "Libraries make most of their money by charging fees for internet access."
+      ],
+      "answer": "Public libraries offer free resources and services that benefit an entire community.",
+      "explanation": "The passage lists the many free resources libraries provide to all members of the community."
+    },
+    "title": {
+      "options": ["More Than Books", "How to Write a Novel", "The First Printing Press", "Silence in the Classroom"],
+      "answer": "More Than Books",
+      "explanation": "The passage shows that libraries offer far more than just books."
+    }
+  },
+  {
+    "id": "ir3",
+    "topic": "Recycling at home",
+    "level": "easy",
+    "passage": "Recycling at home is a simple habit that can make a real {1} to the environment. When families sort their waste, they help keep useful materials out of {2}. Glass, paper, and metal can all be cleaned and used again instead of being {3} away. To make recycling easier, many households keep separate bins in the {4} for different kinds of rubbish. Rinsing bottles and jars before tossing them helps the recycling process run more {5}. Even small children can learn to {6} which items belong in each bin. Over a year, one careful household can {7} a surprising amount of plastic and paper from reaching the local landfill.",
+    "blanks": [
+      {"options": ["difference", "mistake", "promise", "silence"], "answer": "difference", "explanation": "A habit that helps the environment makes a real difference."},
+      {"options": ["landfills", "gardens", "libraries", "oceans"], "answer": "landfills", "explanation": "Sorting waste keeps materials out of landfills, where rubbish is buried."},
+      {"options": ["thrown", "given", "handed", "carried"], "answer": "thrown", "explanation": "Items are thrown away when not reused, matching the phrase thrown away."},
+      {"options": ["kitchen", "sky", "street", "forest"], "answer": "kitchen", "explanation": "Households keep sorting bins in the kitchen, a common indoor location."},
+      {"options": ["smoothly", "slowly", "rarely", "badly"], "answer": "smoothly", "explanation": "Rinsing helps the process run smoothly, meaning without problems."},
+      {"options": ["decide", "argue", "refuse", "delay"], "answer": "decide", "explanation": "Children learn to decide which items belong in each bin."},
+      {"options": ["keep", "invite", "waste", "spread"], "answer": "keep", "explanation": "A careful household can keep plastic and paper from reaching the landfill."}
+    ],
+    "highlight": [
+      {"question": "What three materials can be cleaned and used again?", "answer": "Glass, paper, and metal", "explanation": "The passage lists glass, paper, and metal as reusable materials."},
+      {"question": "What does rinsing bottles before tossing them do?", "answer": "helps the recycling process run more", "explanation": "The passage says rinsing helps the recycling process run more smoothly."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Simple recycling habits at home can keep valuable materials out of landfills.",
+        "Recycling is far too complicated for ordinary families to manage.",
+        "Only factories, not households, are able to recycle glass and metal.",
+        "Buying new bins every month is the key to protecting the environment."
+      ],
+      "answer": "Simple recycling habits at home can keep valuable materials out of landfills.",
+      "explanation": "The passage argues that easy home routines reduce the waste sent to landfills."
+    },
+    "title": {
+      "options": ["Sorting Waste at Home", "The Story of Glass", "A Trip to the Landfill", "Growing a Vegetable Garden"],
+      "answer": "Sorting Waste at Home",
+      "explanation": "The passage centers on the habit of sorting and recycling household waste."
+    }
+  },
+  {
+    "id": "ir4",
+    "topic": "Sleep and memory",
+    "level": "medium",
+    "passage": "Scientists have long been fascinated by the connection between sleep and memory. During the deepest stages of rest, the brain quietly {1} the events of the day, sorting important details from unnecessary ones. Information that seemed scattered while we were awake becomes better {2} once we sleep. Researchers believe this nightly process helps us {3} facts and skills that we practiced earlier. People who sleep poorly often struggle to {4} what they studied the night before. In several experiments, students who rested well performed noticeably {5} on memory tests than those who stayed up late. These findings {6} the popular advice that a full night of sleep is worth more than hours of last minute cramming. Understanding this link may one day help doctors {7} new treatments for memory disorders.",
+    "blanks": [
+      {"options": ["reviews", "ignores", "destroys", "hides"], "answer": "reviews", "explanation": "The brain reviews the day's events, going over them during rest."},
+      {"options": ["organized", "scattered", "forgotten", "damaged"], "answer": "organized", "explanation": "Sleep makes scattered information better organized in the mind."},
+      {"options": ["remember", "forget", "confuse", "avoid"], "answer": "remember", "explanation": "Sleep helps us remember facts and skills we practiced."},
+      {"options": ["recall", "erase", "invent", "repeat"], "answer": "recall", "explanation": "Poor sleepers struggle to recall, meaning to bring back to mind, what they studied."},
+      {"options": ["better", "worse", "slower", "rarely"], "answer": "better", "explanation": "Well rested students performed better than tired ones on tests."},
+      {"options": ["support", "reject", "confuse", "delay"], "answer": "support", "explanation": "The findings support the advice about the value of a full night of sleep."},
+      {"options": ["develop", "cancel", "waste", "forget"], "answer": "develop", "explanation": "Doctors may develop new treatments for memory disorders."}
+    ],
+    "highlight": [
+      {"question": "What do people who sleep poorly often struggle to do?", "answer": "struggle to", "explanation": "The passage says poor sleepers struggle to recall what they studied."},
+      {"question": "What is worth more than hours of last minute cramming?", "answer": "a full night of sleep is worth more than hours of last minute cramming", "explanation": "The passage repeats the popular advice comparing sleep to cramming."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Sleep plays an important role in organizing and strengthening memory.",
+        "Students should study all night to guarantee the best test scores.",
+        "Memory disorders can never be treated by modern medicine.",
+        "The brain is completely inactive during the deepest stages of rest."
+      ],
+      "answer": "Sleep plays an important role in organizing and strengthening memory.",
+      "explanation": "The passage explains how the sleeping brain sorts and secures what we learn."
+    },
+    "title": {
+      "options": ["How Sleep Builds Memory", "The Dangers of Dreaming", "A Guide to Staying Awake", "The History of the Brain"],
+      "answer": "How Sleep Builds Memory",
+      "explanation": "The passage is about the way sleep helps form and strengthen memories."
+    }
+  },
+  {
+    "id": "ir5",
+    "topic": "The invention of paper",
+    "level": "medium",
+    "passage": "The invention of paper transformed the way human beings stored and shared knowledge. Before it existed, people {1} their words on stone, clay, or costly animal skins. According to tradition, a Chinese official named Cai Lun {2} an early method for making paper from plant fibers around two thousand years ago. His technique was cheaper and lighter than earlier materials, so it spread {3} across Asia. Traders eventually {4} the secret westward along busy routes, and paper mills appeared in the Middle East and Europe. This new material {5} scholars to copy texts quickly and at low cost. As books became more {6}, ideas could travel farther than ever before. In many ways, the humble sheet of paper laid the {7} for the modern world of printing and education.",
+    "blanks": [
+      {"options": ["recorded", "erased", "sang", "buried"], "answer": "recorded", "explanation": "Before paper, people recorded words on stone or skins."},
+      {"options": ["perfected", "destroyed", "forgot", "banned"], "answer": "perfected", "explanation": "Cai Lun perfected an early method of making paper."},
+      {"options": ["quickly", "rarely", "slowly", "barely"], "answer": "quickly", "explanation": "Being cheaper and lighter, the technique spread quickly across Asia."},
+      {"options": ["carried", "hid", "burned", "refused"], "answer": "carried", "explanation": "Traders carried the secret westward along their routes."},
+      {"options": ["enabled", "prevented", "forbade", "delayed"], "answer": "enabled", "explanation": "The material enabled scholars to copy texts quickly and cheaply."},
+      {"options": ["available", "expensive", "hidden", "rare"], "answer": "available", "explanation": "Cheap paper made books more available, so ideas spread widely."},
+      {"options": ["foundation", "ceiling", "border", "shadow"], "answer": "foundation", "explanation": "Paper laid the foundation for modern printing and education."}
+    ],
+    "highlight": [
+      {"question": "What did his technique produce compared to earlier materials?", "answer": "cheaper and lighter than earlier materials", "explanation": "The passage says his technique was cheaper and lighter than earlier materials."},
+      {"question": "Where did paper mills appear after the secret spread west?", "answer": "the Middle East and Europe", "explanation": "The passage states that paper mills appeared in the Middle East and Europe."}
+    ],
+    "mainIdea": {
+      "options": [
+        "The invention of paper made knowledge cheaper to record and easier to share.",
+        "Paper was only ever used for wrapping goods sold by ancient traders.",
+        "Animal skins remained the main writing material until modern times.",
+        "Cai Lun invented the printing press and the first public schools."
+      ],
+      "answer": "The invention of paper made knowledge cheaper to record and easier to share.",
+      "explanation": "The passage traces how paper lowered costs and spread ideas across the world."
+    },
+    "title": {
+      "options": ["The Rise of Paper", "Life in Ancient China", "The First Printing Press", "How Books Are Bound"],
+      "answer": "The Rise of Paper",
+      "explanation": "The passage tells the story of how paper was invented and spread."
+    }
+  },
+  {
+    "id": "ir6",
+    "topic": "Coral reefs",
+    "level": "medium",
+    "passage": "Coral reefs are among the most colorful and crowded habitats in the entire ocean. Although they cover only a tiny fraction of the sea floor, they {1} shelter to a quarter of all marine species. Each reef is built by tiny animals called polyps, which slowly {2} hard skeletons over many centuries. Inside their tissues live small algae that {3} food through sunlight and share it with their hosts. When the water grows too warm, these algae leave, and the coral turns pale in a process known as {4}. Without its partners, a stressed reef may eventually {5}. Scientists warn that rising sea temperatures could {6} many reefs within a few decades. Protecting these fragile systems will {7} careful management of fishing, pollution, and climate change.",
+    "blanks": [
+      {"options": ["provide", "deny", "waste", "sell"], "answer": "provide", "explanation": "Reefs provide shelter to a quarter of marine species."},
+      {"options": ["build", "melt", "break", "eat"], "answer": "build", "explanation": "Polyps slowly build hard skeletons over centuries."},
+      {"options": ["produce", "steal", "reject", "hide"], "answer": "produce", "explanation": "The algae produce food through sunlight, a process of making it."},
+      {"options": ["bleaching", "healing", "feeding", "swimming"], "answer": "bleaching", "explanation": "Coral turning pale when algae leave is called bleaching."},
+      {"options": ["die", "grow", "bloom", "recover"], "answer": "die", "explanation": "A stressed reef without its partners may eventually die."},
+      {"options": ["destroy", "protect", "cool", "expand"], "answer": "destroy", "explanation": "Rising temperatures could destroy many reefs within decades."},
+      {"options": ["require", "prevent", "ignore", "refuse"], "answer": "require", "explanation": "Protecting reefs will require careful management of several threats."}
+    ],
+    "highlight": [
+      {"question": "By what name are the tiny reef building animals known?", "answer": "tiny animals called polyps", "explanation": "The passage identifies the reef builders as tiny animals called polyps."},
+      {"question": "What three things must be managed to protect reefs?", "answer": "fishing, pollution, and climate change", "explanation": "The passage lists fishing, pollution, and climate change as management needs."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Coral reefs support vast marine life but are threatened by warming seas.",
+        "Coral reefs cover most of the ocean floor and are perfectly safe.",
+        "Polyps are large fish that feed on the algae living inside reefs.",
+        "Rising sea temperatures actually help reefs grow faster and stronger."
+      ],
+      "answer": "Coral reefs support vast marine life but are threatened by warming seas.",
+      "explanation": "The passage describes the richness of reefs and the dangers they face from warming."
+    },
+    "title": {
+      "options": ["Life on the Reef", "Deep Sea Fishing Trips", "The Coldest Oceans", "How Sand Is Made"],
+      "answer": "Life on the Reef",
+      "explanation": "The passage focuses on the living world of coral reefs and its threats."
+    }
+  },
+  {
+    "id": "ir7",
+    "topic": "The power of habits",
+    "level": "medium",
+    "passage": "Habits shape our lives far more than most of us realize. Each morning we {1} dozens of small actions without a single conscious thought. Psychologists explain that a habit forms whenever a familiar cue {2} a routine behavior, which then earns some kind of reward. Because the brain loves efficiency, it happily {3} repeated tasks into automatic patterns. This shortcut saves mental energy, yet it can also {4} bad behaviors that are hard to break. To change an unwanted habit, experts suggest keeping the same cue but {5} the routine with a healthier one. Small, steady adjustments tend to {6} far better than dramatic promises made overnight. With patience, almost anyone can slowly {7} the habits that quietly guide their everyday choices.",
+    "blanks": [
+      {"options": ["perform", "avoid", "forget", "cancel"], "answer": "perform", "explanation": "We perform dozens of small actions each morning without thinking."},
+      {"options": ["triggers", "stops", "hides", "delays"], "answer": "triggers", "explanation": "A familiar cue triggers a routine behavior, setting it off."},
+      {"options": ["turns", "keeps", "loses", "buys"], "answer": "turns", "explanation": "The brain turns repeated tasks into automatic patterns."},
+      {"options": ["reinforce", "weaken", "erase", "punish"], "answer": "reinforce", "explanation": "The shortcut can reinforce bad behaviors, making them stronger."},
+      {"options": ["replacing", "keeping", "ignoring", "copying"], "answer": "replacing", "explanation": "Experts suggest replacing the routine with a healthier one."},
+      {"options": ["work", "fail", "vanish", "collapse"], "answer": "work", "explanation": "Small steady adjustments work better than dramatic promises."},
+      {"options": ["reshape", "abandon", "forget", "worsen"], "answer": "reshape", "explanation": "With patience, anyone can reshape their everyday habits."}
+    ],
+    "highlight": [
+      {"question": "Why does the brain turn repeated tasks into automatic patterns?", "answer": "the brain loves efficiency", "explanation": "The passage says the brain loves efficiency, so it automates tasks."},
+      {"question": "What do steady adjustments work better than?", "answer": "dramatic promises made overnight", "explanation": "The passage contrasts steady adjustments with dramatic promises made overnight."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Habits run much of daily life, but they can be reshaped with patience.",
+        "Habits are completely random and cannot be changed by anyone.",
+        "The brain avoids efficiency and prefers to think about every action.",
+        "Dramatic overnight promises are the surest way to break a bad habit."
+      ],
+      "answer": "Habits run much of daily life, but they can be reshaped with patience.",
+      "explanation": "The passage explains how habits form and how steady effort can change them."
+    },
+    "title": {
+      "options": ["Rewiring Our Routines", "A Perfect Night of Sleep", "The Busiest City Streets", "How Muscles Grow"],
+      "answer": "Rewiring Our Routines",
+      "explanation": "The passage is about understanding and changing our daily habits."
+    }
+  },
+  {
+    "id": "ir8",
+    "topic": "Bioluminescence",
+    "level": "hard",
+    "passage": "In the darkest depths of the ocean, where sunlight never reaches, countless creatures generate their own eerie glow through a process called bioluminescence. This living light {1} from a chemical reaction in which a molecule called luciferin combines with oxygen. Unlike an ordinary bulb, the reaction wastes almost no heat, making it remarkably {2}. Deep sea animals have evolved this ability for a startling variety of {3}. Some anglerfish dangle a luminous lure to {4} unsuspecting prey toward their jaws, while other species flash bright signals to {5} approaching predators. Certain squid even release glowing clouds that {6} an attacker long enough for an escape. Researchers studying these organisms hope their discoveries may eventually {7} advances in medicine, imaging, and sustainable lighting.",
+    "blanks": [
+      {"options": ["arises", "vanishes", "escapes", "hides"], "answer": "arises", "explanation": "The living light arises from a chemical reaction, meaning it comes from it."},
+      {"options": ["efficient", "wasteful", "dangerous", "heavy"], "answer": "efficient", "explanation": "Wasting almost no heat makes the reaction remarkably efficient."},
+      {"options": ["purposes", "colors", "shadows", "accidents"], "answer": "purposes", "explanation": "The ability evolved for a variety of purposes, or useful reasons."},
+      {"options": ["lure", "repel", "warn", "release"], "answer": "lure", "explanation": "Anglerfish use a glowing lure to lure prey toward their jaws."},
+      {"options": ["startle", "attract", "feed", "follow"], "answer": "startle", "explanation": "Bright flashes startle approaching predators, scaring them off."},
+      {"options": ["confuse", "guide", "invite", "protect"], "answer": "confuse", "explanation": "Glowing clouds confuse an attacker long enough for escape."},
+      {"options": ["inspire", "prevent", "delay", "block"], "answer": "inspire", "explanation": "The discoveries may inspire advances in medicine and lighting."}
+    ],
+    "highlight": [
+      {"question": "What molecule combines with oxygen to create the light?", "answer": "a molecule called luciferin combines with oxygen", "explanation": "The passage names luciferin as the molecule that combines with oxygen."},
+      {"question": "In which three fields do researchers hope for advances?", "answer": "medicine, imaging, and sustainable lighting", "explanation": "The passage lists medicine, imaging, and sustainable lighting as hoped for fields."}
+    ],
+    "mainIdea": {
+      "options": [
+        "Many deep sea creatures produce their own light for survival, and it may inspire human technology.",
+        "Bioluminescence produces enormous amounts of heat and is very inefficient.",
+        "Only anglerfish are able to create light in the deep ocean.",
+        "Sunlight reaches every part of the ocean, so few animals need to glow."
+      ],
+      "answer": "Many deep sea creatures produce their own light for survival, and it may inspire human technology.",
+      "explanation": "The passage explains how and why deep sea animals glow and how it could aid science."
+    },
+    "title": {
+      "options": ["Light in the Deep", "Fishing at Midnight", "The Warmest Waters", "A History of Lamps"],
+      "answer": "Light in the Deep",
+      "explanation": "The passage is about creatures that make their own light in the dark ocean."
+    }
+  },
+  {
+    "id": "ir9",
+    "topic": "The rise of cities",
+    "level": "hard",
+    "passage": "The emergence of the first cities marked one of the most profound turning points in human history. As farming grew more productive, surplus grain allowed some people to {1} occupations other than food production. Freed from the fields, they became artisans, priests, and traders whose specialized labor {2} the pace of innovation. Dense settlements demanded new forms of coordination, so early rulers {3} systems of writing, taxation, and law. These institutions, though sometimes harsh, brought a degree of order that {4} strangers to cooperate on a vast scale. Yet urban life also {5} fresh dangers, from crowded disease to sharp inequality between rich and poor. Historians continue to {6} why some ancient cities flourished for centuries while others were swiftly {7}. Their debates reveal how fragile even the grandest human achievements can be.",
+    "blanks": [
+      {"options": ["pursue", "abandon", "refuse", "forget"], "answer": "pursue", "explanation": "Surplus grain let people pursue occupations other than farming."},
+      {"options": ["accelerated", "slowed", "stopped", "reversed"], "answer": "accelerated", "explanation": "Specialized labor accelerated the pace of innovation, speeding it up."},
+      {"options": ["devised", "banned", "lost", "copied"], "answer": "devised", "explanation": "Rulers devised systems of writing, taxation, and law, meaning they created them."},
+      {"options": ["enabled", "forbade", "prevented", "delayed"], "answer": "enabled", "explanation": "Order enabled strangers to cooperate on a vast scale."},
+      {"options": ["introduced", "removed", "cured", "avoided"], "answer": "introduced", "explanation": "Urban life introduced fresh dangers like disease and inequality."},
+      {"options": ["debate", "ignore", "confirm", "forget"], "answer": "debate", "explanation": "Historians debate why some cities flourished and others failed."},
+      {"options": ["abandoned", "expanded", "praised", "rebuilt"], "answer": "abandoned", "explanation": "Some cities were swiftly abandoned, meaning left empty and deserted."}
+    ],
+    "highlight": [
+      {"question": "What roles did people take up once freed from the fields?", "answer": "they became artisans, priests, and traders", "explanation": "The passage says freed people became artisans, priests, and traders."},
+      {"question": "What two dangers did urban life bring?", "answer": "crowded disease to sharp inequality between rich and poor", "explanation": "The passage names crowded disease and sharp inequality as urban dangers."}
+    ],
+    "mainIdea": {
+      "options": [
+        "The first cities advanced human civilization but also created serious new problems.",
+        "Ancient cities had no writing, taxes, or laws of any kind.",
+        "Farming surpluses actually prevented people from specializing in new jobs.",
+        "Every early city thrived for many centuries without ever declining."
+      ],
+      "answer": "The first cities advanced human civilization but also created serious new problems.",
+      "explanation": "The passage weighs the benefits of early cities against the dangers they introduced."
+    },
+    "title": {
+      "options": ["When Cities Began", "The Best Farming Tools", "A Guide to Ancient Art", "Life in the Countryside"],
+      "answer": "When Cities Began",
+      "explanation": "The passage examines the origins and consequences of the first cities."
+    }
+  },
+  {
+    "id": "ir10",
+    "topic": "Artificial intelligence and ethics",
+    "level": "hard",
+    "passage": "As artificial intelligence grows more capable, societies are grappling with difficult questions about how it should be governed. Modern systems can now {1} vast quantities of data and detect patterns far beyond human perception. Yet the very complexity that makes them powerful can also render their decisions dangerously {2}. When an algorithm denies a loan or recommends a sentence, those affected deserve to {3} why. Critics warn that biased training data may quietly {4} unfair outcomes against certain groups. To address these concerns, researchers are developing methods to make machine reasoning more {5} to ordinary users. Governments, meanwhile, are drafting regulations that {6} companies to explain and audit their models. The ultimate goal is not to halt progress but to ensure that powerful tools remain firmly {7} human values.",
+    "blanks": [
+      {"options": ["process", "ignore", "destroy", "waste"], "answer": "process", "explanation": "AI systems process vast quantities of data, handling and analyzing it."},
+      {"options": ["opaque", "obvious", "simple", "cheap"], "answer": "opaque", "explanation": "Complex decisions can be opaque, meaning hard to see into or understand."},
+      {"options": ["understand", "forget", "hide", "ignore"], "answer": "understand", "explanation": "Those affected deserve to understand why a decision was made."},
+      {"options": ["reinforce", "prevent", "correct", "reveal"], "answer": "reinforce", "explanation": "Biased data may reinforce unfair outcomes, strengthening them."},
+      {"options": ["transparent", "hidden", "expensive", "random"], "answer": "transparent", "explanation": "Researchers aim to make reasoning more transparent, meaning clear and open."},
+      {"options": ["require", "forbid", "allow", "excuse"], "answer": "require", "explanation": "Regulations require companies to explain and audit their models."},
+      {"options": ["aligned", "opposed", "unrelated", "hostile"], "answer": "aligned", "explanation": "The goal is to keep tools firmly aligned with human values."}
+    ],
+    "highlight": [
+      {"question": "What can biased training data quietly do?", "answer": "biased training data may quietly", "explanation": "The passage warns that biased training data may quietly reinforce unfair outcomes."},
+      {"question": "What is the ultimate goal described at the end?", "answer": "not to halt progress but to ensure that powerful tools remain firmly", "explanation": "The passage states the goal is not to halt progress but to keep tools aligned with values."}
+    ],
+    "mainIdea": {
+      "options": [
+        "As AI grows more powerful, society must make its decisions fair, clear, and accountable.",
+        "Artificial intelligence should be banned because it can process large amounts of data.",
+        "Algorithms are always perfectly fair and never need any oversight.",
+        "The main goal of AI regulation is to stop all technological progress."
+      ],
+      "answer": "As AI grows more powerful, society must make its decisions fair, clear, and accountable.",
+      "explanation": "The passage argues for transparency and accountability as AI becomes more capable."
+    },
+    "title": {
+      "options": ["Governing Smart Machines", "The First Computer", "How to Build a Robot", "A History of Mathematics"],
+      "answer": "Governing Smart Machines",
+      "explanation": "The passage is about the ethical governance of powerful AI systems."
+    }
+  }
+]

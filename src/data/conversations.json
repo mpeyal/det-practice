@@ -1,0 +1,470 @@
+[
+  {
+    "id": "il1",
+    "scenario": "You are a student asking your professor for a short extension on an essay.",
+    "partner": "Professor",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hi, come in. You mentioned in your email that you wanted to talk about the essay deadline?"},
+      {"kind": "choice", "options": [
+        "Yes, thank you. I have been ill this week and I am worried I cannot finish by Friday.",
+        "Actually, I think your lectures are too early in the morning.",
+        "No, I came to ask whether the exam grades have been posted.",
+        "You should really assign less homework to everyone."
+      ], "answer": "Yes, thank you. I have been ill this week and I am worried I cannot finish by Friday.", "explanation": "It directly answers the professor's question and explains the reason for the request."},
+      {"kind": "line", "speaker": "partner", "text": "I am sorry to hear that. How much extra time do you think you would need?"},
+      {"kind": "choice", "options": [
+        "If possible, three extra days would let me finish the last section properly.",
+        "I would prefer to skip the essay completely this term.",
+        "Time is a very interesting concept, philosophically speaking.",
+        "That depends on what my friends are doing this weekend."
+      ], "answer": "If possible, three extra days would let me finish the last section properly.", "explanation": "The professor asked how much time is needed, and this gives a specific, reasonable answer."},
+      {"kind": "line", "speaker": "partner", "text": "Three days is fine. Please email the student office so the extension is recorded officially."},
+      {"kind": "choice", "options": [
+        "I will send them a message this afternoon. Thank you so much for understanding.",
+        "That sounds like too much paperwork, so I will just hand it in late.",
+        "Could you email them for me instead? I am quite busy.",
+        "Actually, I no longer want the extension at all."
+      ], "answer": "I will send them a message this afternoon. Thank you so much for understanding.", "explanation": "It accepts the professor's instruction politely and confirms the next step."},
+      {"kind": "line", "speaker": "partner", "text": "You are welcome. Focus on getting better, and I will see you in class next week."}
+    ],
+    "completion": {
+      "text": "How much extra {1} do you think you would {2}?",
+      "answers": ["time", "need"],
+      "explanation": "The professor asked how much extra time the student would need."
+    },
+    "summary": {
+      "model": "I asked my professor for an extension on my essay because I had been ill during the week. She agreed to give me three extra days and asked me to email the student office so the extension is recorded officially.",
+      "keywords": ["extension", "essay", "ill", "three", "days", "email"]
+    }
+  },
+  {
+    "id": "il2",
+    "scenario": "You are a student meeting your academic advisor to plan next semester's courses.",
+    "partner": "Advisor",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Good morning. Have you had a chance to look at the course catalog for next semester?"},
+      {"kind": "choice", "options": [
+        "Yes, I have picked two courses, but I am not sure what to choose for my third.",
+        "No, and honestly I do not think planning ahead is useful.",
+        "I was hoping you could tell me where the cafeteria is.",
+        "The catalog cover design could really use some improvement."
+      ], "answer": "Yes, I have picked two courses, but I am not sure what to choose for my third.", "explanation": "It answers the advisor's question and explains what help is needed."},
+      {"kind": "line", "speaker": "partner", "text": "What are you leaning toward? Your degree still requires one more writing course and one science elective."},
+      {"kind": "choice", "options": [
+        "In that case, I would like to take the writing course now and save the science elective for later.",
+        "I would rather take five cooking classes instead.",
+        "Requirements are unfair and I refuse to follow them.",
+        "Can we talk about my roommate problems instead?"
+      ], "answer": "In that case, I would like to take the writing course now and save the science elective for later.", "explanation": "It responds to the requirements the advisor just described and makes a clear plan."},
+      {"kind": "line", "speaker": "partner", "text": "That works. The academic writing course fills up quickly, so you should register as soon as enrollment opens."},
+      {"kind": "choice", "options": [
+        "Thanks for the warning. I will register on the first day so I do not lose my place.",
+        "I will probably wait until the last week to decide.",
+        "Popular courses are usually overrated anyway.",
+        "Could you register for the course on my behalf without my details?"
+      ], "answer": "Thanks for the warning. I will register on the first day so I do not lose my place.", "explanation": "It acknowledges the advice about the course filling up and acts on it sensibly."},
+      {"kind": "line", "speaker": "partner", "text": "Perfect. Come back and see me if anything changes with your schedule."}
+    ],
+    "completion": {
+      "text": "The academic writing course fills up {1}, so you should register as soon as enrollment {2}.",
+      "answers": ["quickly", "opens"],
+      "explanation": "The advisor warned that the writing course fills up quickly once enrollment opens."
+    },
+    "summary": {
+      "model": "I met my advisor to plan my courses for next semester. She reminded me that I still need a writing course and a science elective, so I decided to take the writing course now and register early because it fills up quickly.",
+      "keywords": ["advisor", "courses", "writing", "register", "semester", "enrollment"]
+    }
+  },
+  {
+    "id": "il3",
+    "scenario": "You are a student asking a librarian for help finding a book for a research project.",
+    "partner": "Librarian",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hello, welcome to the help desk. What can I do for you today?"},
+      {"kind": "choice", "options": [
+        "Hi, I am looking for a book on ocean pollution, but I cannot find it on the shelf.",
+        "I would like to complain about the temperature in this building.",
+        "Nothing really, I am just walking around the library.",
+        "Do you know what time the football match starts tonight?"
+      ], "answer": "Hi, I am looking for a book on ocean pollution, but I cannot find it on the shelf.", "explanation": "It states the actual problem the student needs help with at the help desk."},
+      {"kind": "line", "speaker": "partner", "text": "Let me check the catalog. It seems our copy is checked out, but I can reserve it for you."},
+      {"kind": "choice", "options": [
+        "Yes, please reserve it. How long does it usually take to come back?",
+        "No thanks, I will just take a different student's copy.",
+        "Checked out? Someone should be punished for that.",
+        "I do not believe in library catalogs."
+      ], "answer": "Yes, please reserve it. How long does it usually take to come back?", "explanation": "It accepts the librarian's offer and asks a relevant follow-up question."},
+      {"kind": "line", "speaker": "partner", "text": "Usually about a week. In the meantime, we have an electronic version you can read online for free."},
+      {"kind": "choice", "options": [
+        "That would be great. Could you show me how to access the electronic version?",
+        "A week is far too long, so please cancel my library card.",
+        "Reading on screens is wrong and I refuse to try it.",
+        "Actually, I have decided I no longer need any sources."
+      ], "answer": "That would be great. Could you show me how to access the electronic version?", "explanation": "It responds positively to the offer and asks for the practical next step."},
+      {"kind": "line", "speaker": "partner", "text": "Of course. Log in with your student account and I will walk you through it."}
+    ],
+    "completion": {
+      "text": "In the meantime, we have an electronic {1} you can read online for {2}.",
+      "answers": ["version", "free"],
+      "explanation": "The librarian offered a free electronic version to read online while waiting."
+    },
+    "summary": {
+      "model": "I asked a librarian for help because the book I needed on ocean pollution was checked out. She reserved the physical copy for me, which should return within a week, and showed me how to access the free electronic version online.",
+      "keywords": ["librarian", "book", "reserve", "pollution", "online", "week"]
+    }
+  },
+  {
+    "id": "il4",
+    "scenario": "You are arranging a meeting time with a classmate to prepare a group presentation.",
+    "partner": "Classmate",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hey, we really need to meet about the history presentation before it is due next week."},
+      {"kind": "choice", "options": [
+        "You are right. Are you free on Wednesday afternoon after the lecture?",
+        "Presentations are pointless, so let us just improvise on the day.",
+        "I am busy every single day until the end of the semester.",
+        "Did you watch anything good on television last night?"
+      ], "answer": "You are right. Are you free on Wednesday afternoon after the lecture?", "explanation": "It agrees about the urgency and proposes a concrete meeting time."},
+      {"kind": "line", "speaker": "partner", "text": "Wednesday is tricky because I work until five. Could we meet in the evening instead?"},
+      {"kind": "choice", "options": [
+        "Sure, six o'clock at the library works for me if that suits you.",
+        "No, afternoons are the only time I will ever accept.",
+        "Maybe we should just drop the course entirely.",
+        "Why do you even have a job during the semester?"
+      ], "answer": "Sure, six o'clock at the library works for me if that suits you.", "explanation": "It accepts the evening suggestion and proposes a specific time and place."},
+      {"kind": "line", "speaker": "partner", "text": "Great. Should we split the topic so we each prepare half before we meet?"},
+      {"kind": "choice", "options": [
+        "Good idea. I can cover the first half, and you take the second.",
+        "No, I think you should prepare everything by yourself.",
+        "Splitting topics never works, so let us not prepare at all.",
+        "I would rather talk about the weather forecast for Wednesday."
+      ], "answer": "Good idea. I can cover the first half, and you take the second.", "explanation": "It accepts the plan to divide the work and proposes a fair split."},
+      {"kind": "line", "speaker": "partner", "text": "Deal. I will book a study room and send you the confirmation tonight."}
+    ],
+    "completion": {
+      "text": "I will book a study {1} and send you the {2} tonight.",
+      "answers": ["room", "confirmation"],
+      "explanation": "The classmate promised to book a study room and send the confirmation that night."
+    },
+    "summary": {
+      "model": "I arranged to meet my classmate to prepare our history presentation. Because he works until five on Wednesday, we agreed to meet at the library at six in the evening, and we split the topic so each of us prepares half.",
+      "keywords": ["classmate", "presentation", "meet", "library", "evening", "split"]
+    }
+  },
+  {
+    "id": "il5",
+    "scenario": "You are visiting a doctor because you have had a sore throat and a cough for several days.",
+    "partner": "Doctor",
+    "you": "Patient",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Good afternoon. What seems to be the problem today?"},
+      {"kind": "choice", "options": [
+        "I have had a sore throat and a dry cough for about five days now.",
+        "Nothing is wrong, I just enjoy visiting clinics.",
+        "My neighbor is very noisy and it is ruining my life.",
+        "Could you tell me which lottery numbers to pick?"
+      ], "answer": "I have had a sore throat and a dry cough for about five days now.", "explanation": "It describes the symptoms clearly, which is what the doctor asked about."},
+      {"kind": "line", "speaker": "partner", "text": "Any fever or trouble breathing during that time?"},
+      {"kind": "choice", "options": [
+        "I had a slight fever the first two nights, but my breathing has been fine.",
+        "I never measure anything because thermometers cannot be trusted.",
+        "Breathing is something I try not to think about.",
+        "My cousin had a fever once, many years ago."
+      ], "answer": "I had a slight fever the first two nights, but my breathing has been fine.", "explanation": "It answers both parts of the doctor's question with useful detail."},
+      {"kind": "line", "speaker": "partner", "text": "That sounds like a mild viral infection. I recommend rest, warm fluids, and throat lozenges rather than antibiotics."},
+      {"kind": "choice", "options": [
+        "Understood. Should I come back if the cough has not improved by next week?",
+        "I refuse to leave until you prescribe the strongest antibiotics.",
+        "Viruses are just a rumor spread by pharmacies.",
+        "Can I go running in the cold tonight to toughen up?"
+      ], "answer": "Understood. Should I come back if the cough has not improved by next week?", "explanation": "It accepts the advice and asks a sensible follow-up about recovery."},
+      {"kind": "line", "speaker": "partner", "text": "Exactly. If it lasts beyond ten days or the fever returns, book another appointment right away."}
+    ],
+    "completion": {
+      "text": "I recommend rest, warm {1}, and throat lozenges rather than {2}.",
+      "answers": ["fluids", "antibiotics"],
+      "explanation": "The doctor recommended rest, warm fluids, and lozenges instead of antibiotics."
+    },
+    "summary": {
+      "model": "I saw a doctor about my sore throat and dry cough, which had lasted about five days. She said it was probably a mild viral infection and recommended rest, warm fluids, and lozenges, telling me to return if the cough lasts beyond ten days.",
+      "keywords": ["doctor", "throat", "cough", "fever", "rest", "infection"]
+    }
+  },
+  {
+    "id": "il6",
+    "scenario": "You are calling your landlord to report a leaking tap in your kitchen.",
+    "partner": "Landlord",
+    "you": "Tenant",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hello, this is your landlord speaking. What can I help you with?"},
+      {"kind": "choice", "options": [
+        "Hi, the kitchen tap has been leaking since yesterday and it is getting worse.",
+        "I am calling to ask if you can lower everyone's rent for fun.",
+        "Just checking whether you are having a nice week.",
+        "The neighbors bought a new car and I think it is too loud."
+      ], "answer": "Hi, the kitchen tap has been leaking since yesterday and it is getting worse.", "explanation": "It reports the actual maintenance problem clearly and promptly."},
+      {"kind": "line", "speaker": "partner", "text": "Thanks for letting me know. Is it just dripping, or is water spreading onto the floor?"},
+      {"kind": "choice", "options": [
+        "It is mostly dripping, but a small puddle forms under the sink overnight.",
+        "I have not looked at it and I do not plan to.",
+        "Water is fascinating when you really think about it.",
+        "The floor has always been wet since I moved in, probably."
+      ], "answer": "It is mostly dripping, but a small puddle forms under the sink overnight.", "explanation": "It answers the landlord's question with the specific details needed."},
+      {"kind": "line", "speaker": "partner", "text": "Alright, I will send a plumber tomorrow morning. Will someone be home around nine?"},
+      {"kind": "choice", "options": [
+        "Yes, I will be home all morning, so nine works perfectly.",
+        "No, and I refuse to change any of my plans for this.",
+        "Plumbers make me nervous, so please send a gardener instead.",
+        "Tomorrow I am moving out without any notice."
+      ], "answer": "Yes, I will be home all morning, so nine works perfectly.", "explanation": "It confirms availability for the repair visit the landlord proposed."},
+      {"kind": "line", "speaker": "partner", "text": "Great. Please put a bucket under the pipe tonight so the cabinet does not get damaged."}
+    ],
+    "completion": {
+      "text": "I will send a {1} tomorrow {2}.",
+      "answers": ["plumber", "morning"],
+      "explanation": "The landlord promised to send a plumber the next morning."
+    },
+    "summary": {
+      "model": "I called my landlord to report that the kitchen tap has been leaking since yesterday, with a small puddle forming under the sink. He agreed to send a plumber at nine tomorrow morning and asked me to put a bucket under the pipe tonight.",
+      "keywords": ["landlord", "tap", "leaking", "plumber", "kitchen", "morning"]
+    }
+  },
+  {
+    "id": "il7",
+    "scenario": "You are returning a jacket to a clothing shop because it does not fit.",
+    "partner": "Shop Assistant",
+    "you": "Customer",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hi there, how can I help you today?"},
+      {"kind": "choice", "options": [
+        "I bought this jacket last weekend, but it is too small and I would like to return it.",
+        "I am here to sell you some jackets of my own.",
+        "Your shop window could use a much better display.",
+        "No help needed, I am just standing near the counter."
+      ], "answer": "I bought this jacket last weekend, but it is too small and I would like to return it.", "explanation": "It explains the purpose of the visit clearly to the assistant."},
+      {"kind": "line", "speaker": "partner", "text": "No problem. Do you have the receipt with you?"},
+      {"kind": "choice", "options": [
+        "Yes, here it is. I paid by card, if that matters.",
+        "Receipts are unnecessary and I never keep them on principle.",
+        "I lost it, but you should trust me completely anyway.",
+        "What is a receipt exactly?"
+      ], "answer": "Yes, here it is. I paid by card, if that matters.", "explanation": "It answers the question and offers helpful payment information."},
+      {"kind": "line", "speaker": "partner", "text": "Thanks. We can refund your card, or you could exchange the jacket for a larger size."},
+      {"kind": "choice", "options": [
+        "I would rather exchange it if you have the same jacket in a medium.",
+        "Neither option interests me, so I will just leave the jacket here.",
+        "Do you sell refrigerators as well?",
+        "I want a refund and an exchange at the same time."
+      ], "answer": "I would rather exchange it if you have the same jacket in a medium.", "explanation": "It chooses one of the two options offered and specifies the needed size."},
+      {"kind": "line", "speaker": "partner", "text": "Let me check the stockroom. If we have a medium, I will bring it right out."}
+    ],
+    "completion": {
+      "text": "We can refund your {1}, or you could exchange the jacket for a larger {2}.",
+      "answers": ["card", "size"],
+      "explanation": "The assistant offered either a card refund or an exchange for a larger size."
+    },
+    "summary": {
+      "model": "I returned a jacket to the shop because it was too small. After I showed the receipt, the assistant offered a refund to my card or an exchange, and I chose to exchange it for the same jacket in a medium.",
+      "keywords": ["jacket", "return", "receipt", "exchange", "size", "medium"]
+    }
+  },
+  {
+    "id": "il8",
+    "scenario": "You are asking a coworker to cover your shift so you can attend a family wedding.",
+    "partner": "Coworker",
+    "you": "Coworker",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hey, you wanted to ask me something about the schedule?"},
+      {"kind": "choice", "options": [
+        "Yes, could you cover my Saturday shift? My cousin is getting married that day.",
+        "I think the schedule is a disaster and someone should be fired.",
+        "Not really, I forgot what I wanted to say.",
+        "Did you see how long the lunch line was today?"
+      ], "answer": "Yes, could you cover my Saturday shift? My cousin is getting married that day.", "explanation": "It makes the request directly and gives the reason for it."},
+      {"kind": "line", "speaker": "partner", "text": "Congratulations to your cousin! I could do it, but I am already working Friday night."},
+      {"kind": "choice", "options": [
+        "I understand. Would it help if I took your Friday night shift in exchange?",
+        "Friday night is your problem, not mine.",
+        "Then forget it, I will just skip work without telling anyone.",
+        "Weddings are overrated anyway, so never mind."
+      ], "answer": "I understand. Would it help if I took your Friday night shift in exchange?", "explanation": "It responds to the coworker's difficulty by offering a fair trade."},
+      {"kind": "line", "speaker": "partner", "text": "That would actually work perfectly. Let me confirm with the manager before we make it official."},
+      {"kind": "choice", "options": [
+        "Sounds good. I will email the manager too so everything is clear in writing.",
+        "Why involve the manager? Let us keep this secret.",
+        "If the manager says no, I will quit immediately.",
+        "Actually, I have changed my mind about the whole wedding."
+      ], "answer": "Sounds good. I will email the manager too so everything is clear in writing.", "explanation": "It supports the plan to confirm the swap properly with the manager."},
+      {"kind": "line", "speaker": "partner", "text": "Perfect. Thanks for offering the trade instead of just asking for a favor."}
+    ],
+    "completion": {
+      "text": "Let me confirm with the {1} before we make it {2}.",
+      "answers": ["manager", "official"],
+      "explanation": "The coworker wanted to confirm the shift swap with the manager before making it official."
+    },
+    "summary": {
+      "model": "I asked my coworker to cover my Saturday shift because my cousin is getting married that day. We agreed to swap shifts, with me taking her Friday night shift in exchange, and we will confirm the arrangement with the manager by email.",
+      "keywords": ["coworker", "shift", "saturday", "wedding", "swap", "manager"]
+    }
+  },
+  {
+    "id": "il9",
+    "scenario": "You are asking your professor for advice about choosing a research topic for your final paper.",
+    "partner": "Professor",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "So, you said you were having trouble settling on a topic for the final paper?"},
+      {"kind": "choice", "options": [
+        "Yes, I am interested in renewable energy, but the subject feels too broad for ten pages.",
+        "No, I finished the paper months ago, before the course even started.",
+        "I mainly came to ask why the classroom chairs are so uncomfortable.",
+        "Topics are your job to choose, not mine."
+      ], "answer": "Yes, I am interested in renewable energy, but the subject feels too broad for ten pages.", "explanation": "It confirms the problem and names the area of interest and the difficulty."},
+      {"kind": "line", "speaker": "partner", "text": "That is a common problem. Could you narrow it to one technology or one region?"},
+      {"kind": "choice", "options": [
+        "I could focus on solar power in desert regions, since I have read a lot about it.",
+        "Narrowing things down feels like giving up, so no.",
+        "I would rather write about my summer holiday instead.",
+        "Can you just assign me a topic and write the outline too?"
+      ], "answer": "I could focus on solar power in desert regions, since I have read a lot about it.", "explanation": "It takes the professor's suggestion and proposes a suitably narrow focus."},
+      {"kind": "line", "speaker": "partner", "text": "That is a strong choice. Make sure you use at least five academic sources, not just news articles."},
+      {"kind": "choice", "options": [
+        "Understood. Could you recommend a database where I can find those academic sources?",
+        "Five sources is far too many, so I will use one blog post.",
+        "News articles are more truthful than academic journals anyway.",
+        "I prefer to write papers without reading anything at all."
+      ], "answer": "Understood. Could you recommend a database where I can find those academic sources?", "explanation": "It accepts the requirement and asks a practical question about meeting it."},
+      {"kind": "line", "speaker": "partner", "text": "Try the university library portal first, and email me if you get stuck."}
+    ],
+    "completion": {
+      "text": "Make sure you use at least five academic {1}, not just news {2}.",
+      "answers": ["sources", "articles"],
+      "explanation": "The professor required at least five academic sources rather than only news articles."
+    },
+    "summary": {
+      "model": "I asked my professor for help narrowing down my research topic on renewable energy. Following her advice, I decided to focus on solar power in desert regions, and she told me to use at least five academic sources from the university library portal.",
+      "keywords": ["professor", "topic", "solar", "research", "sources", "narrow"]
+    }
+  },
+  {
+    "id": "il10",
+    "scenario": "You are asking a classmate to share notes from a lecture you missed while you were sick.",
+    "partner": "Classmate",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "Hey, we missed you in the economics lecture on Tuesday. Is everything alright?"},
+      {"kind": "choice", "options": [
+        "I had a bad cold, so I stayed home. Could I borrow your notes from that day?",
+        "I skipped it on purpose because lectures bore me.",
+        "Everything is fine, and I have no idea why you are asking.",
+        "Tuesday is my least favorite day of the week, historically."
+      ], "answer": "I had a bad cold, so I stayed home. Could I borrow your notes from that day?", "explanation": "It explains the absence and makes the request for notes politely."},
+      {"kind": "line", "speaker": "partner", "text": "Of course. My handwriting is messy, though, so I could send you photos or type them up."},
+      {"kind": "choice", "options": [
+        "Photos are fine, I just need to see the main points before the quiz.",
+        "If your handwriting is messy, maybe you should not take notes at all.",
+        "Neither, please read them aloud to me every evening.",
+        "I have decided notes are useless, so never mind."
+      ], "answer": "Photos are fine, I just need to see the main points before the quiz.", "explanation": "It chooses one of the offered options and explains what is needed."},
+      {"kind": "line", "speaker": "partner", "text": "No problem. The professor also said the quiz on Friday will focus on the last two chapters."},
+      {"kind": "choice", "options": [
+        "That is really helpful to know. I will start reviewing those chapters tonight.",
+        "Quizzes should be illegal, and I plan to say so in class.",
+        "The professor says a lot of things I choose to ignore.",
+        "Friday is too soon, so I will simply not attend."
+      ], "answer": "That is really helpful to know. I will start reviewing those chapters tonight.", "explanation": "It thanks the classmate for the tip and responds with a sensible plan."},
+      {"kind": "line", "speaker": "partner", "text": "Good luck, and let me know if anything in the notes is unclear."}
+    ],
+    "completion": {
+      "text": "The professor also said the quiz on {1} will focus on the last two {2}.",
+      "answers": ["Friday", "chapters"],
+      "explanation": "The classmate reported that the Friday quiz will cover the last two chapters."
+    },
+    "summary": {
+      "model": "I asked my classmate for notes from the economics lecture I missed because I had a bad cold. He offered to send photos of his notes and also told me that the quiz on Friday will focus on the last two chapters, so I planned to review them.",
+      "keywords": ["notes", "lecture", "sick", "quiz", "chapters", "classmate"]
+    }
+  },
+  {
+    "id": "il11",
+    "scenario": "You are meeting your advisor to discuss applying for a summer internship.",
+    "partner": "Advisor",
+    "you": "Student",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "You mentioned you wanted to talk about internships. What kind of position are you hoping for?"},
+      {"kind": "choice", "options": [
+        "I would like something in marketing, ideally at a company where I could work on real campaigns.",
+        "Any position, as long as I never have to do any work.",
+        "I have not thought about it, and I would rather you decide everything.",
+        "Internships are a scam invented by companies, in my opinion."
+      ], "answer": "I would like something in marketing, ideally at a company where I could work on real campaigns.", "explanation": "It answers the question with a clear goal and a specific interest."},
+      {"kind": "line", "speaker": "partner", "text": "Good goal. Have you updated your resume since you finished your statistics project last term?"},
+      {"kind": "choice", "options": [
+        "Not yet, but I will add the statistics project and my volunteer work this week.",
+        "Resumes are old-fashioned, so I refuse to have one.",
+        "My resume is perfect and could never be improved.",
+        "What does statistics have to do with anything?"
+      ], "answer": "Not yet, but I will add the statistics project and my volunteer work this week.", "explanation": "It answers honestly and commits to the update the advisor implied is needed."},
+      {"kind": "line", "speaker": "partner", "text": "Do that soon, because the application deadline for most summer programs is at the end of March."},
+      {"kind": "choice", "options": [
+        "Then I will submit everything before the middle of March to be safe.",
+        "Deadlines are flexible if you explain yourself afterward.",
+        "March is months away, so I will start thinking about it in April.",
+        "Maybe I will apply next year instead, or never."
+      ], "answer": "Then I will submit everything before the middle of March to be safe.", "explanation": "It reacts to the deadline information with a sensible plan to apply early."},
+      {"kind": "line", "speaker": "partner", "text": "Smart plan. Send me a draft of your application letter and I will give you feedback."}
+    ],
+    "completion": {
+      "text": "Do that soon, because the application {1} for most summer programs is at the end of {2}.",
+      "answers": ["deadline", "March"],
+      "explanation": "The advisor warned that most summer program deadlines fall at the end of March."
+    },
+    "summary": {
+      "model": "I met my advisor to talk about applying for a summer internship in marketing. She reminded me to update my resume with my statistics project and volunteer work, and since most deadlines are at the end of March, I plan to submit everything by the middle of the month.",
+      "keywords": ["internship", "marketing", "resume", "deadline", "application", "advisor"]
+    }
+  },
+  {
+    "id": "il12",
+    "scenario": "You are planning a client presentation together with a coworker at the office.",
+    "partner": "Coworker",
+    "you": "Coworker",
+    "turns": [
+      {"kind": "line", "speaker": "partner", "text": "We have the client presentation on Thursday. Have you thought about how we should divide it?"},
+      {"kind": "choice", "options": [
+        "Yes, how about you present the budget section and I handle the project timeline?",
+        "I assumed you would be doing the entire thing alone.",
+        "Thursday presentations never go well, so we should cancel.",
+        "Have you tried the new coffee machine on the third floor?"
+      ], "answer": "Yes, how about you present the budget section and I handle the project timeline?", "explanation": "It answers the question with a concrete proposal for dividing the work."},
+      {"kind": "line", "speaker": "partner", "text": "That split makes sense. Should we rehearse together on Wednesday afternoon?"},
+      {"kind": "choice", "options": [
+        "Wednesday afternoon works, and we can use the small meeting room upstairs.",
+        "Rehearsing is for beginners, so I will just improvise.",
+        "Only if the rehearsal takes less than five minutes.",
+        "I would rather rehearse alone in my car."
+      ], "answer": "Wednesday afternoon works, and we can use the small meeting room upstairs.", "explanation": "It confirms the rehearsal time and suggests a practical location."},
+      {"kind": "line", "speaker": "partner", "text": "I will reserve the room from two to three. Can you print the handouts before we practice?"},
+      {"kind": "choice", "options": [
+        "Sure, I will print twenty copies and bring them to the rehearsal.",
+        "Printing is a waste of paper, so the client can just imagine them.",
+        "Handouts are your responsibility because you mentioned them first.",
+        "I will try, but I make no promises about anything."
+      ], "answer": "Sure, I will print twenty copies and bring them to the rehearsal.", "explanation": "It agrees to the request and commits to a specific, helpful action."},
+      {"kind": "line", "speaker": "partner", "text": "Excellent. If we prepare this well, Thursday should go smoothly."}
+    ],
+    "completion": {
+      "text": "Can you print the {1} before we {2}?",
+      "answers": ["handouts", "practice"],
+      "explanation": "The coworker asked for the handouts to be printed before the practice session."
+    },
+    "summary": {
+      "model": "I planned a client presentation with my coworker for Thursday. We agreed that she will present the budget while I cover the project timeline, and we scheduled a rehearsal on Wednesday afternoon in the small meeting room, where I will bring printed handouts.",
+      "keywords": ["presentation", "client", "rehearse", "handouts", "timeline", "budget"]
+    }
+  }
+]

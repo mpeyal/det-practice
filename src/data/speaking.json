@@ -1,0 +1,498 @@
+{
+  "readThenSpeak": [
+    {
+      "id": "rts1",
+      "prompt": "Talk about a place you like to visit. What is it? Why do you like it? How often do you go there?",
+      "model": "So, a place I really love visiting is a small lake about an hour outside my city. It is nothing famous, just a quiet stretch of water surrounded by pine trees, with a wooden dock where you can sit and dangle your feet. I like it mainly because it is the complete opposite of my daily life. My week is full of screens, deadlines, and noise, and the lake has none of those things. The moment I smell the pine air, my shoulders literally drop about two centimeters. I usually bring a sandwich, a book, and sometimes a friend, though honestly it works best alone. As for how often, I try to go at least once a month, more in summer. When work gets crazy and I skip a couple of months, I can genuinely feel the difference in my mood, so I have started treating those trips like appointments I am not allowed to cancel."
+    },
+    {
+      "id": "rts2",
+      "prompt": "Describe a meal you really enjoy. What is it? Who usually makes it? Why is it special to you?",
+      "model": "The meal I enjoy most is a slow-cooked chicken and rice dish that my mother makes. It is not fancy restaurant food at all, just chicken, rice, onions, and a mix of spices she has never written down, which slightly worries me, to be honest. She usually makes it on Sunday afternoons, and the smell fills the whole apartment for hours before we actually eat. What makes it special is really the whole ritual around it. Everyone in the family somehow drifts into the kitchen while it cooks, someone starts setting the table without being asked, and by the time we sit down we have already been talking for an hour. I have tried to cook it myself in my own place, and it tastes maybe seventy percent right, but the missing thirty percent is obviously not an ingredient. It is the people, the Sunday light, and the fact that somebody made it for you."
+    },
+    {
+      "id": "rts3",
+      "prompt": "Talk about a person you admire. Who are they? What have they done? What have you learned from them?",
+      "model": "The person I admire most is probably my older cousin, Sara. On paper her story sounds simple: she moved abroad alone at twenty-two, learned a new language from zero, and eventually built her own small design studio. But I watched the reality behind that summary, and it was years of rejected applications, terrible part-time jobs, and video calls where she was clearly exhausted but still cracking jokes. What impresses me is not the success itself, it is her attitude toward embarrassment. She would walk into any office, make grammar mistakes in front of important people, get corrected, laugh, and carry on. She used to say that feeling stupid is just the entry fee for anything worth doing. That one idea changed how I approach my own life. Whenever I avoid something because I might look foolish, I hear her voice, pay the entry fee, and walk in anyway."
+    },
+    {
+      "id": "rts4",
+      "prompt": "Describe an app or website you use almost every day. What is it? What do you use it for? How would your life change without it?",
+      "model": "An app I use every single day is a simple note-taking app on my phone. It sounds boring, but it has honestly become an extension of my brain. I use it for everything: shopping lists, sudden ideas at two in the morning, phrases I want to remember in English, even arguments I think of too late to actually use. The habit started a few years ago when I kept forgetting good ideas, and now typing a quick note is as automatic as breathing. If the app disappeared tomorrow, the first week would be genuinely chaotic. I would forget half my errands, lose ideas in the shower, and probably annoy my friends by asking them to remind me of things. Longer term, I suppose I would go back to paper notebooks, which are lovely but always in the wrong bag. Basically, the app carries my memory so my head is free to actually think."
+    },
+    {
+      "id": "rts5",
+      "prompt": "Talk about a celebration you remember well. What was the occasion? Who was there? What made it memorable?",
+      "model": "A celebration I remember really clearly is my grandfather's eightieth birthday, about four years ago. The occasion itself was obviously his birthday, but my aunts secretly turned it into a surprise reunion, and relatives flew in from three different countries without telling him. I will never forget his face when he walked into what he thought was a quiet family dinner and found forty people hiding behind the furniture. He just stood in the doorway holding his newspaper, completely frozen, and then started laughing and crying at the same time. What made it memorable was not the food or the decorations, although the cake was ridiculous, it had eighty actual candles and nearly set off the smoke alarm. It was watching four generations in one room, with babies crawling under the table while my grandfather told stories from sixty years ago. Those complete-family moments are rare, and everyone in that room seemed to know it."
+    },
+    {
+      "id": "rts6",
+      "prompt": "Describe a sport or physical activity you enjoy. What is it? When did you start? How does it make you feel?",
+      "model": "The activity I enjoy most is swimming, which I do two or three mornings a week at a public pool near my home. I actually started quite late, in my twenties, after a doctor suggested it for a back problem, so at the beginning it was medicine rather than fun. For the first month I was the slowest person in every lane, including the retirees, which was humbling. But somewhere around the second month it stopped being exercise and became something closer to meditation. When you swim, you cannot check your phone, you cannot really think in words, and all you hear is water and your own breathing. I come out of the pool feeling like my brain has been rinsed along with everything else. On days I swim, I am noticeably calmer and more patient, and my back problem, by the way, disappeared years ago. The medicine turned into a habit I would not give up."
+    },
+    {
+      "id": "rts7",
+      "prompt": "Talk about your hometown. Where is it? What is it known for? Do you think you will live there in the future?",
+      "model": "My hometown is a mid-sized city near the coast, big enough to have a university but small enough that you constantly run into people you know at the market. It is mostly known for two things: a very old covered bazaar in the center, where the same families have sold spices and fabric for generations, and a slightly ridiculous annual festival celebrating a local fish. Growing up there, I found it boring in the way teenagers find everything boring, and I could not wait to leave for a bigger city, which I eventually did. Now, honestly, my feelings are more complicated. Every visit home, I notice things I used to ignore, like how strangers greet each other and how slow the evenings feel in a good way. Will I live there again? Probably not in the next ten years, because my career needs a bigger city. But as a place to grow old, I would not rule it out at all."
+    },
+    {
+      "id": "rts8",
+      "prompt": "Describe a book or movie that made a strong impression on you. What is it about? When did you experience it? Why did it affect you?",
+      "model": "A movie that left a really strong impression on me is a documentary I watched about three years ago, about a man who spent decades planting trees on an empty riverbank until it became an actual forest. On the surface it is about environmental work, but what hit me was the timescale of it. This man did something small and almost invisible every single day, for years, while everyone around him thought he was wasting his life, and the result only became obvious after decades. I watched it during a period when I was frustrated with my own slow progress in basically everything, my studies, my English, my savings, and the film quietly rearranged my head. It convinced me that consistency beats intensity, and that most impressive things are just boring actions repeated for an unreasonable amount of time. I still think about that riverbank whenever I feel like quitting something after two weeks."
+    },
+    {
+      "id": "rts9",
+      "prompt": "Talk about a skill you would like to learn. What is it? Why do you want to learn it? How do you plan to start?",
+      "model": "A skill I really want to learn is playing the piano, which has been on my someday list for an embarrassing number of years. The desire started in childhood, at a neighbor's apartment, where I would press keys until someone politely removed me, but my family could not afford lessons back then. As an adult, the reasons have matured a bit. I spend my whole day doing abstract mental work, and I am hungry for a skill that lives in the hands, where progress is something you can literally hear. There is also a selfish dream of playing one specific piece, a slow nocturne my grandmother loved, at a family gathering someday. My plan is deliberately modest: rent a cheap digital keyboard first, so quitting would not be expensive, follow a beginner course online for three months, and only then decide whether to invest in a real teacher. Small start, honest test, then commitment."
+    },
+    {
+      "id": "rts10",
+      "prompt": "Describe your typical weekend. What do you usually do? Who do you spend it with? What is your favorite part?",
+      "model": "My weekends follow a pattern that I have honestly grown to love. Saturday morning is the productive part: I clean my apartment with loud music on, do the shopping for the week, and handle all the boring life administration, so it stops haunting me. Saturday evening is for people, usually dinner with friends, sometimes just two of us cooking, sometimes a bigger noisy group at someone's place. Sunday is deliberately the opposite. I protect it fiercely for slow things: a long breakfast, a walk with no destination, reading on the balcony, maybe a call with my parents that always lasts longer than planned. My favorite part is actually Sunday around five in the evening, that quiet hour with tea when the week ahead exists but cannot touch me yet. I used to fill weekends with plans and feel cheated by Monday. This rhythm, half social and half silent, sends me into the week actually rested."
+    },
+    {
+      "id": "rts11",
+      "prompt": "Talk about a gift you received that meant a lot to you. What was it? Who gave it to you? Why was it meaningful?",
+      "model": "The most meaningful gift I ever received was an old film camera from my father, given to me the day I left home for university. It was not new or expensive; in fact it was his own camera from the eighties, the one that took every photo in our family albums, with a scratch on the corner from a trip he took before I was born. He handed it over in a very typical way for him, no speech, just, you will see new things, photograph them properly. What made it meaningful took me a while to understand. He was not really giving me a camera; he was giving me his way of paying attention to the world, and quietly saying he trusted me with the family's official memory-keeping job. I still shoot a roll of film in it a few times a year, and every click feels like a small conversation with him."
+    },
+    {
+      "id": "rts12",
+      "prompt": "Describe your favorite season of the year. What is the weather like? What activities do you do? Why do you prefer it?",
+      "model": "My favorite season, without any hesitation, is autumn, especially those few golden weeks in October. The weather where I live becomes perfect then: cool enough for a jacket, warm enough to sit outside, with that sharp clean air that makes you feel like your lungs got upgraded. The light turns low and golden in the afternoons, and honestly even ugly streets look cinematic. My activities change completely with the season. I walk far more, sometimes two hours without noticing, I start cooking soups and baking again, and my reading hours double because the early darkness makes staying in feel cozy instead of lazy. There is also a psychological thing I cannot fully explain: autumn feels like the real new year to me, probably left over from school days, so every October I get this wave of motivation to start projects. Summer is for holidays, but autumn is for becoming a slightly better person."
+    },
+    {
+      "id": "rts13",
+      "prompt": "Talk about the music you like. What kind of music do you listen to? When do you usually listen to it? How does it affect your mood?",
+      "model": "So, my relationship with music is a bit unusual because I listen according to task, almost like taking medicine. For focus, I put on instrumental music, film soundtracks mostly, because lyrics hijack the part of my brain that words need. For cleaning the apartment, it is loud pop from my teenage years, which turns a chore into a small private concert. And for the walk home after a hard day, I have a specific playlist of slow, older songs that works like a decompression chamber. I listen mostly through headphones, probably two or three hours a day, which sounds like a lot until you realize half of it is background. The mood effect is honestly powerful; I can shift how I feel in about three songs, and I use that trick deliberately and completely shamelessly."
+    },
+    {
+      "id": "rts14",
+      "prompt": "Describe a shop or market you visit often. What is it? What do you usually buy there? Why do you keep going back?",
+      "model": "There is a small weekend market near my home that I have visited almost every Saturday for years, and at this point it is less shopping and more ritual. It is about twenty stalls, mostly farmers from villages outside the city, selling vegetables, cheese, honey, and a kind of bread that sells out by ten in the morning. I always buy from the same three sellers, and they know my order the way a bartender knows a regular. Why do I keep going back? Partly the quality, honestly, because the tomatoes actually taste like something. But mostly it is the atmosphere: the shouting, the free samples, the old men arguing about the correct way to pickle things. Supermarkets are more convenient, sure, but nobody at a supermarket has ever saved the last good melon under the table for me."
+    },
+    {
+      "id": "rts15",
+      "prompt": "Talk about an animal you like or a pet you have known. What is it? How did you come to know it? Why is it special to you?",
+      "model": "The animal I have to talk about is my grandmother's cat, Biscuit, who was technically her cat but really ran the entire family. He arrived as a stray kitten during a rainstorm and stayed for sixteen years. What made him special was his strange emotional radar: whoever in the house was sad, sick, or stressed, Biscuit found them and sat on them, purring like a small engine, until they surrendered and felt better. During my exam years, he basically lived on my textbooks, which was not helpful but was very comforting. I am not usually a mystical person, but that cat taught me something real about presence, that sometimes comfort is not advice or solutions, just a warm weight that refuses to leave. Every cat I meet now gets measured against Biscuit, and honestly, they all lose."
+    },
+    {
+      "id": "rts16",
+      "prompt": "Describe a teacher you remember from school. Who were they? What did they teach? Why do you still remember them?",
+      "model": "The teacher I remember most is my primary school science teacher, Mr. Aden, and I remember him for one specific habit: he refused to answer questions directly. Whatever you asked, he would smile and say, wonderful question, how could we find out? Then he would actually help you find out, with experiments involving kitchen equipment and the occasional small explosion. At the time it was mildly infuriating; we just wanted the answer before lunch. But he was quietly installing something permanent in us, the assumption that answers are things you can hunt down yourself rather than gifts you wait for. I have forgotten nearly every fact from his class, honestly, but the reflex he built, that little internal voice asking how could we find out, has run my entire education ever since. That, I think, is proper teaching."
+    },
+    {
+      "id": "rts17",
+      "prompt": "Talk about something you made or built with your own hands. What was it? How did you make it? How did you feel when it was finished?",
+      "model": "The thing I am proudest of building is a bookshelf I made two summers ago, my first real attempt at woodworking. It started as a stubborn reaction to furniture store prices, and I convinced myself that a shelf is just wood plus confidence. The process humbled me quickly. I measured wrong twice, discovered that straight lines are apparently a professional secret, and learned that sandpaper is not optional. It took three weekends instead of the one I had planned, and my neighbor definitely heard some new vocabulary through the wall. But when it finally stood there, level and solid, holding actual books, I felt a kind of satisfaction my office job has never once produced. Something I made from raw planks now holds my library. I sit near it deliberately, and yes, I show every guest."
+    },
+    {
+      "id": "rts18",
+      "prompt": "Describe a time you got lost. Where were you? What did you do? How did the situation end?",
+      "model": "My best getting-lost story happened on a hiking trip a few years ago, when a shortcut that looked obvious on the map turned out to be pure fiction. Somewhere in the second hour, my friend and I admitted that the trail had quietly disappeared and our phones had no signal, which produces a very specific cold feeling in the stomach. What we did, after a short period of blaming each other, was actually sensible: we stopped, walked back to the last trail marker we remembered, and then followed a stream downhill on the theory that streams eventually find villages. Three hours later we walked into a tiny farm, where a bemused farmer gave us water and directions. The ending was happy, but the lesson stuck with me: when you are lost, the brave-looking option is usually wrong, and going back is not defeat."
+    },
+    {
+      "id": "rts19",
+      "prompt": "Talk about your morning routine. What do you do first? How long does it take you to get ready? Do you enjoy mornings?",
+      "model": "My morning routine has become surprisingly precious to me, mostly because I built it after years of chaotic starts. The first thing I do is drink a large glass of water before touching my phone, which is the hardest rule and the most important one. Then twenty minutes of stretching or a short walk around the block while the kettle does its work. Breakfast is unexciting, usually oats or eggs, but I eat it sitting down, at a table, like a civilized person, which I consider a genuine achievement. Altogether, getting ready takes about an hour, and yes, I have to wake up earlier to afford it. Do I enjoy mornings? I have learned to. I would not call myself a natural morning person, but I am a convert, and converts are always the most enthusiastic people in the room."
+    },
+    {
+      "id": "rts20",
+      "prompt": "Describe a photograph that is important to you. What does it show? When was it taken? Why do you keep it?",
+      "model": "The photograph I treasure most sits framed on my desk: my grandparents dancing at their fiftieth anniversary party, caught mid-laugh, completely unaware of the camera. My cousin took it about eight years ago on an ordinary phone, no filters, slightly blurry, and it is still the best photo my family owns. What it shows, technically, is two elderly people dancing quite badly. What it actually shows is fifty years of choosing each other, compressed into one frame. My grandfather passed away two years after that party, which changed the photo from sweet to sacred. I keep it because it works like a compass. On days when I am cynical about everything, one glance at those two laughing faces recalibrates me. Phones now hold thousands of images, but I would say I own exactly one photograph."
+    },
+    {
+      "id": "rts21",
+      "prompt": "Talk about the clothes you like to wear. What is your usual style? Do you prefer comfort or fashion? Has your style changed over time?",
+      "model": "My honest answer about clothes is that I dress like someone who wants to disappear comfortably. My usual style is simple: plain colors, good jeans, soft sweaters, and shoes I can walk five kilometers in without complaint. Comfort versus fashion is not even a competition for me; comfort won years ago and fashion graciously accepted the result. That said, my style has definitely evolved. As a teenager, I chased whatever the group wore, including some truly regrettable experiments that survive in family photos and are brought out at gatherings. In my twenties I dressed to seem older and more serious. Now I have landed on a small, boring, reliable wardrobe where everything matches everything, which saves me real decision energy every single morning. I have essentially traded variety for peace, and I recommend the trade to everyone who will listen."
+    },
+    {
+      "id": "rts22",
+      "prompt": "Talk about a language you are learning or would like to learn. Which language is it? Why did you choose it? What is the hardest part for you?",
+      "model": "The language I am working on right now is English, obviously, but the one I dream about learning next is Japanese. The choice is partly practical, since I love the country's films and design, and partly pure fascination: a writing system with thousands of characters feels like a mountain worth climbing. With English, the hardest part for me was never grammar; it was speed. Real conversations do not wait politely while you assemble a sentence, and for years I understood everything but responded like a slow computer. What finally helped was lowering my standards, honestly, deciding that fast and imperfect beats slow and correct. With Japanese, I expect the hardest part will be reading, so my plan is to start with speaking only, children's books later, and patience throughout. Languages reward stubbornness far more than talent."
+    },
+    {
+      "id": "rts23",
+      "prompt": "Describe a park or green space you know well. Where is it? What do people do there? Why do you like it?",
+      "model": "The green space I know best is the old city park about ten minutes from my apartment, and I know it well enough to have opinions about individual trees. It is not a fancy park, just big lawns, a duck pond with some politically active geese, gravel paths, and enormous plane trees older than every building around them. People use it for everything: morning runners, chess-playing pensioners, teenagers dramatically discussing their lives, families with picnic blankets marking territory like small nations. I go there to walk and to think, usually the same loop, about thirty minutes. What I love most is that the park is the one place where the whole city mixes with no tickets and no purpose. In a city that charges for everything, free grass under old trees feels almost radical."
+    },
+    {
+      "id": "rts24",
+      "prompt": "Talk about a goal you achieved recently. What was it? How did you achieve it? How did you feel afterward?",
+      "model": "A goal I actually achieved recently, and I am still slightly amazed by it, is running ten kilometers without stopping. A year ago I could not run for ten minutes; I only started because a doctor made an unimpressed face at my checkup results. The method was aggressively humble: a beginner program where you jog one minute and walk two, repeated, increasing a little every week. I told nobody at first, in case I quit. The breakthrough came around month four, when running stopped being punishment and became strangely meditative. Race day itself was cold and rainy, and crossing the finish line, slow, soaked, and grinning like an idiot, felt better than most of my professional achievements. The feeling afterward was not really about fitness. It was proof that I can become someone I was not, on schedule, through boring repetition."
+    }
+  ],
+  "interactive": [
+    {
+      "id": "is1",
+      "scenario": "An interviewer asks you about your daily life.",
+      "questions": [
+        "What time do you usually wake up in the morning?",
+        "What do you normally have for breakfast?",
+        "How do you travel to work or school?",
+        "What is the busiest part of your day?",
+        "How do you usually relax in the evening?",
+        "If you could change one thing about your daily routine, what would it be and why?"
+      ],
+      "models": [
+        "I usually wake up around six thirty on weekdays, mostly because of my alarm rather than by choice. On weekends I let myself sleep until eight or so, which feels like a real luxury.",
+        "My breakfast is pretty simple, usually bread with cheese and a boiled egg, plus a large cup of tea. If I am running late, I just grab a banana and eat it on the way.",
+        "I take the bus most days, which takes about twenty-five minutes door to door. When the weather is nice, I sometimes walk part of the way to get some exercise.",
+        "The busiest part is definitely late morning, between ten and noon. That is when all the meetings happen and everyone seems to need something from me at the same time.",
+        "In the evening I like to cook something simple and then watch a series or read for an hour. Cooking actually relaxes me more than the television does, to be honest.",
+        "I would move my exercise from evening to morning, because by evening I am too tired and I skip it half the time. People say morning workouts give you energy all day, and I would love to test whether that is actually true for me."
+      ]
+    },
+    {
+      "id": "is2",
+      "scenario": "An interviewer asks you about food and cooking.",
+      "questions": [
+        "What is your favorite food?",
+        "Do you prefer cooking at home or eating out?",
+        "Who taught you to cook, or who cooks in your home?",
+        "Is there any food you really dislike?",
+        "How are eating habits changing in your country?",
+        "Do you think people will cook less in the future? Why or why not?"
+      ],
+      "models": [
+        "My favorite food is probably fresh bread, which sounds boring but I am completely serious. Warm bread with butter makes me happier than most expensive dishes.",
+        "I mostly cook at home during the week because it is cheaper and healthier. Eating out is something I save for weekends, when it feels like an event instead of a habit.",
+        "My mother taught me the basics when I was a teenager, mainly so I would survive university. These days I cook for myself, though I still call her when a recipe goes wrong.",
+        "I really cannot eat okra, no matter how it is prepared. It is a texture problem more than a taste problem, and I have honestly given it many fair chances.",
+        "People in my country are eating out and ordering delivery much more than before, especially young people in cities. At the same time, there is a smaller movement back toward traditional home cooking, so it is going in two directions at once.",
+        "I think fewer people will cook daily, because delivery keeps getting cheaper and easier. But cooking will not disappear; it will become more of a hobby people do for pleasure on weekends, a bit like baking bread already is today."
+      ]
+    },
+    {
+      "id": "is3",
+      "scenario": "An interviewer asks you about travel and holidays.",
+      "questions": [
+        "Do you enjoy traveling?",
+        "What was the last trip you took?",
+        "Do you prefer traveling alone or with other people?",
+        "What do you usually do on holiday: relax or explore?",
+        "How do people in your country usually spend their holidays?",
+        "Some people say tourism harms the places tourists visit. What do you think?"
+      ],
+      "models": [
+        "Yes, I love traveling, although I do not get to do it as often as I would like. Even a short trip to a nearby town resets my mood for weeks.",
+        "My last trip was a long weekend by the sea with two friends, about three months ago. We rented a tiny apartment, ate too much seafood, and did absolutely nothing important, which was the whole point.",
+        "It depends on the trip, but overall I prefer traveling with one or two close friends. Alone I see more, but with friends I laugh more, and the memories last longer when they are shared.",
+        "I am definitely an explorer more than a relaxer. Lying by a pool makes me restless after one day, but walking around a new city for eight hours somehow does not tire me at all.",
+        "Most people in my country take one big family holiday in summer, usually to the coast or back to their home village. Short city breaks are becoming popular too, especially among younger people with office jobs.",
+        "I think tourism is genuinely double-edged. It brings money and jobs, but too many visitors can push out local people and turn real neighborhoods into theme parks. The solution is probably managing numbers, not stopping tourism completely."
+      ]
+    },
+    {
+      "id": "is4",
+      "scenario": "An interviewer asks you about your studies and work.",
+      "questions": [
+        "Are you currently studying or working?",
+        "What subject or field are you in?",
+        "Why did you choose this field?",
+        "What is the most difficult part of your work or studies?",
+        "What skills do you think matter most for success in your field?",
+        "Where do you hope your career will be in ten years?"
+      ],
+      "models": [
+        "I am working full time at the moment, though I still take online courses in the evenings. I like to think of myself as permanently half-student.",
+        "I work in the technology field, on the software side of things. My days are mostly spent solving problems that are invisible to everyone until they go wrong.",
+        "Honestly, it started as a practical choice because the jobs were plentiful and paid well. But somewhere along the way I genuinely fell in love with the puzzle-solving part, so the practical choice turned into a real one.",
+        "The hardest part is that the field never stops moving. What I learned three years ago is already partly outdated, so I have to keep studying just to stay in the same place.",
+        "Technical skills matter, obviously, but the underrated ones are communication and patience. Explaining a complex idea simply is worth more than knowing ten extra tools.",
+        "In ten years I hope to be leading a small team and mentoring younger colleagues, rather than just producing work myself. I have had good mentors and terrible ones, and I would like to be someone's good one."
+      ]
+    },
+    {
+      "id": "is5",
+      "scenario": "An interviewer asks you about hobbies and free time.",
+      "questions": [
+        "What do you like to do in your free time?",
+        "How did you get started with this hobby?",
+        "How often do you get to do it?",
+        "Do you prefer active hobbies or quiet ones?",
+        "Do you think children today have enough free time?",
+        "Some people say hobbies are a waste of time that could be spent working. How would you respond?"
+      ],
+      "models": [
+        "In my free time I mostly draw, usually small sketches of buildings and street corners. I also hike when the weather cooperates, so my hobbies cover both the sofa and the mountains.",
+        "It started in a boring university lecture, honestly, when I began sketching the professor instead of taking notes. A friend saw it, said it was good, and that tiny compliment launched a whole hobby.",
+        "I sketch a few times a week, even if only for ten minutes with my coffee. The big hikes happen maybe once a month, because they need a free day and decent weather at the same time.",
+        "I need both, actually. The quiet hobby empties my mind and the active one empties my energy, and I sleep badly if either one is missing for too long.",
+        "Honestly, no. Children today have their days scheduled like little executives, with lessons and clubs filling every hour. Boredom used to be where imagination came from, and we have almost eliminated it.",
+        "I would say that hobbies are exactly what make the working time valuable. A person who never recharges produces worse work, worse ideas, and worse company. My best solutions to work problems have arrived on hiking trails, not at my desk."
+      ]
+    },
+    {
+      "id": "is6",
+      "scenario": "An interviewer asks you about technology in your life.",
+      "questions": [
+        "How many hours a day do you spend on your phone?",
+        "What do you mostly use it for?",
+        "Could you live without your phone for a week?",
+        "What technology has improved your life the most?",
+        "Is there any technology you wish had never been invented?",
+        "Do you think technology brings people closer together or pushes them apart?"
+      ],
+      "models": [
+        "Probably around four hours, if I am honest, though the number always shocks me when I check. It never feels like four hours because it happens in a hundred small pieces.",
+        "Mostly messaging, maps, music, and reading the news. The embarrassing part is the aimless scrolling, which I would not call using the phone so much as the phone using me.",
+        "I could survive, but the first two days would be genuinely uncomfortable, like an itch I cannot scratch. By day five I suspect I would actually feel calmer, which says something a bit sad about the normal state.",
+        "Online maps, without question. I have a terrible sense of direction, and navigation apps have quietly removed an entire category of stress from my life. I explore new places freely now because getting lost stopped being scary.",
+        "I sometimes wish endless-scroll social media feeds had never been invented. Not social media itself, just the bottomless design that is engineered to defeat your self-control. It eats time and gives back very little.",
+        "Both at once, honestly. It connects me daily with people far away, which is miraculous, but it also lets everyone in the same room ignore each other politely. The technology is neutral; our habits decide which effect wins."
+      ]
+    },
+    {
+      "id": "is7",
+      "scenario": "An interviewer asks you about friends and family.",
+      "questions": [
+        "Do you come from a big family or a small one?",
+        "Who are you closest to in your family?",
+        "How often do you see your friends?",
+        "What do you usually do when you meet your friends?",
+        "How is friendship different for adults compared to children?",
+        "Some people say family is more important than friends. What do you think?"
+      ],
+      "models": [
+        "I come from a fairly small family, just my parents, my sister, and me. But we have a huge extended family, so holidays feel like a festival with dozens of cousins.",
+        "I am closest to my sister, even though we fought constantly as children. Somewhere in our twenties she quietly turned into my best advisor, and now no big decision happens without her opinion.",
+        "I see my closest friends about once a week, usually on weekends. With friends who moved away, it is more like a long video call every month and a reunion twice a year.",
+        "Usually we cook together or meet at someone's place rather than going out. The activity is honestly just an excuse; the real program is three hours of conversation and laughing about old stories.",
+        "As children, friendship happens automatically, you just play with whoever is nearby. As adults, it takes actual planning and effort, like a plant you must remember to water. That effort filters out weak friendships but makes the surviving ones stronger.",
+        "I think it is not a real competition, because they do different jobs. Family gives you roots you did not choose, and friends are the family you build by choice. A good life probably needs both, and in hard times you find out that the best friends behave exactly like family anyway."
+      ]
+    },
+    {
+      "id": "is8",
+      "scenario": "An interviewer asks you about your city and neighborhood.",
+      "questions": [
+        "What part of the city do you live in?",
+        "What can you find near your home?",
+        "Is your neighborhood quiet or lively?",
+        "What do you like most about living there?",
+        "How has your neighborhood changed in recent years?",
+        "If you were the mayor, what one thing would you improve in your city and why?"
+      ],
+      "models": [
+        "I live in an older neighborhood just outside the city center, about fifteen minutes from downtown by bus. It is the kind of area where the buildings are slightly tired but full of character.",
+        "Within five minutes on foot I have a bakery, a small market, two pharmacies, and a park with enormous old trees. Basically, I can live a full week without leaving a three-street radius.",
+        "It is lively in the daytime, especially around the market, but surprisingly quiet at night. We get the energy without the nightlife noise, which I think is the best possible combination.",
+        "What I love most is that shopkeepers know my face. The baker starts packing my usual order when I walk in, and that tiny recognition makes a big city feel like a village.",
+        "It is slowly getting fancier, with new cafes replacing old workshops. Some changes are nice, but rents are climbing, and a few longtime neighbors have already had to move away, which worries me.",
+        "I would fix public transport at night, because the city effectively shuts down after eleven. Better night buses would help students, shift workers, and honestly the whole economy, since people would go out knowing they could safely get home."
+      ]
+    },
+    {
+      "id": "is9",
+      "scenario": "An interviewer asks you about your shopping habits.",
+      "questions": [
+        "Do you enjoy shopping?",
+        "Where do you usually buy your clothes?",
+        "Do you prefer shopping alone or with someone?",
+        "How do you decide whether something is worth buying?",
+        "How has the way people shop changed in recent years?",
+        "Do you think advertising makes people buy things they do not need? Why or why not?"
+      ],
+      "models": [
+        "Honestly, it depends on the type. Grocery shopping I actually enjoy, especially at markets, but clothes shopping exhausts me within an hour.",
+        "I buy most of my clothes from two or three shops I trust in the city center, usually in a couple of big trips per year. Lately I have started buying basics online because I know my size in those brands.",
+        "Alone, definitely. I decide quickly, and I feel bad making someone wait while I stare at two nearly identical shirts. With company, shopping becomes a social event and takes triple the time.",
+        "My main test is imagining the item in a month, not in the shop. If I cannot name exactly when I will use it, I put it back, and for anything expensive I add a simple rule of waiting one day before deciding.",
+        "The biggest change is that shopping moved into everyone's pocket; people buy things while lying in bed at midnight. Physical stores are noticeably quieter now, and even older people, like my parents, have started ordering things online.",
+        "Yes, mostly. Good advertising does not really sell products; it sells feelings, like the idea that a new phone will make your life exciting. We all believe we are immune to it, and that belief is exactly what makes it work."
+      ]
+    },
+    {
+      "id": "is10",
+      "scenario": "An interviewer asks you about celebrations and special occasions.",
+      "questions": [
+        "What is your favorite holiday or celebration of the year?",
+        "How does your family usually celebrate it?",
+        "Do you prefer big parties or small gatherings?",
+        "What food is important at celebrations in your country?",
+        "Are celebrations becoming more commercial in your country?",
+        "Why do you think all cultures have celebrations? What purpose do they serve?"
+      ],
+      "models": [
+        "My favorite is new year, without much competition. I love that it belongs to everyone regardless of religion or age, and there is something genuinely hopeful about a fresh calendar.",
+        "We gather at my parents' apartment, always too many people for the table, and eat for roughly four hours. At midnight we go up to the roof to watch fireworks over the city, which has been the tradition since I was a child.",
+        "Small gatherings, definitely. At a big party I talk to twenty people for two minutes each, but at a small dinner I have one real conversation that I actually remember afterward.",
+        "Sweets carry most of the tradition where I come from; every holiday has its specific dessert, and grandmothers compete over them fiercely but politely. A celebration without the right dessert feels technically incomplete.",
+        "Definitely, and it happened fast. Holidays now begin in the shops two months early, and the pressure to buy gifts grows every year. The quiet, homemade side of celebrations is slowly losing ground to the shopping side.",
+        "I think celebrations are how communities wind their clocks. They pull scattered families back together on a fixed schedule, mark the passage of time, and remind people they belong to something bigger than their daily routine. Without them, the years would just blur past."
+      ]
+    },
+    {
+      "id": "is11",
+      "scenario": "An interviewer asks you about transportation and how you get around.",
+      "questions": [
+        "How do you usually get around your city?",
+        "How long is your daily commute?",
+        "Do you know how to drive?",
+        "What is public transport like where you live?",
+        "How do you think people will travel around cities twenty years from now?",
+        "Some cities have banned cars from their centers. Do you think this is a good idea?"
+      ],
+      "models": [
+        "Mostly by metro and on foot, which covers about ninety percent of my life. For awkward trips across the city I use a taxi app, but that is maybe twice a month.",
+        "Door to door, about thirty-five minutes each way. I have made peace with it by turning it into reading time, so honestly, some days it is the calmest part of my day.",
+        "Yes, I got my license at nineteen, but I do not own a car. In my city a car is mostly an expensive way to sit in traffic while paying for parking.",
+        "It is decent and improving: the metro is fast and reliable, while the buses are the weak point because they sit in the same traffic as everyone else. The real problem is crowding at rush hour, when you get to know strangers better than you would like.",
+        "I expect fewer private cars and much more mixing: shared electric vehicles, better bike lanes, and probably self-driving shuttles on fixed routes. Owning a car in a big city will start to look as unusual as owning a horse.",
+        "I support it, and I have visited cities that did it. The centers became quieter, cleaner, and full of people instead of parked metal. Shop owners always protest first, and then discover that pedestrians actually buy more than drivers passing through."
+      ]
+    },
+    {
+      "id": "is12",
+      "scenario": "An interviewer asks you about weather and the seasons.",
+      "questions": [
+        "What is the weather like in your country?",
+        "What kind of weather do you like most?",
+        "Does the weather affect your mood?",
+        "What do people in your country do in extreme weather, such as very hot or very cold days?",
+        "Have you noticed the weather changing over your lifetime?",
+        "How do you think communities should prepare for more extreme weather in the future?"
+      ],
+      "models": [
+        "We get all four seasons properly: hot summers, cold winters, and two short, beautiful seasons in between. Visitors are usually surprised by how extreme both ends can be.",
+        "My favorite is that cool, sunny weather in early autumn, around fifteen degrees. It is jacket weather, perfect for walking, and the air feels clean in a way summer never quite manages.",
+        "Absolutely, more than I would like to admit. A string of grey days flattens my energy noticeably, so in winter I deliberately go outside at midday for the light, which genuinely helps.",
+        "In serious heat, life shifts to the edges of the day; streets empty at noon and fill again after sunset. In deep cold, everything moves indoors and social life becomes tea-based, with a great deal of soup involved.",
+        "Yes, and I do not need scientists to see it, although they confirm it. The winters of my childhood, with weeks of snow, have become rare, and summers now bring heat waves that simply did not exist here thirty years ago.",
+        "Cities should prepare physically and socially at the same time. That means more trees and shade, better drainage, and cooling centers, but also neighbor networks that check on elderly people during heat waves, because in most disasters, isolation kills more people than the temperature does."
+      ]
+    },
+    {
+      "id": "is13",
+      "scenario": "An interviewer asks you about health and exercise.",
+      "questions": [
+        "Do you exercise regularly?",
+        "What kind of exercise do you enjoy most?",
+        "Do you pay attention to what you eat?",
+        "How do you make sure you get enough sleep?",
+        "Do you think people today are healthier than people fifty years ago?",
+        "Whose responsibility is public health: individuals or governments? Explain your view."
+      ],
+      "models": [
+        "Yes, though it took me years to make it stick. These days I manage three sessions a week, mostly because I treat them like meetings that cannot be moved.",
+        "Cycling is the one that never feels like exercise. A two-hour ride out of the city on a Sunday counts as both sport and therapy, and I come home tired in the best possible way.",
+        "I follow loose rules rather than strict diets: cook most meals myself, vegetables at every dinner, and sugar treated as a weekend guest rather than a daily resident. Strict diets always collapsed on me by Thursday.",
+        "The only trick that ever worked is a boring, fixed bedtime and keeping my phone charging outside the bedroom. When the phone sleeps in the kitchen, I sleep about an hour more, which is embarrassing but true.",
+        "It is strangely mixed. We smoke less, live longer, and survive diseases that used to kill, but we also sit all day, sleep badly, and eat processed food our grandparents would not recognize. I would say we are better protected but worse maintained.",
+        "Both, but not equally, because choices depend on surroundings. An individual chooses what to eat, but governments decide whether the city has parks, whether vegetables cost less than junk food, and what gets advertised to children. Personal responsibility works best on a playing field that policy has made fair."
+      ]
+    },
+    {
+      "id": "is14",
+      "scenario": "An interviewer asks you about movies, music, and entertainment.",
+      "questions": [
+        "What do you usually do to entertain yourself?",
+        "Do you prefer watching movies at home or in the cinema?",
+        "What was the last thing you watched or listened to that you really enjoyed?",
+        "Do you enjoy live events like concerts or theater?",
+        "How has streaming changed the way people enjoy entertainment?",
+        "Some people say we have too much entertainment available today. Do you agree?"
+      ],
+      "models": [
+        "My default entertainment is a rotation of series, books, and long documentaries about topics I have no practical reason to care about. On social evenings, board games with friends have made a surprising comeback in my life.",
+        "For big spectacular films, the cinema is worth every coin, since my apartment cannot produce that sound or that darkness. For everything else, home wins, mostly because of the pause button and the acceptable pajamas.",
+        "Last month I watched a quiet little film about a chef reopening his father's restaurant, expecting nothing, and it completely got me. I have been recommending it aggressively to everyone since, with mixed success.",
+        "I love them and I ration them. A concert maybe every two or three months, because the prices are serious, but nothing recorded ever matches a room full of people hearing the same note at the same moment.",
+        "Streaming made everything available and nothing shared. We watch more than ever, whenever we want, but the old experience of a whole country discussing the same show the next morning has almost disappeared, and I slightly miss it.",
+        "I agree, and I notice it in myself. With infinite options, I spend real time scrolling through menus instead of watching anything, and finishing things has become rare. Scarcity used to make our choices for us; now choosing is the work, and many of us are bad at it."
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "id": "ss1",
+      "prompt": "Talk about a time when you had to learn something very quickly. What was the situation, and how did you manage it?",
+      "model": "The clearest example in my life happened two years ago, when a colleague resigned suddenly and I inherited his project with a client presentation scheduled ten days later. The project involved software I had never touched, and the client had already been promised a working demonstration, so failure was not really on the menu. My first reaction was pure panic, which lasted about one evening. Then I got systematic. I wrote down exactly what the demonstration needed to show, which turned out to be only about a fifth of what the system could do, and I ignored everything outside that fifth completely. I found the previous colleague's notes, called him twice, shamelessly asked beginner questions, and practiced the demo path every single morning until my hands knew it. The presentation went fine, not brilliant, but fine, and the client never suspected how new I was. What I took from those ten days is that fast learning is mostly aggressive prioritizing. You do not learn the subject; you learn the exact slice of it that tomorrow requires, and you let the rest wait for calmer weeks."
+    },
+    {
+      "id": "ss2",
+      "prompt": "Describe a change you made in your life that turned out well. Why did you make it, and what happened afterward?",
+      "model": "About three years ago I made a small change with ridiculous consequences: I started going to sleep at eleven instead of somewhere past one in the morning. The trigger was embarrassing rather than dramatic. I fell asleep in an afternoon meeting, actually fully asleep, and woke up to a room of colleagues politely pretending not to notice. That evening I admitted my nights were being wasted on scrolling and half-watched shows that I could not even remember the next day. The change was hard for exactly two weeks, because my body was convinced eleven was the middle of the afternoon. I pushed through with boring tricks: phone charging in the kitchen, a paper book in bed, the same wake-up time even on weekends. Afterward, the results spread into places I never expected. My mornings grew a whole extra hour, which became exercise. My mood flattened out, in a good way, fewer spikes of irritation. Even my skin improved, which nobody warned me about. The lesson I preach to friends now is that sleep is not the thing you cut to make life fit. It is the platform the rest of life stands on."
+    },
+    {
+      "id": "ss3",
+      "prompt": "Talk about a tradition or custom from your culture that you would like to share with people from other countries. Explain what it is and why it matters.",
+      "model": "The custom I always share with foreign friends is our tradition of unannounced neighbor visits, which sounds terrifying to some cultures and is actually wonderful. In my hometown, it is completely normal for a neighbor to knock in the evening with a plate of something they cooked, stay for one glass of tea, and leave. No appointment, no occasion, no invitation needed. The plate itself follows a beautiful rule: you never return it empty. Whatever dish arrives at your door, the plate goes back carrying something you made, so a single plate can circulate through a building for years like a slow, delicious conversation. I love explaining this custom because it solves a problem that modern cities struggle with, which is loneliness sitting one wall away from company. The system has no organizer, no schedule, and no cost, yet it guarantees that every household is checked on, fed, and known. When my friends abroad tell me they have never spoken to their neighbors, I tell them about the traveling plate. A few have actually tried it, and they report that the first knock is awkward and every knock after that is easy."
+    },
+    {
+      "id": "ss4",
+      "prompt": "Some people plan everything carefully, while others prefer to be spontaneous. Which kind of person are you? Give examples.",
+      "model": "I am a planner by nature, though life has taught me to leave gaps in the plan on purpose. My natural instinct is visible in small things: my week is written out on Sunday evening, my travel packing starts three days early, and I have never once run to catch a train. Planning genuinely calms me, because a written plan is a worry that has been moved out of my head onto paper. However, I learned the limits of this personality on a trip a few years ago, when my perfectly scheduled itinerary was destroyed by a canceled ferry. My spontaneous friend treated the disaster as a lottery win, and the unplanned island we ended up on became the best part of the trip, which annoyed me philosophically for months. Since then I practice what I call planned spontaneity, which sounds like a contradiction but works. The skeleton of my week or my trip is fixed, but I deliberately schedule empty blocks where anything is allowed to happen. So my honest answer is that I am a planner who has learned to plan for surprises, and that compromise gets me the calm without missing the lottery wins."
+    },
+    {
+      "id": "ss5",
+      "prompt": "Describe a problem in your community or city and suggest how it could be solved.",
+      "model": "The problem that bothers me most in my city is how hostile it has become to pedestrians. Over the last decade, cars have quietly conquered everything: sidewalks are used as parking, crossings are faded and rare, and walking two kilometers can involve more danger and detours than a hike in the mountains. The consequences are bigger than inconvenience. Elderly people stop going out, children are driven everywhere, small street shops lose the foot traffic they depend on, and everyone becomes a little more isolated and a little less healthy. My suggested solution starts small and cheap, because grand transport plans in my city have a history of dying in drawers. First, actually enforce the existing parking rules, since a sidewalk that exists on paper but holds four cars is not a sidewalk. Second, repaint and raise the crossings near schools and markets, where walkers are most concentrated. Third, close one central street to cars on Sundays as an experiment; other cities found that shopkeepers who fought the idea became its loudest defenders within a year. None of this requires new technology or heroic budgets. It requires deciding that a person on foot is also traffic."
+    },
+    {
+      "id": "ss6",
+      "prompt": "Talk about something you own that has no great money value but means a lot to you. What is it, and what is its story?",
+      "model": "The object is a cheap yellow teacup with a badly glued handle, and its market value is honestly below zero, since a stranger would pay to have it removed. It was my grandmother's everyday cup, the one she used every single morning for decades, and it entered my life on the day we cleared her apartment. The family was carefully dividing the valuable things, the carpets and the jewelry, and I surprised everyone, including myself, by asking only for the yellow cup from the kitchen. The handle broke during the move, and I repaired it clumsily with glue, which somehow made it more hers, because she repaired everything and threw away nothing. Now the cup lives on my desk and works as a small time machine. Drinking tea from it on difficult mornings puts me back in her kitchen, where problems were always cut down to size with one sentence and a biscuit. My relatives got objects worth real money, and I sincerely think I got the best deal in the apartment. Value and price, I have learned, are different currencies, and the exchange rate depends entirely on memory."
+    },
+    {
+      "id": "ss7",
+      "prompt": "Do you think it is better to be a specialist who knows one thing deeply, or a generalist who knows many things broadly? Explain your view.",
+      "model": "My honest answer is that the modern world quietly punishes the pure versions of both and rewards a specific hybrid. I used to believe in deep specialization, because every hero in my field seemed to be a person who knew one thing better than anyone alive. But watching real careers changed my mind. The pure specialists I know are brilliant inside their territory and strangely helpless one step outside it, and when technology shifts, entire territories can sink. Meanwhile, pure generalists are wonderful at dinner parties and struggle to be the person a team truly cannot replace, because knowing a little of everything means competing with everyone. The pattern that actually wins, in my observation, is one deep root plus wide branches: master one field properly, then deliberately learn the neighboring ones at a working level. A programmer who understands design, a doctor who can explain statistics, a builder who reads contracts, these people become translators between specialist worlds, and translators are always scarce. So if I had to advise a young person, I would say go deep first, because depth teaches you what mastery even feels like, then spend the rest of your career growing sideways."
+    },
+    {
+      "id": "ss8",
+      "prompt": "Describe a time when you changed your opinion about something important. What did you believe before, and what changed your mind?",
+      "model": "For most of my life I believed that talent was the main ingredient of success, and this belief was quietly poisonous. It sorted the world into people who could and people who could not, and whenever I struggled with something new, the belief whispered that I had simply been born into the wrong group, so quitting was rational. What changed my mind was not a book, although books later gave the change its vocabulary. It was watching my roommate learn the guitar. He was, objectively, the least musical person I had ever met; his early practice sessions were a form of domestic torture. But he practiced twenty minutes every day with total indifference to how bad he sounded, and I had a front-row seat for eighteen months. The terrible sounds became rough songs, and the rough songs became genuinely good music, in one continuous line with no magic moment. Watching the entire process from zero destroyed my old belief more effectively than any argument, because I could not point to where the talent had entered the room. Now I believe talent mostly determines your starting point, while boring, repeated practice determines almost everything after that, and I find this new belief far more useful, because a starting point is an excuse, but practice is a decision."
+    },
+    {
+      "id": "ss9",
+      "prompt": "Talk about the role money plays in happiness. Can money buy happiness? Explain your opinion with examples.",
+      "model": "My view is that money buys the absence of certain miseries, which is related to happiness but not the same thing. I have lived on both sides of enough, and the difference was real: when money was tight, a broken washing machine was a crisis that ate a week of sleep, and when money became comfortable, the same event shrank to a phone call. That upgrade, from crisis to inconvenience, is genuinely purchasable, and people who romantically claim money does not matter have usually never chosen between medicine and rent. However, above the level where problems stop being emergencies, I watched the machine break down. A salary increase in my own life produced exactly three weeks of joy before becoming the invisible new normal, while the things that reliably still produce happiness, long dinners with friends, walking with my father, finishing something difficult, cost almost nothing and cannot be delegated to money at all. The trap is that earning more usually taxes exactly those cheap sources, taking the evenings and energy they run on. So my conclusion is practical: money buys the stage on which happiness can happen, and beyond that, paying for a bigger stage while the actors are exhausted is the most common bad trade in modern life."
+    },
+    {
+      "id": "ss10",
+      "prompt": "Describe what makes a good teacher. Use examples from your own experience as a student.",
+      "model": "I have collected teachers for over twenty years as a student, and the good ones shared three qualities that had surprisingly little to do with knowledge. The first is that they taught students, not subjects. My best mathematics teacher spent the first week not on equations but on learning who was afraid, and he calibrated every question so that struggling students received questions they could win. Confidence, he understood, is a prerequisite for mathematics, not a reward for it. The second quality is honest enthusiasm, which cannot be faked past week three. My literature teacher would occasionally stop mid-sentence, genuinely stunned by a line she had read a hundred times, and that authentic reaction taught us more about why literature matters than any analysis did. Enthusiasm is contagious in a way information is not. The third and rarest quality is comfort with being wrong. One physics teacher, corrected by a student, walked to the board and celebrated the correction publicly, and in that single moment he taught an entire room that truth outranks ego. Knowledge can be downloaded from anywhere now, so the teachers who matter are the ones teaching the things that cannot be: courage, curiosity, and honesty in front of a hard problem."
+    },
+    {
+      "id": "ss11",
+      "prompt": "Describe a risk you took in your life. What made it risky, and how did it turn out?",
+      "model": "The biggest risk I ever took was leaving a permanent job to go back to studying at twenty-seven, and what made it risky was arithmetic, plain and simple. I had savings for exactly fourteen months of careful living, the program lasted twelve, and there was no guarantee of work at the end. My parents reacted as if I had announced a plan to become a pirate. The risk had a second layer too, a social one: everyone my age was getting promoted and buying furniture while I would be sitting in classrooms with people five years younger. What pushed me over the edge was a simple calculation about regret. The money I might lose was countable; the decades of wondering what if were not. The outcome, I admit, involved luck: the field I retrained for grew quickly, and within two years I was earning more than my old path would have paid. But here is the honest part: even before the outcome arrived, I knew the decision was right, because for the first time in years I was tired from effort instead of tired from boredom. Good risks feel like that."
+    },
+    {
+      "id": "ss12",
+      "prompt": "How important is luck compared to hard work in a person's success? Explain your view with examples.",
+      "model": "I used to give the motivational answer, that hard work beats everything, but experience has made me more honest: success is hard work multiplied by luck, and neither factor survives a zero. The role of hard work is obvious and real; I have never met a successful person who did not put in brutal hours at some stage. But I have also met plenty of hardworking people who never got the multiplication. Two friends of mine finished the same program with the same grades and the same energy. One happened to interview at a small company two months before it exploded into a giant, and the other happened to graduate straight into a hiring freeze. A decade later, their careers are on different planets, and the honest explanation is timing, not talent. Where I land is practical rather than philosophical. Luck decides which doors appear; work decides whether you are ready when one opens, and preparation also buys you more attempts, which quietly improves your odds. So work as if everything depends on effort, but stay humble about your victories, because somewhere a harder worker got worse weather."
+    },
+    {
+      "id": "ss13",
+      "prompt": "If you could give one piece of advice to your younger self, what would it be, and why?",
+      "model": "The advice I would give my younger self is short: ask the question. Behind those three words is a pattern that cost me years. Young me treated not knowing as something shameful, to be hidden at all costs, so I sat through lectures confused rather than raise a hand, nodded in meetings while understanding half, and once spent three weeks stuck on a task that a senior colleague later solved in four minutes, cheerfully, over coffee. I believed asking would expose me as the least capable person in the room. The comedy, which took me a decade to see, is that the most capable people in every room were the ones asking constantly. Questions were not leaking their ignorance; questions were how they got that way in the first place. The turning point came when a mentor told me something I now repeat to every junior colleague: you can look slightly foolish for one minute or stay actually ignorant for a year, and only one of those compounds. If younger me had learned that at eighteen instead of twenty-eight, I honestly believe every part of my life would have arrived sooner."
+    },
+    {
+      "id": "ss14",
+      "prompt": "Would you like to live in a foreign country for several years? Discuss the advantages and disadvantages as you see them.",
+      "model": "My answer is yes, and it is an informed yes, because I have watched several close friends do it and report back honestly. The advantages go deeper than the obvious career and language benefits. Living abroad seems to work like a mirror you cannot avoid: my friends discovered which of their habits were personality and which were just local custom absorbed without consent. All of them became noticeably better at solving problems, because abroad, even a pharmacy visit is a small puzzle, and puzzles build muscles. The disadvantages, though, deserve honest weight. Distance converts family emergencies into helpless phone calls, and my friend who missed her grandmother's final months still carries that. There is also a quieter cost nobody advertises: after enough years away, you become slightly foreign everywhere, a guest in your new country and a visitor in your old one. Friendships at home continue in your absence and leave a you-shaped gap that slowly closes. My conclusion is that some years abroad are a priceless education, but I would go with a return ticket in mind, because roots, once fully cut, are hard to regrow."
+    },
+    {
+      "id": "ss15",
+      "prompt": "Is it better to have a few close friends or many casual acquaintances? Explain your view.",
+      "model": "My answer is a few close friends, but with a defense of acquaintances at the end, because I think the usual version of this debate undervalues them. Close friends are the people who function when life breaks. When my father was in the hospital, exactly three people appeared without being asked, brought food, and sat with me in silence, and no network of two hundred pleasant contacts could have replaced any one of them. Depth also does something breadth cannot: a friend who has known you for fifteen years can tell you the truth about yourself, and will, which may be friendship's most valuable and least comfortable service. That said, acquaintances are not failed friendships; they are a different tool entirely. Research on job hunting famously found that opportunities flow through weak ties, because close friends know what you already know, while acquaintances connect you to new worlds. My barber's cousin once found me an apartment, which no close friend managed. So my honest architecture is a small, deep core that gets real time and loyalty, surrounded by a wide, warm periphery maintained with small kindnesses. Confusing the two layers is where people get hurt."
+    },
+    {
+      "id": "ss16",
+      "prompt": "Describe a time when you failed at something that mattered to you. What happened, and what did the failure teach you?",
+      "model": "The failure that mattered most was my first attempt at a professional certification exam, which I failed not narrowly but spectacularly, and in front of witnesses, since three colleagues took it the same day and passed. What happened is embarrassingly clear in hindsight. I had confused familiarity with knowledge: I read the materials twice, felt the warm glow of recognizing everything, and walked in confident. The exam did not ask whether I recognized things; it asked whether I could produce them from an empty page, and I could not. The weeks afterward were unpleasant in an instructive way, because everyone knew, and the sky failed to fall. My reputation survived, colleagues shared their own failure stories without being asked, and the catastrophe I had imagined turned out to be roughly one month of mild awkwardness. On the second attempt I studied completely differently, testing myself constantly instead of rereading, and passed near the top. The technical lesson was about how memory actually works. The bigger lesson was about fear: failure at something hard is mostly survivable and quickly becomes a story, so the real risk in most lives is not failing, but choosing tests easy enough to guarantee passing."
+    },
+    {
+      "id": "ss17",
+      "prompt": "How important is spending time in nature for people who live in cities? Explain your opinion.",
+      "model": "I think time in nature is close to a biological requirement for city people, not a lifestyle decoration, and I say this as a committed city dweller. My evidence starts personal. I once went eleven weeks without leaving pavement, during a busy work stretch, and by the end I was sleeping badly, snapping at people, and staring at screens with a strange flatness. One weekend of hiking repaired more than the previous month of so-called rest at home had. Afterward I started noticing the research, which says the same thing in graphs: measurable drops in stress hormones after time among trees, better attention in children, faster recovery in hospital patients who merely see greenery from a window. The mechanism seems obvious once stated: our brains developed in nature over millions of years and moved to cities last Tuesday, evolutionarily speaking, so concrete environments keep our alert systems slightly switched on at all times. The practical conclusion is that nature should be scheduled like exercise, not awaited like a holiday. A weekly hour in a real park, feet on actual ground, is maintenance for city minds, and the cheapest medicine most of us keep refusing."
+    },
+    {
+      "id": "ss18",
+      "prompt": "When choosing a career, should young people follow their passion or choose a secure and well-paid path? Explain your view.",
+      "model": "I distrust both standard answers here, because I have watched each one fail people I care about. Follow your passion failed my friend who turned his love of cooking into a restaurant and watched fourteen-hour shifts grind the love into hatred; the passion did not survive becoming a boss's demands and a landlord's rent. Choose security failed my cousin, who picked law for the salary and now, at thirty-five, describes his weekdays as serving a sentence with good pay. The advice I actually believe in is a third option: follow your energy into competence, and let passion grow out of mastery. Notice which activities leave you stronger rather than drained, get genuinely good at one of them that the world also pays for, and passion usually arrives as a result of skill, not a precondition for it. People rarely love what they do badly. Security, meanwhile, is not a salary number; it is the ability to adapt when industries shift, which skill and energy provide better than any safe-looking job title. So my answer to a young person is neither dream nor settle. It is: build, and watch what building does to you."
+    }
+  ]
+}

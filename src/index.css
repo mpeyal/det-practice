@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* Duolingo-ish look: rounded, friendly, high-contrast */
+:root {
+  --det-green: #58cc02;
+  --det-green-dark: #46a302;
+  --det-blue: #1cb0f6;
+  --det-red: #ff4b4b;
+  --det-yellow: #ffc800;
+  --det-ink: #3c3c3c;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: "Segoe UI", ui-rounded, "Nunito", system-ui, -apple-system, sans-serif;
+  background: #f7f7f5;
+  color: var(--det-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Primary chunky button */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-extrabold uppercase tracking-wide text-white transition select-none cursor-pointer;
+  background: var(--det-green);
+  box-shadow: 0 4px 0 var(--det-green-dark);
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--det-green-dark); }
+.btn:disabled { background: #e5e5e5; box-shadow: 0 4px 0 #cfcfcf; color: #afafaf; cursor: not-allowed; transform: none; }
+
+.btn-blue { background: var(--det-blue); box-shadow: 0 4px 0 #1899d6; }
+.btn-blue:active { box-shadow: 0 1px 0 #1899d6; }
+.btn-red { background: var(--det-red); box-shadow: 0 4px 0 #d33131; }
+.btn-red:active { box-shadow: 0 1px 0 #d33131; }
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-extrabold uppercase tracking-wide transition select-none cursor-pointer;
+  background: #fff; color: var(--det-blue);
+  border: 2px solid #e5e5e5; border-bottom-width: 4px;
+}
+.btn-ghost:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+/* Card */
+.card {
+  @apply rounded-3xl bg-white p-6;
+  border: 2px solid #e8e8e6;
+  border-bottom-width: 4px;
+}
+
+/* Choice tile (multiple choice) */
+.choice {
+  @apply w-full text-left rounded-2xl px-4 py-3 font-semibold transition cursor-pointer;
+  background: #fff; border: 2px solid #e5e5e5; border-bottom-width: 4px;
+}
+.choice:hover { background: #f3fbff; border-color: #bde8ff; }
+.choice.selected { background: #ddf4ff; border-color: var(--det-blue); color: #1899d6; }
+.choice.correct { background: #d7ffb8; border-color: var(--det-green); color: #3f8f00; }
+.choice.wrong { background: #ffdfe0; border-color: var(--det-red); color: #d33131; }
+
+/* Letter boxes for typed gap answers */
+.gapbox {
+  @apply inline-block text-center font-bold rounded-md;
+  width: 1.5rem; height: 2rem; line-height: 2rem;
+  border: 2px solid #cfcfcf; background: #fffdf5; margin: 0 1px;
+  caret-color: var(--det-blue);
+}
+.gapbox:focus { outline: none; border-color: var(--det-blue); background: #f0faff; }
+
+/* Highlightable passage selection color */
+::selection { background: #ffe9a8; }
+
+.hl-answer { background: #ffe9a8; border-radius: 4px; padding: 0 2px; }
+
+/* Simple progress bar */
+.pbar { @apply h-4 w-full rounded-full overflow-hidden; background: #e5e5e5; }
+.pbar > div { @apply h-full rounded-full transition-all; background: var(--det-green); }
+
+/* Pulsing record dot */
+@keyframes pulse-rec { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.rec-dot { animation: pulse-rec 1.2s infinite; }
