@@ -4,13 +4,17 @@ A step-by-step guide to install and run the DET Practice app on **macOS** and
 **Windows**. No prior coding experience needed — just follow the steps for your
 system.
 
-There are three ways to run it, from simplest to fullest:
+There are a few ways to run it, from simplest to fullest:
 
 | Mode | AI grading? | Best for |
 |------|-------------|----------|
+| **Desktop installer (.exe / .dmg)** | ✅ Your Claude subscription | **Double-click install, no terminal** |
 | **A. Just open the built file** | Self-score only | Quick offline practice, USB stick |
 | **B. `npm run dev`** | API key (optional) | Trying it / developing |
-| **C. `npm run serve`** | ✅ Your Claude subscription, one-click | Full experience |
+| **C. `npm run serve`** | ✅ Your Claude subscription, one-click | Full experience from source |
+
+> **Want the double-click installer?** Jump to
+> [**Desktop app (installer)**](#desktop-app-installer) below — no coding needed.
 
 ---
 
@@ -184,6 +188,58 @@ Run `npm run serve` (or `npm run preview`) and open the localhost URL in
 like a native app that launches offline.
 
 - **macOS Safari:** File → **Add to Dock**.
+
+---
+
+## Desktop app (installer)
+
+Prefer a real **double-click installer** instead of the terminal? The app is
+packaged with Electron into:
+
+- **Windows:** `DET Practice Setup <version>.exe` — double-click, it installs
+  and adds a Start-menu shortcut.
+- **macOS:** `DET Practice-<version>.dmg` — double-click, drag the app to
+  Applications.
+
+The desktop app runs everything internally (the same offline exams **and**
+one-click Claude-subscription grading — it starts the local backend for you),
+so there's nothing else to run.
+
+### Get the installer (no coding)
+
+Installers are built automatically in the cloud by GitHub Actions:
+
+1. On the GitHub repo, open the **Actions** tab → **Build desktop installers**
+   → **Run workflow** (or push a tag like `v1.0.0`).
+2. When it finishes (~5 min), download the artifact for your OS from that run
+   (or, if you pushed a tag, from the repo's **Releases** page).
+3. Double-click the `.exe` (Windows) or `.dmg` (macOS) to install.
+
+> First launch may show an "unknown developer" warning (the app is unsigned —
+> no paid Apple/Microsoft certificate). **Windows:** click *More info → Run
+> anyway*. **macOS:** right-click the app → *Open* → *Open*.
+
+### Build the installer yourself (optional)
+
+From a clone with dependencies installed (Steps 1–2):
+
+```bash
+npm run dist          # builds an installer for YOUR current OS into ./release
+npm run dist:win      # Windows .exe   (must run on Windows)
+npm run dist:mac      # macOS .dmg      (must run on a Mac — Apple requirement)
+```
+
+The finished installer appears in the **`release/`** folder. Note: a Windows
+build may need **Developer Mode** enabled (Settings → Privacy & security → For
+developers) so the build tools can create symlinks; the cloud build above
+avoids this entirely.
+
+### Enable subscription grading in the desktop app
+
+Same as Step 4, Option 1: install Claude Code and run `claude auth login` once.
+The desktop app auto-detects your login (including the copy bundled with the
+VS Code extension) and the **"✨ Grade with Claude (subscription)"** button
+appears on writing/speaking reviews.
 
 ---
 

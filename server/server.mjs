@@ -20,7 +20,7 @@ import { spawn } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { existsSync, readdirSync } from 'node:fs'
 import { join, extname, normalize, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import os from 'node:os'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -221,11 +221,11 @@ const MIME = {
   '.woff2': 'font/woff2', '.ico': 'image/x-icon', '.txt': 'text/plain', '.md': 'text/markdown',
 }
 
-async function serveStatic(req, res) {
+async function serveStatic(req, res, distDir) {
   let path = decodeURIComponent(new URL(req.url, 'http://x').pathname)
   if (path === '/') path = '/index.html'
-  const full = normalize(join(DIST, path))
-  if (!full.startsWith(DIST)) { res.writeHead(403).end('forbidden'); return }
+  const full = normalize(join(distDir, path))
+  if (!full.startsWith(distDir)) { res.writeHead(403).end('forbidden'); return }
   try {
     const body = await readFile(full)
     res.writeHead(200, { 'content-type': MIME[extname(full)] || 'application/octet-stream' })
@@ -233,7 +233,7 @@ async function serveStatic(req, res) {
   } catch {
     // SPA fallback
     try {
-      const body = await readFile(join(DIST, 'index.html'))
+      const body = await readFile(join(distDir, 'index.html'))
       res.writeHead(200, { 'content-type': 'text/html' })
       res.end(body)
     } catch {
@@ -247,7 +247,8 @@ function sendJson(res, code, obj) {
   res.end(JSON.stringify(obj))
 }
 
-const server = createServer(async (req, res) => {
+function makeHandler(distDir) {
+  return async (req, res) => {
   const url = new URL(req.url, 'http://x')
 
   if (req.method === 'OPTIONS' && url.pathname.startsWith('/api')) {
@@ -331,11 +332,29 @@ const server = createServer(async (req, res) => {
     return
   }
 
-  serveStatic(req, res)
-})
+  serveStatic(req, res, distDir)
+  }
+}
 
-server.listen(PORT, () => {
-  console.log(`\n  DET Practice server → http://localhost:${PORT}`)
-  console.log(`  AI grading backend: ${CLI_FOUND ? `claude CLI ✓ (${CLAUDE})` : 'NOT found — offline/self-score only'}`)
-  console.log(`  (open the URL above; writing/speaking will grade with your Claude subscription)\n`)
-})
+/**
+ * Start the server. Returns a Promise<{ server, port }>.
+ * - port 0 picks a free port (used by the Electron desktop wrapper).
+ * - distDir defaults to ../dist relative to this file (used by `npm run serve`).
+ */
+export function startServer({ port = PORT, distDir = DIST } = {}) {
+  const server = createServer(makeHandler(distDir))
+  return new Promise((resolve) => {
+    server.listen(port, () => {
+      const actual = server.address().port
+      console.log(`\n  DET Practice server → http://localhost:${actual}`)
+      console.log(`  AI grading backend: ${CLI_FOUND ? `claude CLI ✓ (${CLAUDE})` : 'NOT found — offline/self-score only'}`)
+      resolve({ server, port: actual })
+    })
+  })
+}
+
+// Auto-start only when run directly (npm run server / serve), not when imported
+// by the Electron main process.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  startServer({ port: PORT, distDir: DIST })
+}
