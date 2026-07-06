@@ -20,6 +20,13 @@
 //   Both — Chrome's "Google US English" voices are decent everywhere.
 
 import { getSettings } from './storage.js'
+import { speakNeural, stopNeural, neuralReady, loadNeural, isNeuralSpeaking, STUDIO_VOICES } from './neuralTts.js'
+
+// Which engine speaks: 'neural' = bundled Studio voices (Piper — identical
+// professional quality on Mac/Windows/web), 'system' = OS voices.
+// While a Studio voice is still downloading, speak() falls back to the system
+// voice for that utterance so nothing ever blocks.
+function engine() { return getSettings().ttsEngine || 'neural' }
 
 let cachedVoices = []
 
@@ -113,9 +120,14 @@ function hashStr(s) {
  * Voice for a given question (keyed by item id): rotates through the pool so
  * consecutive listening items use different speakers. With "vary voices" off,
  * always the pinned/default voice.
+ * Studio engine: rotates the female/male studio pair by key.
  */
 export function voiceForKey(key) {
   const { varyVoices } = getSettings()
+  if (engine() === 'neural') {
+    const gender = varyVoices && hashStr(key) % 2 ? 'male' : 'female'
+    return { neuralGender: gender, name: STUDIO_VOICES[gender].label }
+  }
   if (!varyVoices) return pickVoice()
   const pool = voicePool()
   if (!pool.length) return null
@@ -124,6 +136,12 @@ export function voiceForKey(key) {
 
 /** Female/male pair for two-speaker conversations (partner first). */
 export function conversationVoices() {
+  if (engine() === 'neural') {
+    return [
+      { neuralGender: 'female', name: STUDIO_VOICES.female.label },
+      { neuralGender: 'male', name: STUDIO_VOICES.male.label },
+    ]
+  }
   const f = voiceOfGender('female')
   const m = voiceOfGender('male')
   if (f && m && f.name !== m.name) return [f, m]
@@ -163,6 +181,18 @@ function chunkText(text) {
 
 /** Speak text; resolves when finished (or immediately if unsupported). */
 export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
+  // Studio (neural) engine first — professional, identical on every platform
+  if (engine() === 'neural') {
+    const gender = voice?.neuralGender
+      || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
+      || 'female'
+    if (neuralReady(gender) || neuralReady(gender === 'female' ? 'male' : 'female')) {
+      stopSpeaking()
+      return speakNeural(text, { gender, rate })
+    }
+    // not downloaded yet: kick the download and fall back to the system voice
+    loadNeural(gender).catch(() => {})
+  }
   return new Promise((resolve) => {
     if (!ttsSupported()) { resolve(false); return }
     const synth = window.speechSynthesis
@@ -170,7 +200,14 @@ export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
     synth.cancel()
     stopKeepAlive()
 
-    const v = voice || (voiceKey != null ? voiceForKey(voiceKey) : pickVoice())
+    // resolve a REAL system voice (a studio marker can land here when the
+    // studio voice is still downloading — map it to a same-gender system voice)
+    let v = voice
+    if (v && v.neuralGender) v = voiceOfGender(v.neuralGender)
+    if (!v) {
+      const k = voiceKey != null ? voiceForKey(voiceKey) : pickVoice()
+      v = k && k.neuralGender ? voiceOfGender(k.neuralGender) : k
+    }
     const chunks = chunkText(text)
     let i = 0
 
@@ -201,9 +238,10 @@ export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
 export function stopSpeaking() {
   _speakToken++ // invalidate any in-flight sequence
   stopKeepAlive()
+  stopNeural()
   if (ttsSupported()) window.speechSynthesis.cancel()
 }
 
 export function isSpeaking() {
-  return ttsSupported() && window.speechSynthesis.speaking
+  return isNeuralSpeaking() || (ttsSupported() && window.speechSynthesis.speaking)
 }

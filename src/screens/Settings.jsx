@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
 import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
+import { STUDIO_VOICES, loadNeural, neuralReady, speakNeural, stopNeural, storedNeuralVoices, onNeuralProgress } from '../lib/neuralTts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
 /* ---------- app self-update (desktop app only) ---------- */
@@ -258,25 +259,109 @@ function VoiceSection({ s, setS }) {
     <div>
       <h2 className="font-black">Listening voices</h2>
       <p className="mt-1 text-sm font-semibold text-neutral-500">
-        The app keeps a pool of your best voices: dictation questions rotate between speakers, and conversations use a
-        female/male pair — like the real test. Pin specific voices below, or leave on Auto.
+        Dictation questions rotate between speakers, and conversations use a female/male pair — like the real test.
       </p>
-      <div className={`mt-2 rounded-xl px-3 py-2 text-sm font-bold ${natural > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
-        {natural > 0
-          ? `✅ ${natural} natural-quality voice${natural > 1 ? 's' : ''} detected on this browser.`
-          : isMac
-            ? '⚠️ Only basic voices detected. On macOS: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download “Enhanced/Premium” voices (e.g. Ava, Evan, Zoe) — they then appear here in Safari and Chrome.'
-            : '⚠️ Only basic voices detected. On Windows, open the app in Microsoft Edge for built-in neural “(Natural)” voices.'}
+
+      {/* engine choice: Studio (neural, same everywhere) vs System (OS voices) */}
+      <div className="mt-3 flex gap-2">
+        <button
+          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine !== 'system' ? 'border-[#58cc02] bg-[#d7ffb8] text-[#3f8f00]' : 'border-neutral-200 bg-white text-neutral-500'}`}
+          onClick={() => set({ ttsEngine: 'neural' })}>
+          🎧 Studio voices (recommended)
+        </button>
+        <button
+          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine === 'system' ? 'border-[#1cb0f6] bg-[#ddf4ff] text-[#1899d6]' : 'border-neutral-200 bg-white text-neutral-500'}`}
+          onClick={() => set({ ttsEngine: 'system' })}>
+          System voices
+        </button>
       </div>
-      <div className="mt-3 space-y-2">
-        <VoiceSelect label="Female voice" gender="female" voices={voices} value={s.voiceFemale} onChange={v => set({ voiceFemale: v })} />
-        <VoiceSelect label="Male voice" gender="male" voices={voices} value={s.voiceMale} onChange={v => set({ voiceMale: v })} />
-      </div>
+
+      {s.ttsEngine !== 'system' ? (
+        <StudioVoices />
+      ) : (
+        <>
+          <div className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${natural > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
+            {natural > 0
+              ? `✅ ${natural} natural-quality voice${natural > 1 ? 's' : ''} detected on this browser.`
+              : isMac
+                ? '⚠️ Only basic voices detected. On macOS: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download “Enhanced/Premium” voices (e.g. Ava, Evan, Zoe) — they then appear here in Safari and Chrome.'
+                : '⚠️ Only basic voices detected. On Windows, open the app in Microsoft Edge for built-in neural “(Natural)” voices.'}
+          </div>
+          <div className="mt-3 space-y-2">
+            <VoiceSelect label="Female voice" gender="female" voices={voices} value={s.voiceFemale} onChange={v => set({ voiceFemale: v })} />
+            <VoiceSelect label="Male voice" gender="male" voices={voices} value={s.voiceMale} onChange={v => set({ voiceMale: v })} />
+          </div>
+        </>
+      )}
+
       <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm font-bold text-neutral-600">
         <input type="checkbox" className="h-4 w-4 accent-[#58cc02]" checked={s.varyVoices}
           onChange={e => set({ varyVoices: e.target.checked })} />
         Vary the speaker between listening questions (recommended — like the real exam)
       </label>
+    </div>
+  )
+}
+
+/** Studio (Piper neural) voices: download status + test per voice. */
+function StudioVoices() {
+  const [stored, setStored] = useState({ female: false, male: false })
+  const [pct, setPct] = useState({ female: null, male: null }) // null = idle
+  const [testing, setTesting] = useState('')
+
+  useEffect(() => {
+    storedNeuralVoices().then(setStored)
+    const off = onNeuralProgress((gender, p) => {
+      setPct(prev => ({ ...prev, [gender]: p }))
+      if (p >= 100) storedNeuralVoices().then(setStored)
+    })
+    return () => { off(); stopNeural() }
+  }, [])
+
+  const get = async (gender) => {
+    setPct(prev => ({ ...prev, [gender]: 0 }))
+    try { await loadNeural(gender) } catch { setPct(prev => ({ ...prev, [gender]: null })) }
+  }
+  const test = async (gender) => {
+    setTesting(gender)
+    try {
+      await loadNeural(gender)
+      await speakNeural(`Hello! I am the ${gender === 'female' ? 'female' : 'male'} studio voice. This is exactly how the listening questions will sound.`, { gender, rate: getSettings().ttsRate })
+    } finally { setTesting('') }
+  }
+
+  const Row = ({ gender }) => {
+    const ready = neuralReady(gender) || stored[gender]
+    const loading = pct[gender] != null && pct[gender] < 100 && !ready
+    return (
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border-2 border-[#e8e8e6] p-3">
+        <span className="w-32 text-sm font-extrabold text-neutral-600">{STUDIO_VOICES[gender].label}</span>
+        {ready ? (
+          <span className="rounded-full bg-[#d7ffb8] px-2.5 py-0.5 text-xs font-black text-[#3f8f00]">ready · works offline</span>
+        ) : loading ? (
+          <div className="flex flex-1 items-center gap-2">
+            <div className="pbar !h-2.5 flex-1"><div style={{ width: `${pct[gender]}%` }} /></div>
+            <span className="text-xs font-bold text-neutral-400">{pct[gender]}%</span>
+          </div>
+        ) : (
+          <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => get(gender)}>⬇️ Download (~60 MB, one time)</button>
+        )}
+        <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={testing === gender} onClick={() => test(gender)}>
+          {testing === gender ? '🔊 …' : '🔊 Test'}
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-3 space-y-2">
+      <p className="text-xs font-semibold text-neutral-500">
+        Professional neural voices built into the app — the SAME voice on Mac, Windows and web, no matter what the
+        computer has installed. Each downloads once (~60 MB) and then works fully offline. Until a studio voice is
+        ready, questions automatically use the system voice so nothing is ever blocked.
+      </p>
+      <Row gender="female" />
+      <Row gender="male" />
     </div>
   )
 }
