@@ -59,15 +59,15 @@ function UpdateSection() {
           <>
             <span className="text-sm font-black text-neutral-700">Update available: v{info.latest}</span>
             <button className="btn !py-2 text-sm" onClick={run}>
-              {info.canAutoInstall ? 'Update now' : 'Download update'}
+              {info.canAutoInstall ? 'Update & restart' : 'Download update'}
             </button>
-            {!info.canAutoInstall && <span className="text-xs font-semibold text-neutral-400">(macOS installs manually — it’ll open the download.)</span>}
+            {!info.canAutoInstall && <span className="text-xs font-semibold text-neutral-400">(on macOS this opens the download — drag it to Applications to finish)</span>}
           </>
         )}
         {state === 'downloading' && (
           <div className="w-full">
             <div className="pbar !h-3"><div style={{ width: `${pct}%` }} /></div>
-            <div className="mt-1 text-xs font-bold text-neutral-500">Downloading update… {pct}% — the app will restart to install.</div>
+            <div className="mt-1 text-xs font-bold text-neutral-500">Downloading v{info?.latest}… {pct}% — it installs silently and the app restarts.</div>
           </div>
         )}
       </div>

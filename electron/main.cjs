@@ -83,7 +83,8 @@ function registerUpdateIPC() {
     const dest = path.join(os.tmpdir(), `ParrotReady-Setup-${Date.now()}.exe`)
     try {
       await download(url, dest, p => mainWindow?.webContents.send('update:progress', p))
-      spawn(dest, [], { detached: true, stdio: 'ignore' }).unref()
+      // /S = silent NSIS install (no wizard); the installer relaunches the app
+      spawn(dest, ['/S'], { detached: true, stdio: 'ignore' }).unref()
       setTimeout(() => app.quit(), 500)
       return { installing: true }
     } catch (e) {
