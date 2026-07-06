@@ -33,6 +33,7 @@
     "appId": "com.detpractice.app",
     "productName": "DET Practice",
     "asar": false,
+    "afterPack": "electron/afterPack.cjs",
     "directories": {
       "output": "release"
     },
@@ -53,7 +54,6 @@
     "mac": {
       "target": "dmg",
       "category": "public.app-category.education",
-      "identity": null,
       "gatekeeperAssess": false
     },
     "linux": {
