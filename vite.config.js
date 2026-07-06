@@ -18,9 +18,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg'],
       manifest: {
-        name: 'DET Practice — Offline Duolingo English Test Trainer',
-        short_name: 'DET Practice',
-        description: 'Offline-first practice app for the 2026 Duolingo English Test format',
+        name: 'ParrotReady — Duolingo English Test Practice',
+        short_name: 'ParrotReady',
+        description: 'Offline-first practice app for the 2026 Duolingo English Test (DET) format',
         theme_color: '#58cc02',
         background_color: '#f7f7f5',
         display: 'standalone',

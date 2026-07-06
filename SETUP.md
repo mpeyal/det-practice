@@ -1,6 +1,6 @@
-# Setup Guide — DET Practice
+# Setup Guide — ParrotReady
 
-A step-by-step guide to install and run the DET Practice app on **macOS** and
+A step-by-step guide to install and run the ParrotReady app on **macOS** and
 **Windows**. No prior coding experience needed — just follow the steps for your
 system.
 
@@ -196,9 +196,9 @@ like a native app that launches offline.
 Prefer a real **double-click installer** instead of the terminal? The app is
 packaged with Electron into:
 
-- **Windows:** `DET Practice Setup <version>.exe` — double-click, it installs
+- **Windows:** `ParrotReady Setup <version>.exe` — double-click, it installs
   and adds a Start-menu shortcut.
-- **macOS:** `DET Practice-<version>.dmg` — double-click, drag the app to
+- **macOS:** `ParrotReady-<version>.dmg` — double-click, drag the app to
   Applications.
 
 The desktop app runs everything internally (the same offline exams **and**
@@ -224,10 +224,10 @@ Installers are built automatically in the cloud by GitHub Actions:
 >   Gatekeeper blocking the unsigned download, not real damage. Drag the app
 >   into **Applications**, then open **Terminal** and run:
 >   ```
->   xattr -cr "/Applications/DET Practice.app"
+>   xattr -cr "/Applications/ParrotReady.app"
 >   ```
 >   Then open the app normally. If it still refuses, also run
->   `codesign --force --deep -s - "/Applications/DET Practice.app"` and open again.
+>   `codesign --force --deep -s - "/Applications/ParrotReady.app"` and open again.
 
 ### Build the installer yourself (optional)
 

@@ -1,4 +1,4 @@
-# DET Practice — Offline Duolingo English Test Trainer
+# ParrotReady — Offline Duolingo English Test Trainer
 
 A fully offline-first practice app for the **2026 Duolingo English Test** format
 (post-July-2025 update): all 13 question types with real exam timing, a Full

@@ -30,8 +30,8 @@
     "vite-plugin-singlefile": "^2.3.3"
   },
   "build": {
-    "appId": "com.detpractice.app",
-    "productName": "DET Practice",
+    "appId": "com.parrotready.app",
+    "productName": "ParrotReady",
     "asar": false,
     "afterPack": "electron/afterPack.cjs",
     "directories": {

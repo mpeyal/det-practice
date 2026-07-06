@@ -12,8 +12,8 @@ export default function Home({ go }) {
         <div className="flex items-center gap-3">
           <img src="./icon.svg" alt="" className="h-12 w-12 rounded-2xl" />
           <div>
-            <h1 className="text-2xl font-black">DET Practice</h1>
-            <p className="text-sm font-bold text-neutral-400">Offline Duolingo English Test trainer · 2026 format</p>
+            <h1 className="text-2xl font-black">ParrotReady</h1>
+            <p className="text-sm font-bold text-neutral-400">Duolingo English Test practice · 2026 format</p>
           </div>
         </div>
         <button className="btn-ghost !px-4 !py-2" onClick={() => go({ name: 'settings' })}>⚙️ Settings</button>

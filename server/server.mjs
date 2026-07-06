@@ -16,7 +16,7 @@
 //   POST /api/grade   → { ok, text }  (body: { prompt, model })
 
 import { createServer } from 'node:http'
-import { spawn } from 'node:child_process'
+import { spawn, execSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { existsSync, readdirSync } from 'node:fs'
 import { join, extname, normalize, dirname } from 'node:path'
@@ -28,29 +28,55 @@ const ROOT = join(__dirname, '..')
 const DIST = join(ROOT, 'dist')
 const PORT = Number(process.env.PORT) || 8000
 
-// ---- locate the Claude Code CLI (PATH, standard installs, VS Code ext) ----
+// extra directories a CLI is commonly installed in but that a macOS/Linux GUI
+// app (launched from Dock/Finder) does NOT get on its PATH.
+const EXTRA_BIN_DIRS = (() => {
+  const home = os.homedir()
+  if (process.platform === 'win32') return []
+  return [
+    '/opt/homebrew/bin', '/usr/local/bin', '/usr/bin', '/bin',
+    join(home, '.claude', 'local'), join(home, '.claude', 'bin'),
+    join(home, '.local', 'bin'), join(home, '.npm-global', 'bin'),
+    join(home, '.bun', 'bin'), join(home, '.deno', 'bin'),
+    '/opt/homebrew/lib/node_modules/.bin', '/usr/local/lib/node_modules/.bin',
+  ]
+})()
+
+// ---- locate the Claude Code CLI (standard installs, VS Code ext, PATH) ----
 function findClaudeCli() {
   const home = os.homedir()
   const isWin = process.platform === 'win32'
   const exe = isWin ? 'claude.exe' : 'claude'
+  // 1) known install locations
   const direct = [
     join(home, '.claude', 'local', exe),
+    join(home, '.claude', 'bin', exe),
     join(home, '.local', 'bin', exe),
+    join(home, '.npm-global', 'bin', exe),
+    ...(isWin ? [] : EXTRA_BIN_DIRS.map(d => join(d, 'claude'))),
   ]
   for (const p of direct) if (existsSync(p)) return p
-  // VS Code / Cursor extension bundled binary (newest version wins)
+  // 2) VS Code / Cursor extension bundled binary (newest version wins)
   for (const ext of ['.vscode', '.vscode-insiders', '.cursor']) {
     const base = join(home, ext, 'extensions')
     if (!existsSync(base)) continue
-    const dirs = readdirSync(base)
-      .filter(d => d.startsWith('anthropic.claude-code-'))
-      .sort()
+    let dirs = []
+    try { dirs = readdirSync(base).filter(d => d.startsWith('anthropic.claude-code-')).sort() } catch {}
     for (const d of dirs.reverse()) {
       const p = join(base, d, 'resources', 'native-binary', exe)
       if (existsSync(p)) return p
     }
   }
-  // fall back to PATH (spawn with shell handles a .cmd shim on Windows)
+  // 3) macOS/Linux: ask the user's LOGIN shell where claude is (GUI apps get a
+  //    minimal PATH, so this finds Homebrew/nvm/npm installs the app can't see)
+  if (!isWin) {
+    try {
+      const shell = process.env.SHELL || '/bin/zsh'
+      const out = execSync(`${shell} -lic 'command -v claude' 2>/dev/null`, { encoding: 'utf8', timeout: 5000 }).trim()
+      if (out && existsSync(out)) return out
+    } catch { /* ignore */ }
+  }
+  // 4) last resort: bare name on PATH
   return 'claude'
 }
 
@@ -80,6 +106,13 @@ const account = {
 // environment for a spawned CLI, applying the per-app override
 function cliEnv() {
   const env = { ...process.env }
+  // ensure common install dirs are on PATH (GUI apps on macOS start minimal)
+  if (EXTRA_BIN_DIRS.length) {
+    const sep = ':'
+    const have = new Set((env.PATH || '').split(sep))
+    const add = EXTRA_BIN_DIRS.filter(d => !have.has(d))
+    if (add.length) env.PATH = [env.PATH, ...add].filter(Boolean).join(sep)
+  }
   if (account.overrideValue) {
     if (account.overrideKind === 'api_key') {
       env.ANTHROPIC_API_KEY = account.overrideValue
@@ -346,7 +379,7 @@ export function startServer({ port = PORT, distDir = DIST } = {}) {
   return new Promise((resolve) => {
     server.listen(port, () => {
       const actual = server.address().port
-      console.log(`\n  DET Practice server → http://localhost:${actual}`)
+      console.log(`\n  ParrotReady server → http://localhost:${actual}`)
       console.log(`  AI grading backend: ${CLI_FOUND ? `claude CLI ✓ (${CLAUDE})` : 'NOT found — offline/self-score only'}`)
       resolve({ server, port: actual })
     })

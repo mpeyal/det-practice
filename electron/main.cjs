@@ -3,8 +3,12 @@
 // port and loads it in a window, so everything works exactly like
 // `npm run serve`: fully offline exams + one-click Claude-subscription grading.
 
-const { app, BrowserWindow, session, shell, Menu } = require('electron')
+const { app, BrowserWindow, session, shell, Menu, ipcMain } = require('electron')
 const path = require('path')
+const fs = require('fs')
+const os = require('os')
+const https = require('https')
+const { spawn } = require('child_process')
 const { pathToFileURL } = require('url')
 
 // electron/ and dist/ and server/ are siblings under the app root (dev and
@@ -12,8 +16,82 @@ const { pathToFileURL } = require('url')
 const APP_ROOT = path.join(__dirname, '..')
 const DIST_DIR = path.join(APP_ROOT, 'dist')
 const SERVER_ENTRY = path.join(APP_ROOT, 'server', 'server.mjs')
+const REPO = 'mpeyal/det-practice' // GitHub repo the app updates from
 
 let mainWindow = null
+
+// ---- self-update: read GitHub Releases, download + run the new installer ----
+
+function getJSON(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'ParrotReady', Accept: 'application/vnd.github+json' } }, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) return resolve(getJSON(res.headers.location))
+      let d = ''; res.on('data', c => (d += c)); res.on('end', () => { try { resolve(JSON.parse(d)) } catch (e) { reject(e) } })
+    }).on('error', reject)
+  })
+}
+
+function download(url, dest, onProgress) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'ParrotReady' } }, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) return resolve(download(res.headers.location, dest, onProgress))
+      if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}`)); return }
+      const total = Number(res.headers['content-length'] || 0)
+      let got = 0
+      const file = fs.createWriteStream(dest)
+      res.on('data', c => { got += c.length; if (total) onProgress(got / total) })
+      res.pipe(file)
+      file.on('finish', () => file.close(() => resolve(dest)))
+      file.on('error', reject)
+    }).on('error', reject)
+  })
+}
+
+function cmpVer(a, b) {
+  const pa = String(a).split('.').map(Number), pb = String(b).split('.').map(Number)
+  for (let i = 0; i < 3; i++) { if ((pa[i] || 0) > (pb[i] || 0)) return 1; if ((pa[i] || 0) < (pb[i] || 0)) return -1 }
+  return 0
+}
+
+function registerUpdateIPC() {
+  ipcMain.handle('app:version', () => app.getVersion())
+
+  ipcMain.handle('update:check', async () => {
+    try {
+      const rel = await getJSON(`https://api.github.com/repos/${REPO}/releases/latest`)
+      const latest = String(rel.tag_name || '').replace(/^v/, '')
+      const current = app.getVersion()
+      const isWin = process.platform === 'win32'
+      const asset = (rel.assets || []).find(a => (isWin ? a.name.endsWith('.exe') : a.name.endsWith('.dmg')))
+      return {
+        ok: true, current, latest,
+        isNewer: Boolean(latest) && cmpVer(latest, current) > 0,
+        url: asset ? asset.browser_download_url : rel.html_url,
+        page: rel.html_url,
+        canAutoInstall: isWin && Boolean(asset), // Mac unsigned can't self-install
+      }
+    } catch (e) { return { ok: false, error: e.message } }
+  })
+
+  ipcMain.handle('update:run', async (_e, url) => {
+    // macOS (or no direct installer): open the download in the browser
+    if (process.platform !== 'win32' || !url || !url.endsWith('.exe')) {
+      shell.openExternal(url)
+      return { opened: true }
+    }
+    // Windows: download the installer, run it, and quit so it can replace files
+    const dest = path.join(os.tmpdir(), `ParrotReady-Setup-${Date.now()}.exe`)
+    try {
+      await download(url, dest, p => mainWindow?.webContents.send('update:progress', p))
+      spawn(dest, [], { detached: true, stdio: 'ignore' }).unref()
+      setTimeout(() => app.quit(), 500)
+      return { installing: true }
+    } catch (e) {
+      shell.openExternal(url) // fall back to manual download
+      return { opened: true, error: e.message }
+    }
+  })
+}
 
 async function createWindow() {
   // Allow microphone (speaking tasks) — this is a local, user-owned app.
@@ -36,10 +114,14 @@ async function createWindow() {
     width: 1200,
     height: 900,
     minWidth: 380,
-    title: 'DET Practice',
+    title: 'ParrotReady',
     backgroundColor: '#f7f7f5',
     autoHideMenuBar: true,
-    webPreferences: { contextIsolation: true, nodeIntegration: false },
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.cjs'),
+    },
   })
   Menu.setApplicationMenu(null)
 
@@ -61,6 +143,7 @@ if (!app.requestSingleInstanceLock()) {
   app.quit()
 } else {
   app.on('second-instance', () => { if (mainWindow) { mainWindow.show(); mainWindow.focus() } })
+  registerUpdateIPC()
   app.whenReady().then(createWindow)
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
   app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })

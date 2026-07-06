@@ -4,6 +4,77 @@ import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
+/* ---------- app self-update (desktop app only) ---------- */
+
+function UpdateSection() {
+  const desktop = typeof window !== 'undefined' && window.parrot?.isDesktop
+  const [ver, setVer] = useState('')
+  const [state, setState] = useState('idle') // idle|checking|current|available|downloading|opened|error
+  const [info, setInfo] = useState(null)
+  const [pct, setPct] = useState(0)
+  const [err, setErr] = useState('')
+
+  useEffect(() => {
+    if (!desktop) return
+    window.parrot.version().then(setVer)
+    window.parrot.onProgress(p => setPct(Math.round(p * 100)))
+    check() // auto-check when Settings opens
+  }, []) // eslint-disable-line
+
+  const check = async () => {
+    setState('checking'); setErr('')
+    try {
+      const r = await window.parrot.checkUpdate()
+      if (!r.ok) { setState('error'); setErr(r.error); return }
+      setInfo(r); setState(r.isNewer ? 'available' : 'current')
+    } catch (e) { setState('error'); setErr(String(e.message || e)) }
+  }
+
+  const run = async () => {
+    setState('downloading'); setPct(0)
+    const r = await window.parrot.runUpdate(info.url)
+    if (r?.opened) setState('opened') // mac / manual: opened download in browser
+    // windows: app quits and the installer runs
+  }
+
+  if (!desktop) return null
+
+  return (
+    <div>
+      <h2 className="font-black">App updates</h2>
+      <p className="mt-1 text-sm font-semibold text-neutral-500">
+        You’re on <b>v{ver || '…'}</b>. New versions are published automatically — check here to update.
+      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        {state !== 'available' && state !== 'downloading' && (
+          <button className="btn btn-blue !py-2 text-sm" disabled={state === 'checking'} onClick={check}>
+            {state === 'checking' ? 'Checking…' : 'Check for updates'}
+          </button>
+        )}
+        {state === 'current' && <span className="text-sm font-bold text-[#3f8f00]">✓ You have the latest version.</span>}
+        {state === 'error' && <span className="text-xs font-bold text-red-500">Couldn’t check: {err}</span>}
+        {state === 'opened' && <span className="text-sm font-bold text-[#1899d6]">Download opened in your browser — install it to finish updating.</span>}
+
+        {state === 'available' && (
+          <>
+            <span className="text-sm font-black text-neutral-700">Update available: v{info.latest}</span>
+            <button className="btn !py-2 text-sm" onClick={run}>
+              {info.canAutoInstall ? 'Update now' : 'Download update'}
+            </button>
+            {!info.canAutoInstall && <span className="text-xs font-semibold text-neutral-400">(macOS installs manually — it’ll open the download.)</span>}
+          </>
+        )}
+        {state === 'downloading' && (
+          <div className="w-full">
+            <div className="pbar !h-3"><div style={{ width: `${pct}%` }} /></div>
+            <div className="mt-1 text-xs font-bold text-neutral-500">Downloading update… {pct}% — the app will restart to install.</div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 /* ---------- speaker + microphone sound check ---------- */
 
 function SoundCheck() {
@@ -249,6 +320,8 @@ export default function Settings({ go }) {
           </p>
           <ModelPicker s={s} setS={setS} />
         </div>
+
+        <UpdateSection />
 
         <SoundCheck />
 
