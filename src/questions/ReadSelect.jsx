@@ -15,7 +15,13 @@ export default function ReadSelect({ item, timed, onComplete }) {
 
   const finish = () => onComplete({ answers: answersRef.current.slice() })
 
+  const lastAnswerAt = useRef(0)
   const answer = (val) => {
+    // debounce: a double-click (or click + timer expiry together) must not
+    // answer two words at once
+    const now = Date.now()
+    if (now - lastAnswerAt.current < 250) return
+    lastAnswerAt.current = now
     answersRef.current[index] = val
     if (index + 1 >= words.length) finish()
     else { setIndex(i => i + 1); force(x => x + 1) }

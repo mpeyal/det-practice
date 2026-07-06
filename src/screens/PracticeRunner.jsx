@@ -39,6 +39,8 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
   const item = items[index]
 
   const handleComplete = (response) => {
+    // double-submit guard (timer expiry + manual Next can fire together)
+    if (item.id in responsesRef.current) return
     stopSpeaking()
     responsesRef.current[item.id] = response
     setFeedback({ grade: gradeItem(item, response), response })

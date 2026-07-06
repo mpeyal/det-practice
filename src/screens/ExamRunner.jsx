@@ -39,6 +39,10 @@ export default function ExamRunner({ exam, onFinish, onQuit }) {
     : null
 
   const handleComplete = (response) => {
+    // double-submit guard: the per-question timer expiring and a manual Next
+    // click can fire together — without this, the index advances twice and
+    // silently SKIPS the following question.
+    if (item.id in responsesRef.current) return
     responsesRef.current[item.id] = response
     stopSpeaking()
     // adapt: good performance -> harder items; poor -> easier

@@ -17,8 +17,12 @@ function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed
   // transcription runs on the user's request, not on exam time — pause the clock
   const [paused, setPaused] = useState(false)
   const answer = useRef({ url: null, transcript: '', recording: false })
+  const finishedRef = useRef(false)
 
   const finish = () => {
+    // guard: timer expiry + manual Submit can fire together (double-submit)
+    if (finishedRef.current) return
+    finishedRef.current = true
     // force-stop the mic, give MediaRecorder a beat to flush, then submit
     setStopSignal(s => s + 1)
     setTimeout(() => onComplete({ url: answer.current.url, transcript: answer.current.transcript }), 700)
@@ -125,10 +129,16 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
     setAsking(false) // question finished — now the mic + timer start
   }
 
+  const advancingRef = useRef(false)
   const nextQuestion = () => {
+    // guard: the 35s expiry and a manual "Next question" click can race —
+    // without this the conversation would skip a question
+    if (advancingRef.current) return
+    advancingRef.current = true
     setStopSignal(s => s + 1)
     setTimeout(() => {
       answersRef.current[qIdx] = { ...current.current }
+      advancingRef.current = false
       if (qIdx + 1 >= p.questions.length) {
         onComplete({ answers: answersRef.current.slice() })
       } else {
