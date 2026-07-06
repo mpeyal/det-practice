@@ -14,6 +14,7 @@ export default function AccountDialog({ onClose }) {
   const [ovKind, setOvKind] = useState('api_key')
   const [ovValue, setOvValue] = useState('')
   const [openaiKey, setOpenaiKey] = useState('')
+  const [cliPath, setCliPath] = useState('')
 
   const refresh = async () => {
     setError('')
@@ -22,10 +23,17 @@ export default function AccountDialog({ onClose }) {
   }
   useEffect(() => { refresh() }, [])
 
+  const [note, setNote] = useState('')
   const act = async (action, body) => {
-    setBusy(true); setError('')
-    try { const j = await accountAction(action, body); setSt(j) }
-    catch (e) { setError(String(e.message || e)) }
+    setBusy(true); setError(''); setNote('')
+    try {
+      const j = await accountAction(action, body)
+      if (j.message) setNote(j.message)
+      // login/logout return only { ok, message } (they just launch the
+      // browser) — don't overwrite the account status with that, re-fetch it
+      if (j.providers) setSt(j)
+      else await refresh()
+    } catch (e) { setError(String(e.message || e)) }
     finally { setBusy(false) }
   }
 
@@ -42,6 +50,7 @@ export default function AccountDialog({ onClose }) {
         </div>
 
         {error && <div className="mb-3 rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">{error}</div>}
+        {note && <div className="mb-3 rounded-xl bg-[#ddf4ff] p-3 text-sm font-semibold text-[#1899d6]">{note} <button className="ml-1 underline" onClick={refresh}>Refresh</button></div>}
 
         {!st ? (
           <p className="text-sm font-semibold text-neutral-500">Loading… (needs the local backend — run “npm run serve”)</p>
@@ -68,6 +77,29 @@ export default function AccountDialog({ onClose }) {
                 </p>
               )}
             </div>
+
+            {/* Claude CLI not found → let the user point us at it manually */}
+            {st.provider === 'claude' && !provClaude?.available && (
+              <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-3">
+                <div className="text-sm font-black text-amber-800">Claude CLI not found automatically</div>
+                <p className="mt-1 text-xs font-semibold text-amber-700">
+                  On a Mac the app can’t always see your install. In a <b>Terminal</b> run <code className="rounded bg-white/70 px-1">which claude</code>, copy the path it prints, and paste it here:
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <input
+                    className="min-w-0 flex-1 rounded-xl border-2 border-neutral-200 p-2 font-mono text-xs"
+                    placeholder="/opt/homebrew/bin/claude"
+                    value={cliPath}
+                    onChange={e => setCliPath(e.target.value)}
+                  />
+                  <button className="btn !px-3 !py-1.5 text-xs" disabled={busy || !cliPath.trim()} onClick={() => act('claude-path', { path: cliPath })}>Use this path</button>
+                </div>
+                {st.claudePath && <p className="mt-1 text-xs font-bold text-red-500">Saved path didn’t work: {st.claudePath}</p>}
+                <p className="mt-1 text-xs font-semibold text-amber-700">
+                  Not installed yet? <code className="rounded bg-white/70 px-1">npm i -g @anthropic-ai/claude-code</code> then <code className="rounded bg-white/70 px-1">claude login</code>.
+                </p>
+              </div>
+            )}
 
             {/* signed-in account (Claude) */}
             {st.provider === 'claude' && (

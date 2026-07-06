@@ -13,11 +13,13 @@ import { createRecorder, micSupported, recognitionSupported } from '../lib/recor
  */
 export default function RecorderPanel({ autoStart = false, stopSignal = 0, onChange, compact = false }) {
   const recRef = useRef(null)
+  const blobRef = useRef(null)
   const [recording, setRecording] = useState(false)
   const [url, setUrl] = useState(null)
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState('')
   const [stt, setStt] = useState('idle') // idle | listening | working | unavailable
+  const [tx, setTx] = useState(null) // {stage:'loading'|'running', pct} while offline-transcribing
   const onChangeRef = useRef(onChange)
   onChangeRef.current = onChange
 
@@ -59,11 +61,29 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
     }
   }
 
+  // offline speech-to-text (Whisper via WASM) — used when live recognition
+  // isn't available (desktop app) or the user wants to auto-fill the transcript
+  const transcribeRecording = async () => {
+    if (!blobRef.current) return
+    setError(''); setTx({ stage: 'loading', pct: 0 })
+    try {
+      const { transcribeBlob } = await import('../lib/transcribe.js')
+      const text = await transcribeBlob(blobRef.current, (stage, pct) => setTx({ stage, pct }))
+      setTx(null)
+      if (text) { setTranscript(text); emit({ transcript: text }) }
+      else setError('Nothing was transcribed — the recording may be silent. Type your answer instead.')
+    } catch (e) {
+      setTx(null)
+      setError('Auto-transcription failed (' + (e?.message || e) + '). Type your answer below instead.')
+    }
+  }
+
   const stop = async () => {
     if (!recRef.current) return
     const res = await recRef.current.stop()
     recRef.current = null
     setRecording(false)
+    if (res.blob) blobRef.current = res.blob
     if (res.url) setUrl(res.url)
     setTranscript(prev => res.transcript && res.transcript.length > prev.length ? res.transcript : prev)
     onChangeRef.current?.({
@@ -90,15 +110,27 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
           </button>
         )}
         {url && !recording && <audio controls src={url} className="h-10 max-w-[220px]" />}
+        {/* offline auto-transcribe (Whisper WASM) — available once a recording exists */}
+        {url && !recording && !tx && (
+          <button className="btn-ghost !px-3 !py-2 text-xs" onClick={transcribeRecording}>✨ Transcribe recording</button>
+        )}
       </div>
+
+      {tx && (
+        <div className="rounded-xl bg-[#f3fbff] p-3 text-sm font-bold text-[#1899d6]">
+          {tx.stage === 'loading'
+            ? <>⬇️ Preparing the offline speech model… {tx.pct}% <span className="font-semibold text-neutral-400">(first time only — needs internet once, then works offline)</span></>
+            : <>✍️ Transcribing your recording… <span className="font-semibold text-neutral-400">(this can take a moment)</span></>}
+        </div>
+      )}
+
       {error && <div className="rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">{error}</div>}
 
-      {/* honest status about live speech-to-text */}
-      {stt === 'unavailable' && (
+      {/* status about live (real-time) speech-to-text */}
+      {stt === 'unavailable' && !tx && (
         <div className="rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">
-          🎙️ Live speech-to-text isn’t available here (the desktop app and offline mode can’t use it).
-          Your recording is saved — just <b>type what you said</b> in the box below; the AI grades your typed text.
-          For automatic transcription, open the app in <b>Chrome or Edge</b> while online.
+          🎙️ Live (real-time) transcription isn’t available in the desktop app. After you stop recording, click
+          <b> ✨ Transcribe recording</b> to convert it to text with the built-in offline model — or just type your answer below.
         </div>
       )}
 

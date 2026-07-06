@@ -109,6 +109,11 @@ function findCodexCli() {
 let CLAUDE = findClaudeCli()
 let CLI_FOUND = CLAUDE !== 'claude' || which('claude')
 function redetectClaude() {
+  // a manually-entered path (from `which claude`) always wins
+  if (account.claudePath && existsSync(account.claudePath)) {
+    CLAUDE = account.claudePath; CLI_FOUND = true
+    return { cli: CLAUDE, found: true }
+  }
   CLAUDE = findClaudeCli()
   CLI_FOUND = CLAUDE !== 'claude' || which('claude')
   return { cli: CLAUDE, found: CLI_FOUND }
@@ -123,6 +128,7 @@ const account = {
   overrideKind: null,      // 'api_key' | 'oauth' | null
   overrideValue: null,
   openaiKey: null,
+  claudePath: null,        // manual CLI path (from `which claude`) — always wins
 }
 
 // environment for a spawned CLI, applying the per-app override
@@ -177,7 +183,7 @@ async function accountStatus() {
     claude: { available: !!CLI_FOUND, cli: CLI_FOUND ? CLAUDE : null },
     openai: { available: !!CODEX, cli: CODEX },
   }
-  const st = { provider: account.provider, providers, override: null, account: null }
+  const st = { provider: account.provider, providers, override: null, account: null, claudePath: account.claudePath, cliResolved: CLI_FOUND ? CLAUDE : null }
   if (account.overrideValue) {
     st.override = { kind: account.overrideKind, tail: account.overrideValue.slice(-4) }
   }
@@ -366,6 +372,15 @@ function makeHandler(distDir) {
       }
       if (action === 'openai-key') {
         account.openaiKey = String(body.value || '').trim() || null
+        sendJson(res, 200, { ok: true, ...(await accountStatus()) })
+        return
+      }
+      if (action === 'claude-path') {
+        // user pastes the output of `which claude`; validate it exists
+        const p = String(body.path || '').trim().replace(/^["']|["']$/g, '')
+        if (p && !existsSync(p)) { sendJson(res, 400, { ok: false, error: `No file at "${p}" — paste the exact output of \`which claude\`.` }); return }
+        account.claudePath = p || null
+        redetectClaude()
         sendJson(res, 200, { ok: true, ...(await accountStatus()) })
         return
       }
