@@ -1,92 +1,65 @@
-// Microphone capture (MediaRecorder) + optional live transcription
-// (Web Speech API SpeechRecognition, where the browser supports it).
-// Audio blobs are kept in memory as object URLs so responses can be replayed
-// on the review screen; nothing ever leaves the machine unless AI marking is
-// explicitly requested.
+// Microphone capture (MediaRecorder) + LIVE offline transcription (Vosk WASM,
+// see liveStt.js). Audio blobs are kept in memory as object URLs so responses
+// can be replayed on the review screen; nothing leaves the machine unless AI
+// marking is explicitly requested.
+
+import { startLive, warmup } from './liveStt.js'
 
 export function micSupported() {
   return typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia && typeof MediaRecorder !== 'undefined'
 }
 
-export function recognitionSupported() {
-  return typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition)
-}
+/** Preload the live speech model (call when a speaking task opens). */
+export function warmupStt() { warmup() }
 
 export function createRecorder() {
   let mediaRecorder = null
   let chunks = []
   let stream = null
-  let recognition = null
-  let finalTranscript = ''
-  let wantRunning = false // keep restarting recognition until stop() is called
+  let live = null
+  let liveText = ''
 
   return {
     /**
-     * Start mic capture.
-     * @param onTranscript(text)  streams live recognition results (browser only)
-     * @param onStatus(status)    'listening' | 'working' | 'unavailable:<reason>'
-     *   so the UI can tell the user when auto speech-to-text isn't available
-     *   (e.g. the desktop app or offline) and to type instead.
+     * Start mic capture + live transcription.
+     * @param onTranscript(text)  streams the live transcript as you speak
+     * @param onStatus(status)    'loading' | 'listening' | 'unavailable:<reason>'
      */
     async start(onTranscript, onStatus) {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       chunks = []
-      finalTranscript = ''
+      liveText = ''
       const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : ''
       mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
       mediaRecorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data) }
       mediaRecorder.start(500)
 
-      if (!recognitionSupported()) { onStatus && onStatus('unavailable:unsupported'); return }
-      if (onTranscript) {
-        const SR = window.SpeechRecognition || window.webkitSpeechRecognition
-        recognition = new SR()
-        recognition.lang = 'en-US'
-        recognition.continuous = true
-        recognition.interimResults = true
-        wantRunning = true
-        recognition.onstart = () => onStatus && onStatus('listening')
-        recognition.onresult = (e) => {
-          onStatus && onStatus('working')
-          let interim = ''
-          for (let i = e.resultIndex; i < e.results.length; i++) {
-            const r = e.results[i]
-            if (r.isFinal) finalTranscript += r[0].transcript + ' '
-            else interim += r[0].transcript
-          }
-          onTranscript((finalTranscript + interim).trim())
+      // live transcription (offline Vosk engine — works in web AND desktop)
+      live = await startLive(
+        stream,
+        (text) => { liveText = text; onTranscript && onTranscript(text) },
+        (status) => {
+          if (!onStatus) return
+          if (status.startsWith('error:')) onStatus('unavailable:' + status.slice(6))
+          else onStatus(status)
         }
-        // 'network'/'service-not-allowed' = the online speech service is
-        // unreachable — this is what happens in the desktop app (no Google
-        // key) and when offline. Report it so the UI guides the user to type.
-        recognition.onerror = (e) => {
-          const reason = e && e.error
-          if (reason === 'no-speech' || reason === 'aborted') return // benign
-          wantRunning = false
-          onStatus && onStatus('unavailable:' + (reason || 'error'))
-        }
-        // Chrome stops after a pause even with continuous=true — restart so
-        // long answers keep transcribing.
-        recognition.onend = () => { if (wantRunning) { try { recognition.start() } catch {} } }
-        try { recognition.start() } catch { onStatus && onStatus('unavailable:start-failed') }
-      }
+      )
     },
 
     /** Stop and return { url, blob, transcript } */
-    stop() {
+    async stop() {
+      if (live) { try { liveText = (await live.stop()) || liveText } catch {} live = null }
       return new Promise((resolve) => {
-        wantRunning = false
-        if (recognition) { try { recognition.stop() } catch {} recognition = null }
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
           cleanup()
-          resolve({ url: null, blob: null, transcript: finalTranscript.trim() })
+          resolve({ url: null, blob: null, transcript: liveText.trim() })
           return
         }
         mediaRecorder.onstop = () => {
           const blob = new Blob(chunks, { type: mediaRecorder.mimeType || 'audio/webm' })
           const url = URL.createObjectURL(blob)
           cleanup()
-          resolve({ url, blob, transcript: finalTranscript.trim() })
+          resolve({ url, blob, transcript: liveText.trim() })
         }
         mediaRecorder.stop()
       })
