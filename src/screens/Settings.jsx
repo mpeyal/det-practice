@@ -64,39 +64,57 @@ function SoundCheck() {
     }
   }
 
+  const SpeakerIcon = (props) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M11 5 6 9H2v6h4l5 4V5z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M19 5.5a9 9 0 0 1 0 13" />
+    </svg>
+  )
+  const MicIcon = (props) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M12 17v4" /><path d="M8 21h8" />
+    </svg>
+  )
+
   return (
     <div>
-      <h2 className="font-black">🔊 Speaker &amp; microphone</h2>
+      <h2 className="font-black">Speaker &amp; microphone</h2>
       <p className="mt-1 text-sm font-semibold text-neutral-500">
-        Check your audio before an exam: the speaker plays the listening questions, the microphone records the speaking tasks.
+        Check your audio before an exam — the speaker plays the listening questions, the microphone records the speaking tasks.
       </p>
 
-      {/* speaker */}
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="w-28 text-sm font-extrabold text-neutral-500">Speaker</span>
-        <button className="btn-blue !py-2 text-sm" disabled={speaking} onClick={testSpeaker}>
-          {speaking ? '🔊 Playing…' : '🔊 Test speaker'}
-        </button>
-        {!ttsSupported() && <span className="text-xs font-bold text-amber-700">No speech synthesis in this browser.</span>}
-      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {/* speaker tile */}
+        <div className="rounded-2xl border-2 border-[#e8e8e6] p-4">
+          <div className="flex items-center gap-2 text-[#1cb0f6]"><SpeakerIcon /><span className="font-black text-neutral-700">Speaker</span></div>
+          <p className="mt-1 text-xs font-semibold text-neutral-400">Plays the listening questions.</p>
+          <button className="btn btn-blue mt-3 w-full !py-2.5 text-sm" disabled={speaking} onClick={testSpeaker}>
+            {speaking ? 'Playing…' : 'Test speaker'}
+          </button>
+          {!ttsSupported() && <p className="mt-1 text-xs font-bold text-amber-700">No speech synthesis in this browser.</p>}
+        </div>
 
-      {/* microphone */}
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="w-28 text-sm font-extrabold text-neutral-500">Microphone</span>
-        {mic === 'ok'
-          ? <button className="btn-ghost !py-2 text-sm" onClick={() => { stopMic(); setMic('idle'); setLevel(0) }}>■ Stop test</button>
-          : <button className="btn-blue !py-2 text-sm" disabled={mic === 'testing'} onClick={testMic}>🎤 Test microphone</button>}
-        {mic === 'ok' && (
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-40 overflow-hidden rounded-full bg-neutral-200">
-              <div className="h-full rounded-full transition-[width] duration-75" style={{ width: `${Math.round(level * 100)}%`, background: level > 0.05 ? '#58cc02' : '#d1d5db' }} />
+        {/* microphone tile */}
+        <div className="rounded-2xl border-2 border-[#e8e8e6] p-4">
+          <div className="flex items-center gap-2 text-[#1cb0f6]"><MicIcon /><span className="font-black text-neutral-700">Microphone</span></div>
+          <p className="mt-1 text-xs font-semibold text-neutral-400">Records the speaking tasks.</p>
+          {mic === 'ok' ? (
+            <div className="mt-3">
+              <div className="flex items-center gap-2">
+                <div className="h-3 flex-1 overflow-hidden rounded-full bg-neutral-200">
+                  <div className="h-full rounded-full transition-[width] duration-75" style={{ width: `${Math.round(level * 100)}%`, background: level > 0.05 ? '#58cc02' : '#d1d5db' }} />
+                </div>
+                <span className="whitespace-nowrap text-xs font-black text-[#3f8f00]">{level > 0.05 ? 'Hearing you ✓' : 'Speak…'}</span>
+              </div>
+              <button className="btn-ghost mt-2 w-full !py-2 text-sm" onClick={() => { stopMic(); setMic('idle'); setLevel(0) }}>Stop test</button>
             </div>
-            <span className="text-xs font-bold text-[#3f8f00]">{level > 0.05 ? 'Hearing you ✓' : 'Speak now…'}</span>
-          </div>
-        )}
+          ) : (
+            <button className="btn btn-blue mt-3 w-full !py-2.5 text-sm" disabled={mic === 'testing'} onClick={testMic}>
+              {mic === 'testing' ? 'Starting…' : 'Test microphone'}
+            </button>
+          )}
+          {mic === 'error' && <p className="mt-2 text-xs font-bold text-red-500">{micMsg}</p>}
+        </div>
       </div>
-      {mic === 'ok' && <p className="mt-1 text-xs font-semibold text-neutral-500">Say something — the green bar should move. That confirms the exam can record you.</p>}
-      {mic === 'error' && <p className="mt-1 text-xs font-bold text-red-500">{micMsg}</p>}
     </div>
   )
 }
