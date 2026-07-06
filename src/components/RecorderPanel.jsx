@@ -11,7 +11,7 @@ import { createRecorder, micSupported, warmupStt } from '../lib/recorder.js'
  * - `onChange({ url, transcript, recording })` fires on every state change;
  *   the parent keeps the latest value and submits it.
  */
-export default function RecorderPanel({ autoStart = false, stopSignal = 0, onChange, compact = false }) {
+export default function RecorderPanel({ autoStart = false, stopSignal = 0, onChange, onBusy, compact = false }) {
   const recRef = useRef(null)
   const blobRef = useRef(null)
   const [recording, setRecording] = useState(false)
@@ -66,6 +66,7 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
   const transcribeRecording = async () => {
     if (!blobRef.current) return
     setError(''); setTx({ stage: 'loading', pct: 0 })
+    onBusy && onBusy(true) // pause the exam timer — transcription isn't answer time
     try {
       const { transcribeBlob } = await import('../lib/transcribe.js')
       const text = await transcribeBlob(blobRef.current, (stage, pct) => setTx({ stage, pct }))
@@ -75,6 +76,8 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
     } catch (e) {
       setTx(null)
       setError('Auto-transcription failed (' + (e?.message || e) + '). Type your answer below instead.')
+    } finally {
+      onBusy && onBusy(false) // resume the exam timer
     }
   }
 
@@ -124,6 +127,7 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
           {tx.stage === 'loading'
             ? <>⬇️ Preparing the offline speech model… {tx.pct}% <span className="font-semibold text-neutral-400">(first time only — needs internet once, then works offline)</span></>
             : <>✍️ Transcribing your recording… <span className="font-semibold text-neutral-400">(this can take a moment)</span></>}
+          <span className="ml-2 rounded-full bg-white px-2 py-0.5 text-xs font-black text-neutral-500">⏸ exam timer paused</span>
         </div>
       )}
 

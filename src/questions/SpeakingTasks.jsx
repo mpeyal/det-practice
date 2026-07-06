@@ -14,6 +14,8 @@ import { getSettings } from '../lib/storage.js'
 function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed, resetKey, onComplete, children }) {
   const [phase, setPhase] = useState(prepSeconds > 0 ? 'prep' : 'record')
   const [stopSignal, setStopSignal] = useState(0)
+  // transcription runs on the user's request, not on exam time — pause the clock
+  const [paused, setPaused] = useState(false)
   const answer = useRef({ url: null, transcript: '', recording: false })
 
   const finish = () => {
@@ -28,7 +30,7 @@ function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed
     onExpire: () => setPhase('record'),
   })
   const [recLeft] = useCountdown(recordSeconds, {
-    running: timed && phase === 'record',
+    running: timed && phase === 'record' && !paused,
     resetKey: `${resetKey}-rec`,
     onExpire: finish,
   })
@@ -48,7 +50,7 @@ function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed
           </div>
         ) : (
           <>
-            <RecorderPanel autoStart={timed} stopSignal={stopSignal} onChange={v => { answer.current = v }} />
+            <RecorderPanel autoStart={timed} stopSignal={stopSignal} onBusy={setPaused} onChange={v => { answer.current = v }} />
             <div className="mt-4 text-right"><button className="btn" onClick={finish}>Submit</button></div>
           </>
         )}
@@ -107,6 +109,7 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
   const p = item.payload
   const [qIdx, setQIdx] = useState(-1) // -1 = intro
   const [asking, setAsking] = useState(false) // true while the TTS reads the question
+  const [paused, setPaused] = useState(false) // true while transcribing (not exam time)
   const [stopSignal, setStopSignal] = useState(0)
   const answersRef = useRef([])
   const current = useRef({ url: null, transcript: '' })
@@ -134,9 +137,10 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
     }, 700)
   }
 
-  // the 35s answer timer only runs once the question has finished being read
+  // the 35s answer timer only runs once the question has finished being read,
+  // and pauses while a transcription is running
   const [left] = useCountdown(TIME.interactive_speaking_q, {
-    running: timed && qIdx >= 0 && !asking,
+    running: timed && qIdx >= 0 && !asking && !paused,
     resetKey: `q${qIdx}`,
     onExpire: nextQuestion,
   })
@@ -170,7 +174,7 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
         </div>
       ) : (
         // mount only after the question is spoken, so the mic never records the TTS voice
-        <RecorderPanel key={qIdx} autoStart={timed} stopSignal={stopSignal} onChange={v => { current.current = v }} />
+        <RecorderPanel key={qIdx} autoStart={timed} stopSignal={stopSignal} onBusy={setPaused} onChange={v => { current.current = v }} />
       )}
       <div className="mt-4 text-right">
         <button className="btn" disabled={asking} onClick={nextQuestion}>{qIdx + 1 >= p.questions.length ? 'Finish' : 'Next question'}</button>
