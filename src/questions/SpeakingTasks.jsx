@@ -106,6 +106,7 @@ export function SpeakingSample({ item, timed, onComplete }) {
 export function InteractiveSpeaking({ item, timed, onComplete }) {
   const p = item.payload
   const [qIdx, setQIdx] = useState(-1) // -1 = intro
+  const [asking, setAsking] = useState(false) // true while the TTS reads the question
   const [stopSignal, setStopSignal] = useState(0)
   const answersRef = useRef([])
   const current = useRef({ url: null, transcript: '' })
@@ -114,9 +115,11 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
 
   const startQuestion = async (i) => {
     setQIdx(i)
-    current.current = { url: null, transcript: '' }
+    setAsking(true) // reading the question aloud — do NOT record yet, or the
+    current.current = { url: null, transcript: '' } // mic captures the TTS voice
     // one consistent interviewer voice for the whole conversation
     await speak(p.questions[i], { rate: getSettings().ttsRate, voiceKey: item.id })
+    setAsking(false) // question finished — now the mic + timer start
   }
 
   const nextQuestion = () => {
@@ -131,8 +134,9 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
     }, 700)
   }
 
+  // the 35s answer timer only runs once the question has finished being read
   const [left] = useCountdown(TIME.interactive_speaking_q, {
-    running: timed && qIdx >= 0,
+    running: timed && qIdx >= 0 && !asking,
     resetKey: `q${qIdx}`,
     onExpire: nextQuestion,
   })
@@ -156,12 +160,20 @@ export function InteractiveSpeaking({ item, timed, onComplete }) {
       seconds={timed ? left : null}
     >
       <div className="mb-4 flex items-start gap-3 rounded-2xl bg-neutral-50 p-4">
-        <button className="btn-ghost !px-3 !py-1.5 text-sm" onClick={() => speak(p.questions[qIdx], { rate: getSettings().ttsRate, voiceKey: item.id })}>🔊</button>
+        <button className="btn-ghost !px-3 !py-1.5 text-sm" disabled={asking} onClick={() => speak(p.questions[qIdx], { rate: getSettings().ttsRate, voiceKey: item.id })}>🔊</button>
         <p className="pt-1 text-lg font-bold">{p.questions[qIdx]}</p>
       </div>
-      <RecorderPanel key={qIdx} autoStart={timed} stopSignal={stopSignal} onChange={v => { current.current = v }} />
+      {asking ? (
+        <div className="flex items-center gap-2 rounded-2xl bg-[#f3fbff] p-4 text-sm font-extrabold text-[#1899d6]">
+          <span className="inline-block h-2.5 w-2.5 animate-pulse rounded-full bg-[#1cb0f6]" />
+          🔊 Listen to the question… recording starts when it finishes.
+        </div>
+      ) : (
+        // mount only after the question is spoken, so the mic never records the TTS voice
+        <RecorderPanel key={qIdx} autoStart={timed} stopSignal={stopSignal} onChange={v => { current.current = v }} />
+      )}
       <div className="mt-4 text-right">
-        <button className="btn" onClick={nextQuestion}>{qIdx + 1 >= p.questions.length ? 'Finish' : 'Next question'}</button>
+        <button className="btn" disabled={asking} onClick={nextQuestion}>{qIdx + 1 >= p.questions.length ? 'Finish' : 'Next question'}</button>
       </div>
     </QuestionCard>
   )
