@@ -105,7 +105,20 @@ function playBlob(blob, rate, token) {
     _audio = a
     a.playbackRate = rate
     if ('preservesPitch' in a) a.preservesPitch = true
-    const done = (ok) => { URL.revokeObjectURL(url); if (_audio === a) _audio = null; resolve(ok) }
+    let settled = false
+    const done = (ok) => {
+      if (settled) return
+      settled = true
+      clearInterval(watchdog)
+      URL.revokeObjectURL(url)
+      if (_audio === a) _audio = null
+      resolve(ok)
+    }
+    // CRITICAL: when another speak()/stop supersedes this one, the audio is
+    // paused — which never fires 'ended'. Without this watchdog the promise
+    // hangs forever and the caller's playing/speaking state sticks, killing
+    // replay buttons and conversation flow.
+    const watchdog = setInterval(() => { if (token !== _token) { try { a.pause() } catch {} done(false) } }, 200)
     a.onended = () => done(true)
     a.onerror = () => done(false)
     a.play().catch(() => done(false))

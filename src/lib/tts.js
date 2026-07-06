@@ -217,15 +217,26 @@ export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
       if (synth.speaking && !synth.paused) { try { synth.pause(); synth.resume() } catch {} }
     }, 10000)
 
-    const done = (ok) => { if (token === _speakToken) stopKeepAlive(); resolve(ok) }
+    let settled = false
+    const done = (ok) => {
+      if (settled) return
+      settled = true
+      clearInterval(watchdog)
+      if (token === _speakToken) stopKeepAlive()
+      resolve(ok)
+    }
+    // if another speak()/stopSpeaking supersedes us, Chromium may swallow the
+    // 'end' event after cancel() — resolve via watchdog so callers never hang
+    // (a hung promise leaves play/replay buttons stuck disabled)
+    const watchdog = setInterval(() => { if (token !== _speakToken) done(false) }, 200)
 
     const speakNext = () => {
-      if (token !== _speakToken) { resolve(false); return } // superseded
+      if (token !== _speakToken) { done(false); return } // superseded
       if (i >= chunks.length) { done(true); return }
       const u = new SpeechSynthesisUtterance(chunks[i++])
       u.rate = rate
       if (v) { u.voice = v; u.lang = v.lang } else u.lang = 'en-US'
-      u.onend = () => { if (token === _speakToken) speakNext() }
+      u.onend = () => { if (token === _speakToken) speakNext(); else done(false) }
       u.onerror = () => done(false)
       synth.speak(u)
     }
