@@ -132,29 +132,76 @@ export function conversationVoices() {
 }
 
 // ---------- speaking ----------
+//
+// Chromium's SpeechSynthesis (which Electron uses) is buggy: it cuts out on
+// utterances longer than ~15 s, and calling cancel() immediately before
+// speak() often drops the new utterance. On macOS this shows up as laggy,
+// broken, flaky speech. Fixes applied here:
+//   1) split text into short sentence chunks and speak them in sequence, so
+//      no single utterance hits the ~15 s cutoff;
+//   2) a pause()/resume() "keep-alive" tick that resets Chromium's internal
+//      timer while speaking;
+//   3) a short delay after cancel() before the next speak(), avoiding the race.
 
-let activeUtterance = null
+let _speakToken = 0        // invalidates an in-flight sequence when a new speak starts
+let _keepAlive = null
+
+function stopKeepAlive() { if (_keepAlive) { clearInterval(_keepAlive); _keepAlive = null } }
+
+/** Break text into <=180-char, sentence-aligned chunks. */
+function chunkText(text) {
+  const sentences = String(text).match(/[^.!?]+[.!?]*\s*/g) || [String(text)]
+  const out = []
+  let cur = ''
+  for (const s of sentences) {
+    if (cur && (cur + s).length > 180) { out.push(cur.trim()); cur = s }
+    else cur += s
+  }
+  if (cur.trim()) out.push(cur.trim())
+  return out.length ? out : [String(text)]
+}
 
 /** Speak text; resolves when finished (or immediately if unsupported). */
 export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   return new Promise((resolve) => {
     if (!ttsSupported()) { resolve(false); return }
-    window.speechSynthesis.cancel()
-    const u = new SpeechSynthesisUtterance(text)
-    u.lang = 'en-US'
-    u.rate = rate
+    const synth = window.speechSynthesis
+    const token = ++_speakToken
+    synth.cancel()
+    stopKeepAlive()
+
     const v = voice || (voiceKey != null ? voiceForKey(voiceKey) : pickVoice())
-    if (v) { u.voice = v; u.lang = v.lang }
-    u.onend = () => { activeUtterance = null; resolve(true) }
-    u.onerror = () => { activeUtterance = null; resolve(false) }
-    activeUtterance = u
-    window.speechSynthesis.speak(u)
+    const chunks = chunkText(text)
+    let i = 0
+
+    // keep-alive: every ~10s, pause+resume to defeat the Chromium cutoff
+    _keepAlive = setInterval(() => {
+      if (token !== _speakToken) { stopKeepAlive(); return }
+      if (synth.speaking && !synth.paused) { try { synth.pause(); synth.resume() } catch {} }
+    }, 10000)
+
+    const done = (ok) => { if (token === _speakToken) stopKeepAlive(); resolve(ok) }
+
+    const speakNext = () => {
+      if (token !== _speakToken) { resolve(false); return } // superseded
+      if (i >= chunks.length) { done(true); return }
+      const u = new SpeechSynthesisUtterance(chunks[i++])
+      u.rate = rate
+      if (v) { u.voice = v; u.lang = v.lang } else u.lang = 'en-US'
+      u.onend = () => { if (token === _speakToken) speakNext() }
+      u.onerror = () => done(false)
+      synth.speak(u)
+    }
+
+    // small gap after cancel() so Chromium doesn't drop the first utterance
+    setTimeout(speakNext, 70)
   })
 }
 
 export function stopSpeaking() {
+  _speakToken++ // invalidate any in-flight sequence
+  stopKeepAlive()
   if (ttsSupported()) window.speechSynthesis.cancel()
-  activeUtterance = null
 }
 
 export function isSpeaking() {
