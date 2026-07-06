@@ -26,15 +26,31 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
   }
 
   const start = async () => {
-    if (!micSupported()) { setError('Microphone not available in this browser. Type your response below instead.'); return }
+    if (!micSupported()) { setError('This browser has no microphone support. Type your response below instead.'); return }
+    // getUserMedia only works in a secure context (the desktop app or an
+    // http://localhost / https page) — not when the built file is opened
+    // directly (file://) or inside a sandboxed preview frame.
+    if (typeof window !== 'undefined' && window.isSecureContext === false) {
+      setError('The microphone needs a secure page. Use the DET Practice desktop app, or open the app at http://localhost — it can’t record from a file:// page. You can type your response below instead.')
+      return
+    }
     try {
       recRef.current = createRecorder()
       await recRef.current.start(t => { setTranscript(t); onChangeRef.current?.({ url: null, transcript: t, recording: true }) })
       setError('')
       setRecording(true)
       emit({ recording: true })
-    } catch {
-      setError('Could not access the microphone (permission denied?). Type your response below instead.')
+    } catch (e) {
+      const name = e && e.name
+      let msg = 'Could not access the microphone. Type your response below instead.'
+      if (name === 'NotAllowedError' || name === 'SecurityError' || name === 'PermissionDeniedError') {
+        msg = 'Microphone blocked. Click the camera/lock icon in the address bar → Allow microphone, then press Record again. (This preview panel can’t grant the mic — open the app in a normal browser tab or the desktop app.) You can also just type your response below.'
+      } else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+        msg = 'No microphone was found on this device. Type your response below instead.'
+      } else if (name === 'NotReadableError') {
+        msg = 'The microphone is in use by another app. Close it and press Record again, or type your response below.'
+      }
+      setError(msg)
     }
   }
 
