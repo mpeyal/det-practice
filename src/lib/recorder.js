@@ -18,10 +18,17 @@ export function createRecorder() {
   let stream = null
   let recognition = null
   let finalTranscript = ''
+  let wantRunning = false // keep restarting recognition until stop() is called
 
   return {
-    /** Start mic capture; onTranscript(text) streams live recognition results if available. */
-    async start(onTranscript) {
+    /**
+     * Start mic capture.
+     * @param onTranscript(text)  streams live recognition results (browser only)
+     * @param onStatus(status)    'listening' | 'working' | 'unavailable:<reason>'
+     *   so the UI can tell the user when auto speech-to-text isn't available
+     *   (e.g. the desktop app or offline) and to type instead.
+     */
+    async start(onTranscript, onStatus) {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       chunks = []
       finalTranscript = ''
@@ -30,13 +37,17 @@ export function createRecorder() {
       mediaRecorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data) }
       mediaRecorder.start(500)
 
-      if (recognitionSupported() && onTranscript) {
+      if (!recognitionSupported()) { onStatus && onStatus('unavailable:unsupported'); return }
+      if (onTranscript) {
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition
         recognition = new SR()
         recognition.lang = 'en-US'
         recognition.continuous = true
         recognition.interimResults = true
+        wantRunning = true
+        recognition.onstart = () => onStatus && onStatus('listening')
         recognition.onresult = (e) => {
+          onStatus && onStatus('working')
           let interim = ''
           for (let i = e.resultIndex; i < e.results.length; i++) {
             const r = e.results[i]
@@ -45,16 +56,26 @@ export function createRecorder() {
           }
           onTranscript((finalTranscript + interim).trim())
         }
-        // NOTE: Chrome's SpeechRecognition uses an online service; if offline
-        // it just errors out silently and the user edits the transcript by hand.
-        recognition.onerror = () => {}
-        try { recognition.start() } catch { /* already started */ }
+        // 'network'/'service-not-allowed' = the online speech service is
+        // unreachable — this is what happens in the desktop app (no Google
+        // key) and when offline. Report it so the UI guides the user to type.
+        recognition.onerror = (e) => {
+          const reason = e && e.error
+          if (reason === 'no-speech' || reason === 'aborted') return // benign
+          wantRunning = false
+          onStatus && onStatus('unavailable:' + (reason || 'error'))
+        }
+        // Chrome stops after a pause even with continuous=true — restart so
+        // long answers keep transcribing.
+        recognition.onend = () => { if (wantRunning) { try { recognition.start() } catch {} } }
+        try { recognition.start() } catch { onStatus && onStatus('unavailable:start-failed') }
       }
     },
 
     /** Stop and return { url, blob, transcript } */
     stop() {
       return new Promise((resolve) => {
+        wantRunning = false
         if (recognition) { try { recognition.stop() } catch {} recognition = null }
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
           cleanup()

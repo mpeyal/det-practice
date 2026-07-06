@@ -17,6 +17,7 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
   const [url, setUrl] = useState(null)
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState('')
+  const [stt, setStt] = useState('idle') // idle | listening | working | unavailable
   const onChangeRef = useRef(onChange)
   onChangeRef.current = onChange
 
@@ -36,7 +37,11 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
     }
     try {
       recRef.current = createRecorder()
-      await recRef.current.start(t => { setTranscript(t); onChangeRef.current?.({ url: null, transcript: t, recording: true }) })
+      setStt('idle')
+      await recRef.current.start(
+        t => { setTranscript(t); onChangeRef.current?.({ url: null, transcript: t, recording: true }) },
+        status => setStt(status.startsWith('unavailable') ? 'unavailable' : status)
+      )
       setError('')
       setRecording(true)
       emit({ recording: true })
@@ -87,15 +92,28 @@ export default function RecorderPanel({ autoStart = false, stopSignal = 0, onCha
         {url && !recording && <audio controls src={url} className="h-10 max-w-[220px]" />}
       </div>
       {error && <div className="rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">{error}</div>}
+
+      {/* honest status about live speech-to-text */}
+      {stt === 'unavailable' && (
+        <div className="rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">
+          🎙️ Live speech-to-text isn’t available here (the desktop app and offline mode can’t use it).
+          Your recording is saved — just <b>type what you said</b> in the box below; the AI grades your typed text.
+          For automatic transcription, open the app in <b>Chrome or Edge</b> while online.
+        </div>
+      )}
+
       {!compact && (
         <div>
-          <div className="mb-1 text-xs font-extrabold uppercase tracking-wide text-neutral-400">
-            Transcript {recognitionSupported() ? '(live — edit if needed)' : '(no speech recognition in this browser — type what you said)'}
+          <div className="mb-1 flex items-center gap-2 text-xs font-extrabold uppercase tracking-wide text-neutral-400">
+            <span>Transcript</span>
+            {stt === 'listening' && <span className="text-[#1cb0f6]">● listening…</span>}
+            {stt === 'working' && <span className="text-[#3f8f00]">● transcribing…</span>}
+            {(stt === 'unavailable' || !recognitionSupported()) && <span className="text-amber-600">type your answer</span>}
           </div>
           <textarea
             className="min-h-24 w-full rounded-xl border-2 border-neutral-200 p-3 font-medium focus:border-[#1cb0f6] focus:outline-none"
             value={transcript}
-            placeholder="Your spoken words appear here…"
+            placeholder="Type what you said here (this is what gets graded)…"
             onChange={e => { setTranscript(e.target.value); emit({ transcript: e.target.value }) }}
           />
         </div>

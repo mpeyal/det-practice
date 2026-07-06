@@ -56,7 +56,17 @@ function findClaudeCli() {
     ...(isWin ? [] : EXTRA_BIN_DIRS.map(d => join(d, 'claude'))),
   ]
   for (const p of direct) if (existsSync(p)) return p
-  // 2) VS Code / Cursor extension bundled binary (newest version wins)
+  // 2) nvm-managed node installs (~/.nvm/versions/node/<v>/bin/claude)
+  if (!isWin) {
+    const nvmBase = join(home, '.nvm', 'versions', 'node')
+    try {
+      if (existsSync(nvmBase)) for (const v of readdirSync(nvmBase)) {
+        const p = join(nvmBase, v, 'bin', 'claude')
+        if (existsSync(p)) return p
+      }
+    } catch { /* ignore */ }
+  }
+  // 3) VS Code / Cursor extension bundled binary (newest version wins)
   for (const ext of ['.vscode', '.vscode-insiders', '.cursor']) {
     const base = join(home, ext, 'extensions')
     if (!existsSync(base)) continue
@@ -67,16 +77,21 @@ function findClaudeCli() {
       if (existsSync(p)) return p
     }
   }
-  // 3) macOS/Linux: ask the user's LOGIN shell where claude is (GUI apps get a
-  //    minimal PATH, so this finds Homebrew/nvm/npm installs the app can't see)
+  // 4) macOS/Linux: ask the user's shells where claude is. GUI apps get a
+  //    minimal PATH, so this is what finds nvm/Homebrew/npm installs. Try
+  //    several shells (login + interactive so .zprofile AND .zshrc are read),
+  //    and take the last absolute path the shell prints.
   if (!isWin) {
-    try {
-      const shell = process.env.SHELL || '/bin/zsh'
-      const out = execSync(`${shell} -lic 'command -v claude' 2>/dev/null`, { encoding: 'utf8', timeout: 5000 }).trim()
-      if (out && existsSync(out)) return out
-    } catch { /* ignore */ }
+    const shells = [process.env.SHELL, '/bin/zsh', '/bin/bash', '/bin/sh'].filter(Boolean)
+    for (const sh of [...new Set(shells)]) {
+      try {
+        const raw = execSync(`'${sh}' -ilc 'command -v claude || which claude' 2>/dev/null`, { encoding: 'utf8', timeout: 6000, shell: '/bin/sh' })
+        const line = raw.split('\n').map(s => s.trim()).filter(Boolean).reverse().find(s => s.startsWith('/') && existsSync(s))
+        if (line) return line
+      } catch { /* try next shell */ }
+    }
   }
-  // 4) last resort: bare name on PATH
+  // 5) last resort: bare name on PATH
   return 'claude'
 }
 
@@ -89,8 +104,15 @@ function findCodexCli() {
   return which('codex') ? 'codex' : null
 }
 
-const CLAUDE = findClaudeCli()
-const CLI_FOUND = CLAUDE !== 'claude' || which('claude')
+// Detected lazily and re-runnable — the user may install / log in to the CLI
+// after the app has already started, so the AI Account "Refresh" re-detects.
+let CLAUDE = findClaudeCli()
+let CLI_FOUND = CLAUDE !== 'claude' || which('claude')
+function redetectClaude() {
+  CLAUDE = findClaudeCli()
+  CLI_FOUND = CLAUDE !== 'claude' || which('claude')
+  return { cli: CLAUDE, found: CLI_FOUND }
+}
 const CODEX = findCodexCli()
 
 // ---- per-app account state (never written to disk; lives in this process) ----
@@ -301,6 +323,7 @@ function makeHandler(distDir) {
 
   // --- account management (mirrors the NeuroVAT "Claude account" dialog) ---
   if (url.pathname === '/api/account' && req.method === 'GET') {
+    redetectClaude() // re-scan for the CLI (user may have just installed/logged in)
     sendJson(res, 200, { ok: true, ...(await accountStatus()) })
     return
   }
