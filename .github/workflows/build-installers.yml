@@ -12,6 +12,10 @@ on:
   push:
     tags: ['v*']
 
+# allow the release step to create/update GitHub Releases
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
