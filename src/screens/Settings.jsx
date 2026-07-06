@@ -1,8 +1,105 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
 import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
-import { englishVoices, scoreVoice, guessGender, speak, stopSpeaking } from '../lib/tts.js'
+import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
+
+/* ---------- speaker + microphone sound check ---------- */
+
+function SoundCheck() {
+  const [speaking, setSpeaking] = useState(false)
+  const [mic, setMic] = useState('idle') // idle | testing | ok | error
+  const [micMsg, setMicMsg] = useState('')
+  const [level, setLevel] = useState(0)
+  const streamRef = useRef(null), ctxRef = useRef(null), rafRef = useRef(null)
+
+  const stopMic = () => {
+    cancelAnimationFrame(rafRef.current)
+    streamRef.current?.getTracks().forEach(t => t.stop())
+    ctxRef.current?.close?.().catch(() => {})
+    streamRef.current = null; ctxRef.current = null
+  }
+  useEffect(() => () => { stopMic(); stopSpeaking() }, [])
+
+  const testSpeaker = async () => {
+    if (!ttsSupported()) return
+    setSpeaking(true)
+    await speak('This is the voice you will hear during the listening questions. If you can hear this clearly, your speaker is working.',
+      { rate: getSettings().ttsRate, voice: pickVoice() })
+    setSpeaking(false)
+  }
+
+  const testMic = async () => {
+    setMicMsg(''); stopMic()
+    if (!navigator.mediaDevices?.getUserMedia) { setMic('error'); setMicMsg('This browser has no microphone support.'); return }
+    if (typeof window !== 'undefined' && window.isSecureContext === false) {
+      setMic('error'); setMicMsg('The mic needs a secure page — use the desktop app or open the app at http://localhost (not a file:// page).'); return
+    }
+    setMic('testing')
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      streamRef.current = stream
+      const Ctx = window.AudioContext || window.webkitAudioContext
+      const ctx = new Ctx(); ctxRef.current = ctx
+      const analyser = ctx.createAnalyser(); analyser.fftSize = 256
+      ctx.createMediaStreamSource(stream).connect(analyser)
+      const data = new Uint8Array(analyser.frequencyBinCount)
+      setMic('ok')
+      const loop = () => {
+        analyser.getByteTimeDomainData(data)
+        let peak = 0
+        for (const v of data) peak = Math.max(peak, Math.abs(v - 128))
+        setLevel(Math.min(1, peak / 60))
+        rafRef.current = requestAnimationFrame(loop)
+      }
+      loop()
+    } catch (e) {
+      setMic('error')
+      const n = e?.name
+      setMicMsg(
+        n === 'NotAllowedError' || n === 'SecurityError' ? 'Microphone blocked. Click the camera/lock icon in the address bar → Allow, then test again. (The embedded preview panel can’t grant the mic — open the app in a real browser tab or the desktop app.)' :
+        n === 'NotFoundError' ? 'No microphone was found on this device.' :
+        n === 'NotReadableError' ? 'The microphone is being used by another app. Close it and try again.' :
+        'Could not access the microphone.')
+    }
+  }
+
+  return (
+    <div>
+      <h2 className="font-black">🔊 Speaker &amp; microphone</h2>
+      <p className="mt-1 text-sm font-semibold text-neutral-500">
+        Check your audio before an exam: the speaker plays the listening questions, the microphone records the speaking tasks.
+      </p>
+
+      {/* speaker */}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="w-28 text-sm font-extrabold text-neutral-500">Speaker</span>
+        <button className="btn-blue !py-2 text-sm" disabled={speaking} onClick={testSpeaker}>
+          {speaking ? '🔊 Playing…' : '🔊 Test speaker'}
+        </button>
+        {!ttsSupported() && <span className="text-xs font-bold text-amber-700">No speech synthesis in this browser.</span>}
+      </div>
+
+      {/* microphone */}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="w-28 text-sm font-extrabold text-neutral-500">Microphone</span>
+        {mic === 'ok'
+          ? <button className="btn-ghost !py-2 text-sm" onClick={() => { stopMic(); setMic('idle'); setLevel(0) }}>■ Stop test</button>
+          : <button className="btn-blue !py-2 text-sm" disabled={mic === 'testing'} onClick={testMic}>🎤 Test microphone</button>}
+        {mic === 'ok' && (
+          <div className="flex items-center gap-2">
+            <div className="h-3 w-40 overflow-hidden rounded-full bg-neutral-200">
+              <div className="h-full rounded-full transition-[width] duration-75" style={{ width: `${Math.round(level * 100)}%`, background: level > 0.05 ? '#58cc02' : '#d1d5db' }} />
+            </div>
+            <span className="text-xs font-bold text-[#3f8f00]">{level > 0.05 ? 'Hearing you ✓' : 'Speak now…'}</span>
+          </div>
+        )}
+      </div>
+      {mic === 'ok' && <p className="mt-1 text-xs font-semibold text-neutral-500">Say something — the green bar should move. That confirms the exam can record you.</p>}
+      {mic === 'error' && <p className="mt-1 text-xs font-bold text-red-500">{micMsg}</p>}
+    </div>
+  )
+}
 
 /* ---------- AI model picker ---------- */
 
@@ -134,6 +231,8 @@ export default function Settings({ go }) {
           </p>
           <ModelPicker s={s} setS={setS} />
         </div>
+
+        <SoundCheck />
 
         <VoiceSection s={s} setS={setS} />
 
