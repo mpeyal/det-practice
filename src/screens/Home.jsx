@@ -49,21 +49,37 @@ export default function Home({ go }) {
       {history.length > 0 && (
         <div className="mt-8">
           <h2 className="mb-3 text-lg font-black">Recent results</h2>
+          <p className="mb-2 text-sm font-semibold text-neutral-400">Tap a result to review every question, your answers, and what was wrong.</p>
           <div className="space-y-2">
-            {history.map(h => (
-              <div key={h.id || h.date} className="card flex items-center justify-between !p-4">
-                <div>
-                  <div className="font-extrabold">{h.title}</div>
-                  <div className="text-xs font-bold text-neutral-400">{new Date(h.date).toLocaleString()}</div>
-                </div>
-                <div className="flex items-center gap-3">
-                  {h.subscores && Object.entries(h.subscores).map(([k, v]) => v != null && (
-                    <span key={k} className="hidden text-xs font-bold text-neutral-400 sm:inline">{k[0].toUpperCase()}{k.slice(1, 4)} {v}</span>
-                  ))}
-                  <span className="rounded-xl bg-[#58cc02] px-3 py-1 text-lg font-black text-white">{h.overall ?? '—'}</span>
-                </div>
-              </div>
-            ))}
+            {history.map(h => {
+              const openable = Array.isArray(h.items) && h.items.length > 0
+              return (
+                <button
+                  key={h.id || h.date}
+                  disabled={!openable}
+                  onClick={() => openable && go({ name: 'review', history: h })}
+                  className={`card flex w-full items-center justify-between !p-4 text-left transition
+                    ${openable ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md' : 'opacity-70'}`}
+                >
+                  <div>
+                    <div className="font-extrabold">{h.title}</div>
+                    <div className="text-xs font-bold text-neutral-400">
+                      {new Date(h.date).toLocaleString()}{openable ? '' : ' · summary only'}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {h.marks?.possible > 0 && (
+                      <span className="hidden rounded-lg bg-[#fff3c4] px-2 py-0.5 text-xs font-black text-amber-600 sm:inline">🏅 {h.marks.earned}/{h.marks.possible}</span>
+                    )}
+                    {h.subscores && Object.entries(h.subscores).map(([k, v]) => v != null && (
+                      <span key={k} className="hidden text-xs font-bold text-neutral-400 md:inline">{k[0].toUpperCase()}{k.slice(1, 4)} {v}</span>
+                    ))}
+                    <span className="rounded-xl bg-[#58cc02] px-3 py-1 text-lg font-black text-white">{h.overall ?? '—'}</span>
+                    {openable && <span className="text-neutral-300">›</span>}
+                  </div>
+                </button>
+              )
+            })}
           </div>
         </div>
       )}

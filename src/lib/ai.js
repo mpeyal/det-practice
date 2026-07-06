@@ -66,14 +66,22 @@ export async function backendGrade({ kind, taskLabel, prompt, response }) {
   return parseGradeReply(j.text)
 }
 
-// Fallback model choices shown before the live list is loaded.
-// 'claude-sonnet-5' is the default: best quality/cost balance for grading.
+// Model choices. IDs work for the API directly and map to the right CLI alias
+// (sonnet/opus/haiku) for subscription grading. 'claude-sonnet-5' is default.
 export const KNOWN_MODELS = [
-  { id: 'claude-sonnet-5', label: 'Sonnet 5 (default — recommended)' },
-  { id: 'claude-fable-5', label: 'Fable 5 (most capable)' },
-  { id: 'claude-opus-4-8', label: 'Opus 4.8' },
-  { id: 'claude-haiku-4-5-20251001', label: 'Haiku 4.5 (fastest/cheapest)' },
+  { id: 'claude-sonnet-5', label: 'Sonnet 5 — recommended (balanced)' },
+  { id: 'claude-opus-4-8', label: 'Opus 4.8 — most capable' },
+  { id: 'claude-haiku-4-5-20251001', label: 'Haiku 4.5 — fastest' },
 ]
+
+// Serialize auto-grading so a review screen with several writing/speaking
+// items doesn't spawn many concurrent CLI/API calls at once.
+let _gradeQueue = Promise.resolve()
+export function gradeQueued(fn) {
+  const p = _gradeQueue.then(fn, fn)
+  _gradeQueue = p.catch(() => {})
+  return p
+}
 
 const MODELS_CACHE_KEY = 'det.models'
 

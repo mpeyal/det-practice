@@ -5,6 +5,7 @@ import { gradeItem } from '../lib/grading.js'
 import { LEVEL_META, marksFor } from '../lib/difficulty.js'
 import DetailView from '../components/DetailView.jsx'
 import SubjectiveReview from '../components/SubjectiveReview.jsx'
+import QuestionView from '../components/QuestionView.jsx'
 import { stopSpeaking } from '../lib/tts.js'
 
 /** Difficulty + marks chip shown above every practice question. */
@@ -77,19 +78,21 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
                   🏅 {Math.round(feedback.grade.score * marksFor(item))} / {marksFor(item)} marks
                 </span>
               </div>
+              <QuestionView item={item} />
               <DetailView item={item} grade={feedback.grade} />
               {feedback.grade.explanation && <p className="mt-3 text-sm text-neutral-500">{feedback.grade.explanation}</p>}
             </div>
           ) : (
             <div className="card">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <div className="text-lg font-black">Compare with the model & grade it</div>
+                <div className="text-lg font-black">Your response, graded</div>
                 {selfScore != null && (
                   <span className="whitespace-nowrap rounded-xl bg-neutral-100 px-3 py-1 text-sm font-black text-neutral-600">
                     🏅 {Math.round(selfScore * marksFor(item))} / {marksFor(item)} marks
                   </span>
                 )}
               </div>
+              <QuestionView item={item} />
               <SubjectiveReview item={item} response={feedback.response} selfScore={selfScore} onScore={setSelfScore} />
             </div>
           )}

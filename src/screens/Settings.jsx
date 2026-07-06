@@ -1,50 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
-import { aiAvailable, listModels, cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
+import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, speak, stopSpeaking } from '../lib/tts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
-/* ---------- AI model picker: live list from the API when possible ---------- */
+/* ---------- AI model picker ---------- */
 
 function ModelPicker({ s, setS }) {
-  const [models, setModels] = useState(() => cachedModels() || KNOWN_MODELS)
-  const [state, setState] = useState('idle') // idle | loading | error | done
-  const [error, setError] = useState('')
-
-  const load = async () => {
-    setState('loading')
-    try {
-      const live = await listModels()
-      setModels(live)
-      setState('done')
-    } catch (e) {
-      setState('error')
-      setError(String(e.message || e))
-    }
-  }
-
+  const models = cachedModels() || KNOWN_MODELS
   // make sure the saved model is always selectable, even if not in the list
-  const options = models.some(m => m.id === s.model)
-    ? models
-    : [{ id: s.model, label: s.model }, ...models]
+  const options = models.some(m => m.id === s.model) ? models : [{ id: s.model, label: s.model }, ...models]
 
   return (
-    <div className="mt-2">
-      <div className="flex flex-wrap items-center gap-2">
-        <label className="text-sm font-extrabold text-neutral-500">Model</label>
-        <select
-          className="min-w-0 flex-1 rounded-xl border-2 border-neutral-200 p-2.5 text-sm font-semibold focus:border-[#1cb0f6] focus:outline-none"
-          value={s.model}
-          onChange={e => { setS({ ...s, model: e.target.value }); saveSettings({ model: e.target.value }) }}
-        >
-          {options.map(m => <option key={m.id} value={m.id}>{m.label}{m.id !== m.label ? ` — ${m.id}` : ''}</option>)}
-        </select>
-        <button className="btn-ghost !px-3 !py-2 text-xs" disabled={state === 'loading'} onClick={load}>
-          {state === 'loading' ? 'Loading…' : '↻ Load available models'}
-        </button>
-      </div>
-      {state === 'done' && <p className="mt-1 text-xs font-bold text-[#3f8f00]">✓ Showing the {models.length} models available to your API key.</p>}
-      {state === 'error' && <p className="mt-1 text-xs font-bold text-red-500">Could not load models ({error}) — showing the standard list.</p>}
+    <div className="mt-2 flex flex-wrap items-center gap-2">
+      <label className="text-sm font-extrabold text-neutral-500">Model</label>
+      <select
+        className="min-w-0 flex-1 rounded-xl border-2 border-neutral-200 p-2.5 text-sm font-semibold focus:border-[#1cb0f6] focus:outline-none"
+        value={s.model}
+        onChange={e => { setS({ ...s, model: e.target.value }); saveSettings({ model: e.target.value }) }}
+      >
+        {options.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+      </select>
     </div>
   )
 }
@@ -126,7 +102,6 @@ export default function Settings({ go }) {
   const [saved, setSaved] = useState(false)
   const [backend, setBackend] = useState(false)
   const [showAccount, setShowAccount] = useState(false)
-  const envKey = Boolean(import.meta.env.VITE_ANTHROPIC_API_KEY)
   useEffect(() => { detectBackend().then(b => setBackend(!!b)) }, [])
 
   const save = () => { saveSettings(s); setSaved(true); setTimeout(() => setSaved(false), 1500) }
@@ -152,36 +127,12 @@ export default function Settings({ go }) {
         </div>
 
         <div>
-          <h2 className="font-black">AI marking — API key (optional)</h2>
+          <h2 className="font-black">AI grading model</h2>
           <p className="mt-1 text-sm font-semibold text-neutral-500">
-            Writing and speaking responses can be graded by Claude via the Anthropic API. The key is stored only in this
-            browser (localStorage) and used directly against api.anthropic.com — the rest of the app never touches the network.
-            {envKey && ' A build-time key from VITE_ANTHROPIC_API_KEY is already present; leaving this blank uses it.'}
+            Which Claude model grades your writing &amp; speaking. Authentication (your Claude subscription or an API-key
+            override) is set above in <b>AI Account</b>. When AI is connected, grading runs automatically — no button needed.
           </p>
-          <input
-            type="password"
-            className="mt-2 w-full rounded-xl border-2 border-neutral-200 p-3 font-mono text-sm focus:border-[#1cb0f6] focus:outline-none"
-            placeholder="sk-ant-…  (create one at console.anthropic.com)"
-            value={s.apiKey}
-            onChange={e => {
-              // save immediately — losing a pasted key because "Save" wasn't
-              // clicked is too easy a trap
-              const apiKey = e.target.value.trim()
-              setS({ ...s, apiKey })
-              saveSettings({ apiKey })
-            }}
-          />
-          {s.apiKey && <p className="mt-1 text-xs font-bold text-[#3f8f00]">✓ Key saved in this browser. Use “↻ Load available models” below to test it.</p>}
           <ModelPicker s={s} setS={setS} />
-          <div className={`mt-2 rounded-xl px-3 py-2 text-sm font-bold ${aiAvailable() ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-neutral-100 text-neutral-500'}`}>
-            Status: {aiAvailable() ? 'AI marking available' : navigator.onLine ? 'no API key — offline sample answers will be used' : 'you are offline — offline sample answers will be used'}
-          </div>
-          <p className="mt-2 rounded-xl bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-500">
-            ℹ️ A Claude Pro/Max subscription (claude.ai login) can't be used here: Anthropic doesn't offer subscription
-            sign-in for third-party apps. Apps like this one need an API key from{' '}
-            <a className="font-bold text-[#1899d6]" href="https://console.anthropic.com" target="_blank" rel="noreferrer">console.anthropic.com</a>{' '}
-            (pay-as-you-go — grading one response costs a fraction of a cent on Sonnet).
-          </p>
         </div>
 
         <VoiceSection s={s} setS={setS} />

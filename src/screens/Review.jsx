@@ -4,7 +4,8 @@ import { STUDY_TIPS } from '../lib/grading.js'
 import { TYPE_LABELS } from '../lib/exam.js'
 import DetailView from '../components/DetailView.jsx'
 import SubjectiveReview from '../components/SubjectiveReview.jsx'
-import { upsertAttempt } from '../lib/storage.js'
+import QuestionView from '../components/QuestionView.jsx'
+import { upsertAttempt, stripResponses } from '../lib/storage.js'
 import { LEVEL_META, marksFor } from '../lib/difficulty.js'
 
 function ScoreRing({ score }) {
@@ -34,9 +35,11 @@ function SubBar({ label, score }) {
  * explanations, AI/self grading for writing & speaking, and a
  * "What to study" summary grouped by skill theme.
  */
-export default function Review({ title, items, responses, onHome }) {
-  const [subjectiveScores, setSubjectiveScores] = useState({})
-  const attemptId = useRef(`a_${Date.now()}_${Math.floor(Math.random() * 1e6)}`)
+export default function Review({ title, items, responses, onHome, history = false, savedSubjectiveScores, savedSubjectiveResults, attemptId: savedId }) {
+  const [subjectiveScores, setSubjectiveScores] = useState(savedSubjectiveScores || {})
+  // full AI feedback objects per item, so history can re-show the details
+  const [subjectiveResults, setSubjectiveResults] = useState(savedSubjectiveResults || {})
+  const attemptId = useRef(savedId || `a_${Date.now()}_${Math.floor(Math.random() * 1e6)}`)
 
   const results = useMemo(
     () => computeResults(items, responses, subjectiveScores),
@@ -62,16 +65,24 @@ export default function Review({ title, items, responses, onHome }) {
     return { earned: Math.round(earned), possible }
   }, [results, subjectiveScores])
 
-  // persist / live-update this attempt in history
+  // persist / live-update this attempt in history — now with the FULL items +
+  // responses + grades, so "Recent results" can re-open the whole review.
+  // (Skipped when we're already viewing a saved attempt from history.)
   useEffect(() => {
+    if (history) return
     upsertAttempt({
       id: attemptId.current,
       title,
       overall: results.overall,
       subscores: results.subscores,
       itemCount: items.length,
+      marks,
+      items,
+      responses: stripResponses(responses),
+      subjectiveScores,
+      subjectiveResults,
     })
-  }, [results, title, items.length])
+  }, [results, title, items.length, subjectiveScores, subjectiveResults]) // eslint-disable-line
 
   return (
     <div className="mx-auto w-full max-w-3xl pb-16">
@@ -142,12 +153,18 @@ export default function Review({ title, items, responses, onHome }) {
               ) : null}
             </div>
 
+            {/* show the actual QUESTION so the answer has context */}
+            <QuestionView item={item} />
+
             {grade.subjective ? (
               <SubjectiveReview
                 item={item}
                 response={response}
                 selfScore={subjectiveScores[item.id]}
+                savedResult={subjectiveResults[item.id]}
+                history={history}
                 onScore={f => setSubjectiveScores(s => ({ ...s, [item.id]: f }))}
+                onResult={r => setSubjectiveResults(s => ({ ...s, [item.id]: r }))}
               />
             ) : (
               <>

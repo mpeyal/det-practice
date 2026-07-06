@@ -67,9 +67,22 @@ export default function App() {
       )
       break
     }
-    case 'review':
-      content = <Review title={screen.title} items={screen.items} responses={screen.responses} onHome={() => go({ name: 'home' })} />
+    case 'review': {
+      const h = screen.history // a saved attempt, re-opened from Recent results
+      content = (
+        <Review
+          title={h ? h.title : screen.title}
+          items={h ? h.items : screen.items}
+          responses={h ? h.responses : screen.responses}
+          history={!!h}
+          attemptId={h ? h.id : undefined}
+          savedSubjectiveScores={h ? h.subjectiveScores : undefined}
+          savedSubjectiveResults={h ? h.subjectiveResults : undefined}
+          onHome={() => go({ name: 'home' })}
+        />
+      )
       break
+    }
     default:
       content = <Home go={go} />
   }

@@ -34,18 +34,34 @@ export function getHistory() {
   try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [] } catch { return [] }
 }
 
-export function saveAttempt(attempt) {
-  const h = getHistory()
-  h.unshift({ ...attempt, date: new Date().toISOString() })
-  // keep the last 100 attempts
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(0, 100)))
+/** Object URLs (mic recordings) can't survive a reload — drop them before saving. */
+export function stripResponses(responses) {
+  const out = {}
+  for (const [k, v] of Object.entries(responses || {})) {
+    if (v && typeof v === 'object') {
+      const c = { ...v }
+      if (c.url) c.url = null
+      if (Array.isArray(c.answers)) c.answers = c.answers.map(a => (a && a.url ? { ...a, url: null } : a))
+      out[k] = c
+    } else out[k] = v
+  }
+  return out
 }
 
-/** Insert or replace an attempt by its id (review screen updates scores live). */
+/**
+ * Insert or replace an attempt by its id. Attempts now carry the full items +
+ * responses + subjectiveScores so "Recent results" can re-open the whole
+ * review. localStorage is bounded, so cap the count and drop the oldest
+ * attempts if we hit the quota.
+ */
 export function upsertAttempt(attempt) {
-  const h = getHistory().filter(a => a.id !== attempt.id)
+  let h = getHistory().filter(a => a.id !== attempt.id)
   h.unshift({ ...attempt, date: attempt.date || new Date().toISOString() })
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(0, 100)))
+  h = h.slice(0, 40)
+  while (h.length) {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); return }
+    catch { h.pop() } // quota exceeded — drop the oldest and retry
+  }
 }
 
 export function clearHistory() {

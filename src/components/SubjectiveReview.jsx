@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { aiAvailable, aiGrade, backendGrade, detectBackend, buildGradingPrompt, parseGradeReply, SELF_RUBRIC } from '../lib/ai.js'
+import React, { useEffect, useRef, useState } from 'react'
+import { aiAvailable, aiGrade, backendGrade, detectBackend, buildGradingPrompt, parseGradeReply, gradeQueued, SELF_RUBRIC } from '../lib/ai.js'
 import { TYPE_LABELS } from '../lib/exam.js'
 
 /** Build the prompt/response/model strings for a subjective item. */
@@ -50,10 +50,10 @@ const BANDS = [
  * AI marking when online + key configured; otherwise (and always, as a
  * baseline) the bundled model answer + rubric with self-scoring.
  */
-export default function SubjectiveReview({ item, response, selfScore, onScore }) {
+export default function SubjectiveReview({ item, response, selfScore, savedResult, onScore, onResult, history = false }) {
   const info = subjectiveInfo(item, response)
-  const [ai, setAi] = useState(null)
-  const [aiState, setAiState] = useState('idle') // idle | loading | error
+  const [ai, setAi] = useState(savedResult || null)
+  const [aiState, setAiState] = useState(savedResult ? 'done' : 'idle') // idle | loading | done | error
   const [aiError, setAiError] = useState('')
   const [showModel, setShowModel] = useState(false)
   // manual grading via a Claude subscription (copy prompt → claude.ai → paste reply)
@@ -63,24 +63,35 @@ export default function SubjectiveReview({ item, response, selfScore, onScore })
   const [pasteError, setPasteError] = useState('')
   // local Claude-subscription backend (server/server.mjs)? probe once
   const [backend, setBackend] = useState(undefined)
+  const autoTried = useRef(false)
   useEffect(() => { detectBackend().then(setBackend) }, [])
 
-  const applyGrade = (res) => { setAi(res); setAiState('done'); onScore && onScore(res.frac) }
+  const applyGrade = (res) => { setAi(res); setAiState('done'); onScore && onScore(res.frac); onResult && onResult(res) }
 
   const gradeArgs = () => ({ kind: info.kind, taskLabel: TYPE_LABELS[item.type], prompt: info.prompt, response: info.response })
 
   const runAi = async () => {
     setAiState('loading')
-    try { applyGrade(await aiGrade(gradeArgs())) }
+    try { applyGrade(await gradeQueued(() => aiGrade(gradeArgs()))) }
     catch (e) { setAiState('error'); setAiError(String(e.message || e)) }
   }
 
   // one-click agentic grading via the local subscription backend
   const runBackend = async () => {
     setAiState('loading')
-    try { applyGrade(await backendGrade(gradeArgs())) }
+    try { applyGrade(await gradeQueued(() => backendGrade(gradeArgs()))) }
     catch (e) { setAiState('error'); setAiError(String(e.message || e)) }
   }
+
+  // AUTO-GRADE the moment AI is connected — no button, no copy/paste.
+  // (Skipped in history mode, when re-opening a past attempt, and for empty
+  // responses.)
+  useEffect(() => {
+    if (history || autoTried.current || backend === undefined) return
+    if (aiState !== 'idle' || !info.response.trim()) return
+    if (backend) { autoTried.current = true; runBackend() }
+    else if (aiAvailable()) { autoTried.current = true; runAi() }
+  }, [backend, history]) // eslint-disable-line
 
   const copyPrompt = async () => {
     const text = buildGradingPrompt({ kind: info.kind, taskLabel: TYPE_LABELS[item.type], prompt: info.prompt, response: info.response })
@@ -116,12 +127,12 @@ export default function SubjectiveReview({ item, response, selfScore, onScore })
         <div className="whitespace-pre-wrap rounded-xl bg-neutral-50 p-3 text-sm font-medium">{info.response || '(empty)'}</div>
       </div>
 
-      {/* AI marking (online enhancement) */}
+      {/* AI marking — automatic when AI is connected (backend or API key) */}
       {aiState === 'done' && ai ? (
         <div className="rounded-2xl border-2 border-[#bde8ff] bg-[#f3fbff] p-4">
           <div className="flex items-center gap-3">
             <div className="rounded-xl bg-[#1cb0f6] px-3 py-1 text-xl font-black text-white">{ai.score10to160}</div>
-            <div className="font-bold">AI estimate · CEFR {ai.cefr}</div>
+            <div className="font-bold">AI grade · CEFR {ai.cefr}</div>
           </div>
           <p className="mt-2 text-sm font-semibold">{ai.summary}</p>
           <div className="mt-3 grid gap-2 text-sm md:grid-cols-2">
@@ -137,36 +148,31 @@ export default function SubjectiveReview({ item, response, selfScore, onScore })
             </details>
           )}
         </div>
-      ) : (
+      ) : aiState === 'loading' ? (
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-[#bde8ff] bg-[#f3fbff] p-4 text-sm font-extrabold text-[#1899d6]">
+          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#bde8ff] border-t-[#1cb0f6]" />
+          Grading with Claude…
+        </div>
+      ) : aiState === 'error' ? (
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl bg-red-50 p-3">
+          <span className="text-xs font-bold text-red-500">AI grading failed: {aiError}</span>
+          <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => (backend ? runBackend() : runAi())}>Retry</button>
+        </div>
+      ) : !history && !backend && !aiAvailable() ? (
+        // No AI connected — offer the manual copy/paste bridge + self-score
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            {backend ? (
-              // agentic: local backend shells the claude CLI (your subscription)
-              <button className="btn !py-2 text-sm" disabled={aiState === 'loading'} onClick={runBackend}>
-                {aiState === 'loading' ? 'Grading…' : '✨ Grade with Claude (subscription)'}
-              </button>
-            ) : aiAvailable() ? (
-              <button className="btn btn-blue !py-2 text-sm" disabled={aiState === 'loading'} onClick={runAi}>
-                {aiState === 'loading' ? 'Grading…' : '✨ Grade with AI (API key)'}
-              </button>
-            ) : (
-              <span className="rounded-xl bg-neutral-100 px-3 py-2 text-xs font-bold text-neutral-500">
-                No AI backend — run <b>npm run serve</b> to grade with your Claude subscription, or self-score below.
-              </span>
-            )}
-            {/* manual copy/paste bridge stays available as a fallback */}
-            {!backend && (
-              <button className="btn-ghost !px-3 !py-2 text-xs" onClick={() => setSubOpen(v => !v)}>
-                {subOpen ? '▾' : '▸'} 💬 Grade by copy/paste
-              </button>
-            )}
-            {aiState === 'error' && <span className="text-xs font-bold text-red-500">AI error: {aiError} — try again or self-score below.</span>}
+            <span className="rounded-xl bg-neutral-100 px-3 py-2 text-xs font-bold text-neutral-500">
+              No AI connected — connect your Claude subscription in ⚙️ Settings → AI Account, or self-score below.
+            </span>
+            <button className="btn-ghost !px-3 !py-2 text-xs" onClick={() => setSubOpen(v => !v)}>
+              {subOpen ? '▾' : '▸'} 💬 Grade by copy/paste
+            </button>
           </div>
-
           {subOpen && (
             <div className="mt-3 space-y-2 rounded-2xl border-2 border-[#e5e5e5] p-3">
               <p className="text-xs font-semibold text-neutral-500">
-                A claude.ai subscription can't connect to apps directly, but it can grade manually — three steps, ~30 seconds:
+                Copy the grading prompt, paste it into claude.ai, then paste Claude's reply back — three steps, ~30 seconds:
               </p>
               <div className="flex flex-wrap items-center gap-2">
                 <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={copyPrompt}>
@@ -192,7 +198,7 @@ export default function SubjectiveReview({ item, response, selfScore, onScore })
             </div>
           )}
         </div>
-      )}
+      ) : null}
 
       {/* offline fallback: model answer + rubric + self-score */}
       <div className="rounded-2xl bg-[#fffbe8] p-4">
