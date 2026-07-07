@@ -200,7 +200,38 @@ export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   return speakSystem(text, { rate, voice, voiceKey })
 }
 
-function speakSystem(text, { rate = 1, voice = null, voiceKey = null } = {}) {
+// native macOS speech via the desktop app (Apple's engine — reliable; the
+// Chromium speechSynthesis bridge on macOS drops/garbles utterances)
+let _nativeSaying = false
+function nativeSay() {
+  return (typeof window !== 'undefined' && window.parrot?.platform === 'darwin' && window.parrot?.say) || null
+}
+
+function speakSystem(text, opts = {}) {
+  const native = nativeSay()
+  if (native) {
+    const { rate = 1, voice = null, voiceKey = null } = opts
+    let v = voice && voice.neuralGender ? voiceOfGender(voice.neuralGender) : voice
+    if (!v) { const k = voiceKey != null ? voiceForKey(voiceKey) : pickVoice(); v = k && k.neuralGender ? voiceOfGender(k.neuralGender) : k }
+    // Chromium names voices like "Ava (Enhanced)" — `say` wants plain "Ava"
+    const name = v?.name ? v.name.replace(/\s*\(.*?\)\s*/g, '').replace(/^Microsoft |^Google /,'').trim() : undefined
+    _nativeSaying = true
+    return native.say.speak({ text, voice: name, rate })
+      .then(r => {
+        _nativeSaying = false
+        if (r && r.ok) return true
+        if (r && r.interrupted) return false
+        // engine rejected (e.g. unknown voice name) → retry without a voice,
+        // then fall back to the Chromium path so nothing is ever silent
+        return native.say.speak({ text, rate }).then(r2 =>
+          (r2 && r2.ok) ? true : (r2 && r2.interrupted) ? false : speakChromium(text, opts))
+      })
+      .catch(() => { _nativeSaying = false; return speakChromium(text, opts) })
+  }
+  return speakChromium(text, opts)
+}
+
+function speakChromium(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   return new Promise((resolve) => {
     if (!ttsSupported()) { resolve(false); return }
     const synth = window.speechSynthesis
@@ -258,9 +289,11 @@ export function stopSpeaking() {
   _speakToken++ // invalidate any in-flight sequence
   stopKeepAlive()
   stopNeural()
+  const native = nativeSay()
+  if (native) { _nativeSaying = false; native.say.stop().catch?.(() => {}) }
   if (ttsSupported()) window.speechSynthesis.cancel()
 }
 
 export function isSpeaking() {
-  return isNeuralSpeaking() || (ttsSupported() && window.speechSynthesis.speaking)
+  return isNeuralSpeaking() || _nativeSaying || (ttsSupported() && window.speechSynthesis.speaking)
 }

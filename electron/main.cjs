@@ -94,6 +94,37 @@ function registerUpdateIPC() {
   })
 }
 
+// ---- native macOS speech (`say`) ----
+// Chromium's speechSynthesis bridge on macOS is notoriously flaky (dropped /
+// broken utterances). The desktop app can bypass it entirely: /usr/bin/say
+// uses Apple's native engine (same as VoiceOver) — reliable, and it uses the
+// user's downloaded Enhanced/Premium voices.
+let sayProc = null
+function registerSayIPC() {
+  ipcMain.handle('say:speak', async (_e, { text, voice, rate } = {}) => {
+    if (process.platform !== 'darwin') return { ok: false, error: 'not macos' }
+    try { sayProc?.kill() } catch {}
+    return await new Promise((resolve) => {
+      const args = []
+      if (voice) args.push('-v', String(voice))
+      // `say` speaks ~175 words/min at default; scale by the app's rate
+      if (rate && rate !== 1) args.push('-r', String(Math.round(175 * rate)))
+      args.push(String(text))
+      let p
+      try { p = spawn('/usr/bin/say', args, { stdio: 'ignore' }) }
+      catch (e) { resolve({ ok: false, error: e.message }); return }
+      sayProc = p
+      p.on('error', (e) => { if (sayProc === p) sayProc = null; resolve({ ok: false, error: e.message }) })
+      p.on('exit', (code, signal) => {
+        if (sayProc === p) sayProc = null
+        // killed (stop/replaced) → interrupted, not an engine failure
+        resolve({ ok: code === 0, interrupted: signal != null })
+      })
+    })
+  })
+  ipcMain.handle('say:stop', () => { try { sayProc?.kill() } catch {} ; sayProc = null; return true })
+}
+
 async function createWindow() {
   // Allow microphone (speaking tasks) — this is a local, user-owned app.
   session.defaultSession.setPermissionRequestHandler((_wc, permission, cb) => {
@@ -145,6 +176,7 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.on('second-instance', () => { if (mainWindow) { mainWindow.show(); mainWindow.focus() } })
   registerUpdateIPC()
+  registerSayIPC()
   app.whenReady().then(createWindow)
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
   app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })

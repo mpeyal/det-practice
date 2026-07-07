@@ -9,4 +9,9 @@ contextBridge.exposeInMainWorld('parrot', {
   checkUpdate: () => ipcRenderer.invoke('update:check'),
   runUpdate: (url) => ipcRenderer.invoke('update:run', url),
   onProgress: (cb) => ipcRenderer.on('update:progress', (_e, p) => cb(p)),
+  // native macOS speech (reliable, bypasses Chromium's flaky speechSynthesis)
+  say: {
+    speak: (opts) => ipcRenderer.invoke('say:speak', opts),
+    stop: () => ipcRenderer.invoke('say:stop'),
+  },
 })
