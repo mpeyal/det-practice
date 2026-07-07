@@ -194,28 +194,37 @@ export function gradeItem(item, response) {
     case 'interactive_listening': {
       const r = response || {}
       const parts = []
-      const choiceTurns = p.turns.filter(t => t.kind === 'choice')
-      choiceTurns.forEach((t, i) => parts.push({
-        label: `Best reply ${i + 1}`, user: r.choices?.[i] || '(none)', key: t.answer,
-        score: r.choices?.[i] === t.answer ? 1 : 0, explanation: t.explanation,
-      }))
-      p.completion.answers.forEach((a, i) => {
-        const typed = (r.completion?.[i] || '').trim().toLowerCase()
+      // Part A: comprehension blanks (accept the answer or any listed alt)
+      let compMissed = false
+      p.comprehension.forEach((c, i) => {
+        const typed = (r.comprehension?.[i] || '').trim().toLowerCase()
+        const ok = typed === c.answer.toLowerCase() || (c.alts || []).some(a => a.toLowerCase() === typed)
+        if (!ok) compMissed = true
         parts.push({
-          label: `Complete blank ${i + 1}`, user: typed || '(none)', key: a,
-          score: typed === a.toLowerCase() ? 1 : 0, explanation: p.completion.explanation,
+          label: `Comprehension ${i + 1}`, user: r.comprehension?.[i] || '(none)', key: c.answer,
+          score: ok ? 1 : 0, explanation: c.q,
         })
       })
-      const cov = keywordCoverage(r.summary || '', p.summary.keywords)
+      // Part B: opener + response rounds (single-best-choice)
+      let choiceMissed = false
+      const openOk = r.opener === p.opener.answer
+      if (!openOk) choiceMissed = true
       parts.push({
-        label: 'Summary (keyword coverage)', user: r.summary || '(none)', key: p.summary.model,
-        score: cov, explanation: `A good summary mentions: ${p.summary.keywords.join(', ')}.`,
+        label: 'Conversation opener', user: r.opener || '(none)', key: p.opener.answer,
+        score: openOk ? 1 : 0, explanation: p.opener.explanation,
+      })
+      p.rounds.forEach((rd, i) => {
+        const ok = r.responses?.[i] === rd.answer
+        if (!ok) choiceMissed = true
+        parts.push({
+          label: `Response ${i + 1}`, user: r.responses?.[i] || '(none)', key: rd.answer,
+          score: ok ? 1 : 0, explanation: rd.explanation,
+        })
       })
       const score = parts.reduce((s, x) => s + x.score, 0) / parts.length
       const tags = []
-      if (choiceTurns.some((t, i) => r.choices?.[i] !== t.answer)) tags.push('pragmatics')
-      if (p.completion.answers.some((a, i) => (r.completion?.[i] || '').trim().toLowerCase() !== a.toLowerCase())) tags.push('listening-detail')
-      if (cov < 0.6) tags.push('summarizing')
+      if (choiceMissed) tags.push('pragmatics')
+      if (compMissed) tags.push('listening-detail')
       return { score, correct: score >= 0.99, detail: parts, studyTags: [...new Set(tags)], explanation: '' }
     }
     // subjective types — graded by AI or self-score on the review screen

@@ -31,7 +31,7 @@ export const TIERED = {
     ? { easy: passages.filter(p => p.level === 'easy'), medium: passages.filter(p => p.level === 'medium'), hard: passages.filter(p => p.level === 'hard') }
     : tierBank(passages, p => p.passage || `${p.paragraph1} ${p.paragraph2}`),
   conversations: tierBank(conversations, c =>
-    c.turns.map(t => t.text || (t.options || []).join(' ')).join(' ') + ' ' + c.summary.model),
+    c.dialogue.map(t => t.text).join(' ') + ' ' + c.rounds.map(r => r.options.join(' ')).join(' ')),
 }
 
 export const EXAM_COUNT = 50

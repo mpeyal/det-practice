@@ -61,10 +61,12 @@ export default function QuestionView({ item }) {
           <Label>Conversation — {p.scenario}</Label>
           <div className="rounded-2xl bg-neutral-50 p-3 text-sm">
             <div className="mb-2">
-              <AudioBar text={p.turns.filter(t => t.kind === 'line').map(t => t.text).join(' ')} maxPlays={99} />
+              <AudioBar text={p.dialogue.map(t => t.text).join(' ')} maxPlays={99} />
             </div>
-            {p.turns.filter(t => t.kind === 'line').map((t, i) => (
-              <p key={i} className="text-neutral-600"><b>{p.partner}:</b> {t.text}</p>
+            {p.dialogue.map((t, i) => (
+              <p key={i} className={t.speaker === 'you' ? 'text-[#1899d6]' : 'text-neutral-600'}>
+                <b>{t.speaker === 'you' ? p.you : p.partner}:</b> {t.text}
+              </p>
             ))}
           </div>
         </div>
