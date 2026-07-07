@@ -323,14 +323,14 @@ function speakSystem(text, opts = {}) {
       name = nativeVoiceName(gender)
     }
     _nativeSaying = true
-    return native.say.speak({ text, voice: name, rate })
+    return native.speak({ text, voice: name, rate })
       .then(r => {
         _nativeSaying = false
         if (r && r.ok) return true
         if (r && r.interrupted) return false
         // engine rejected (e.g. unknown voice name) → retry without a voice,
         // then fall back to the Chromium path so nothing is ever silent
-        return native.say.speak({ text, rate }).then(r2 =>
+        return native.speak({ text, rate }).then(r2 =>
           (r2 && r2.ok) ? true : (r2 && r2.interrupted) ? false : speakChromium(text, opts))
       })
       .catch(() => { _nativeSaying = false; return speakChromium(text, opts) })
@@ -393,13 +393,15 @@ function speakChromium(text, { rate = 1, voice = null, voiceKey = null } = {}) {
 }
 
 export function stopSpeaking() {
+  // MUST NOT throw — this runs at the start of every Submit/Next handler, so an
+  // exception here would block navigation (that bug once stuck the whole exam
+  // on the desktop app).
   _speakToken++ // invalidate any in-flight sequence
-  stopKeepAlive()
-  stopNeural()
+  try { stopKeepAlive() } catch {}
+  try { stopNeural() } catch {}
   if (_preAudio) { try { _preAudio.pause() } catch {} _preAudio = null }
-  const native = nativeSay()
-  if (native) { _nativeSaying = false; native.say.stop().catch?.(() => {}) }
-  if (ttsSupported()) window.speechSynthesis.cancel()
+  try { const native = nativeSay(); if (native) { _nativeSaying = false; native.stop()?.catch?.(() => {}) } } catch {}
+  try { if (ttsSupported()) window.speechSynthesis.cancel() } catch {}
 }
 
 export function isSpeaking() {

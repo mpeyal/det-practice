@@ -46,12 +46,15 @@ export default function ExamRunner({ exam, onFinish, onQuit }) {
     if (item.id in responsesRef.current) return
     responsesRef.current[item.id] = response
     stopSpeaking()
-    // adapt: good performance -> harder items; poor -> easier
-    const g = gradeItem(item, response)
-    if (!g.subjective && g.score != null) {
-      if (g.score >= 0.8) levelRef.current = stepUp(levelRef.current)
-      else if (g.score <= 0.45) levelRef.current = stepDown(levelRef.current)
-    }
+    // adapt: good performance -> harder items; poor -> easier. NEVER let a
+    // grading error block the advance (or the guard above would trap the exam).
+    try {
+      const g = gradeItem(item, response)
+      if (!g.subjective && g.score != null) {
+        if (g.score >= 0.8) levelRef.current = stepUp(levelRef.current)
+        else if (g.score <= 0.45) levelRef.current = stepDown(levelRef.current)
+      }
+    } catch (e) { console.error('adaptive grading failed', e) }
     if (index + 1 >= items.length) {
       // hand the REVIEW the materialized items (with payloads + levels)
       onFinish(items.map(it => materializedRef.current[it.id] || it), responsesRef.current)

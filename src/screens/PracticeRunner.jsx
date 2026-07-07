@@ -47,7 +47,10 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
     if (item.id in responsesRef.current) return
     stopSpeaking()
     responsesRef.current[item.id] = response
-    setFeedback({ grade: gradeItem(item, response), response })
+    let grade
+    try { grade = gradeItem(item, response) }
+    catch (e) { console.error('grading failed', e); grade = { score: 0, correct: false, detail: [], studyTags: [], explanation: 'This item could not be graded.' } }
+    setFeedback({ grade, response })
   }
 
   const next = () => {
