@@ -251,8 +251,17 @@ function Participate({ conv, getVoices, onPick, onDone }) {
             <button key={i} disabled={revealed}
               onClick={() => setSelected(opt)}
               className={`flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-[15px] font-semibold transition ${cls}`}>
-              <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 ${chosen ? 'border-current' : 'border-neutral-300'}`}>
-                {revealed && opt === correct ? '✓' : revealed && chosen ? '✕' : chosen ? '•' : ''}
+              <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 ${
+                revealed && opt === correct ? 'border-[#58cc02] bg-[#58cc02] text-white' :
+                revealed && chosen ? 'border-[#ff4b4b] bg-[#ff4b4b] text-white' :
+                chosen ? 'border-[#1cb0f6]' : 'border-neutral-300'}`}>
+                {revealed && opt === correct
+                  ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7" /></svg>
+                  : revealed && chosen
+                    ? <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                    : chosen
+                      ? <span className="h-2 w-2 rounded-full bg-[#1cb0f6]" />
+                      : null}
               </span>
               {opt}
             </button>
