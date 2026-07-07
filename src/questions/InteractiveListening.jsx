@@ -230,7 +230,7 @@ function Participate({ conv, getVoices, onPick, onDone }) {
         <div className="mb-4">
           <p className="mb-2 text-sm font-bold text-neutral-500">🔒 Listen closely! Audio clips only play once.</p>
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#ffd9b3] text-xl">🧑</div>
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#ddf4ff] text-xl">💬</div>
             <div className="flex-1"><AudioClip playing={playing} onPlay={() => playRoundAudio(true)} disabled={revealed} /></div>
           </div>
         </div>
