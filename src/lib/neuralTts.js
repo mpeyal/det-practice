@@ -81,11 +81,32 @@ export function loadNeural(gender = 'female') {
       progress: (p) => { if (p && p.total) emitProgress(gender, Math.round((p.loaded / p.total) * 100)) },
     })
     activeGender = gender
+    // warm-up: the first predict compiles the ONNX graph; do it now (discard
+    // the result) so the first REAL synthesis during the exam isn't the one
+    // that pays the compile cost
+    try { await session.predict('Ready.') } catch {}
     emitProgress(gender, 100)
     return session
   }
   switching = switching.then(run, run)
   return switching
+}
+
+/**
+ * Preload + warm the Studio voices before an audio session (used by the exam
+ * "preparing" gate). Only warms voices already downloaded — never silently
+ * pulls ~60 MB here; Settings is where the user opts into the download.
+ */
+export async function prepareVoices(genders = ['female', 'male'], onProgress) {
+  const off = onProgress ? onNeuralProgress(onProgress) : null
+  await storedNeuralVoices(true)
+  const out = {}
+  for (const g of genders) {
+    if (!downloaded[g]) { out[g] = false; continue }
+    try { await loadNeural(g); out[g] = true } catch { out[g] = false }
+  }
+  if (off) off()
+  return out
 }
 
 /** Preload: activate the female voice; make sure the male is downloaded too. */

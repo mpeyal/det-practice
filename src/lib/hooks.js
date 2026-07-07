@@ -53,3 +53,36 @@ export function useLatest(value) {
   ref.current = value
   return ref
 }
+
+/**
+ * Warm the active TTS engine before an audio session so the first question
+ * plays instantly. System/native voices are ready almost immediately; Studio
+ * voices load + warm their models (slower), reported via `pct`.
+ * Returns { ready, pct, neural }.
+ */
+export function useVoicePrep() {
+  const [ready, setReady] = useState(false)
+  const [pct, setPct] = useState(0)
+  const [neural, setNeural] = useState(false)
+  useEffect(() => {
+    let alive = true
+    ;(async () => {
+      const [{ prepareTts }, { getSettings }] = await Promise.all([
+        import('./tts.js'), import('./storage.js'),
+      ])
+      if (!alive) return
+      setNeural(getSettings().ttsEngine === 'neural')
+      const acc = { female: 0, male: 0 }
+      try {
+        await prepareTts((g, p) => {
+          if (!alive || g === 'system') return
+          acc[g] = p
+          setPct(Math.round((acc.female + acc.male) / 2))
+        })
+      } catch { /* proceed anyway */ }
+      if (alive) setReady(true)
+    })()
+    return () => { alive = false }
+  }, [])
+  return { ready, pct, neural }
+}

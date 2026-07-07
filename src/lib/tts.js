@@ -46,6 +46,37 @@ export function ttsSupported() {
   return typeof window !== 'undefined' && 'speechSynthesis' in window
 }
 
+/** Wait until the OS voice list is populated (it loads async on first use). */
+function ensureVoicesLoaded(timeout = 2500) {
+  return new Promise((resolve) => {
+    if (!ttsSupported()) { resolve(false); return }
+    loadVoices()
+    if (cachedVoices.length) { resolve(true); return }
+    let done = false
+    const finish = () => { if (done) return; done = true; resolve(cachedVoices.length > 0) }
+    window.speechSynthesis.onvoiceschanged = () => { loadVoices(); if (cachedVoices.length) finish() }
+    setTimeout(finish, timeout)
+  })
+}
+
+/**
+ * Warm the ACTIVE engine before an audio session so the first question plays
+ * with no delay. System/native voices are essentially instant (just enumerate
+ * the voice list). Studio voices load + warm their models (slower). onProgress
+ * receives (gender, pct) for Studio; ('system', 100) once for the OS path.
+ */
+export async function prepareTts(onProgress) {
+  if (engine() === 'neural' && (isDownloaded('female') || isDownloaded('male'))) {
+    try {
+      const m = await import('./neuralTts.js')
+      if (m.prepareVoices) return await m.prepareVoices(['female', 'male'], onProgress)
+    } catch { /* fall through to system */ }
+  }
+  await ensureVoicesLoaded()
+  onProgress && onProgress('system', 100)
+  return { ready: true, engine: 'system' }
+}
+
 // ---------- voice ranking & gender tagging ----------
 
 const FEMALE = /aria|jenny|jane|sonia|libby|maisie|michelle|emma|ana\b|clara|natasha|hazel|susan|zira|samantha|allison|ava|karen|moira|tessa|fiona|veena|kate|serena|zoe|nicky|joanna|salli|kendra|kimberly|ivy|olivia|amy|aditi|raveena|catherine|linda|heather|female/i

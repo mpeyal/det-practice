@@ -262,19 +262,25 @@ function VoiceSection({ s, setS }) {
         Dictation questions rotate between speakers, and conversations use a female/male pair — like the real test.
       </p>
 
-      {/* engine choice: Studio (neural, same everywhere) vs System (OS voices) */}
+      {/* engine choice: System (OS/native — instant, realtime) vs Studio
+          (Piper neural — higher quality but slow to synthesize in-browser) */}
       <div className="mt-3 flex gap-2">
-        <button
-          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine !== 'system' ? 'border-[#58cc02] bg-[#d7ffb8] text-[#3f8f00]' : 'border-neutral-200 bg-white text-neutral-500'}`}
-          onClick={() => set({ ttsEngine: 'neural' })}>
-          🎧 Studio voices (recommended)
-        </button>
         <button
           className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine === 'system' ? 'border-[#1cb0f6] bg-[#ddf4ff] text-[#1899d6]' : 'border-neutral-200 bg-white text-neutral-500'}`}
           onClick={() => set({ ttsEngine: 'system' })}>
-          System voices
+          ⚡ System voices (instant · recommended)
+        </button>
+        <button
+          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine !== 'system' ? 'border-[#58cc02] bg-[#d7ffb8] text-[#3f8f00]' : 'border-neutral-200 bg-white text-neutral-500'}`}
+          onClick={() => set({ ttsEngine: 'neural' })}>
+          🎧 Studio voices (higher quality)
         </button>
       </div>
+      <p className="mt-2 text-xs font-semibold text-neutral-400">
+        {s.ttsEngine === 'system'
+          ? 'System voices play instantly — best for timed exams. On the desktop app, macOS uses Apple’s built-in engine (download “Enhanced” voices for the most natural sound).'
+          : '⚠️ Studio voices sound great but synthesize slowly in the browser (a few seconds per sentence) — they are not instant. Best for untimed practice, not timed exams.'}
+      </p>
 
       {s.ttsEngine !== 'system' ? (
         <StudioVoices />

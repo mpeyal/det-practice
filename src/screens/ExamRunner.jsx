@@ -4,7 +4,7 @@ import { ProgressHeader } from '../components/ui.jsx'
 import { TYPE_LABELS, materializeItem } from '../lib/exam.js'
 import { gradeItem } from '../lib/grading.js'
 import { stepUp, stepDown } from '../lib/difficulty.js'
-import { fmtTime } from '../lib/hooks.js'
+import { fmtTime, useVoicePrep } from '../lib/hooks.js'
 import { stopSpeaking } from '../lib/tts.js'
 
 /**
@@ -23,6 +23,7 @@ export default function ExamRunner({ exam, onFinish, onQuit }) {
   const materializedRef = useRef({})   // item.id -> concrete question
   const usedKeysRef = useRef(new Set()) // banked content already used this run
   const [elapsed, setElapsed] = useState(0)
+  const prep = useVoicePrep() // warm the voice engine while the user reads the intro
 
   useEffect(() => {
     const id = setInterval(() => setElapsed(e => e + 1), 1000)
@@ -71,7 +72,38 @@ export default function ExamRunner({ exam, onFinish, onQuit }) {
             you cannot go back. The test is adaptive: answer well and the questions get harder, which is how you reach a
             high score. At the end there is an ungraded Writing Sample and Speaking Sample (about ten minutes).
           </p>
-          <button className="btn mt-6" onClick={() => setIndex(0)}>Begin</button>
+
+          {/* Voice engine warms up here so listening audio plays instantly.
+              System/native voice: ready almost immediately. Studio voice: shows
+              load progress and can be skipped. */}
+          {prep.ready ? (
+            <p className="mt-4 text-sm font-bold text-[#3f8f00]">🔊 Voice ready — listening audio will play instantly.</p>
+          ) : prep.neural ? (
+            <div className="mt-4">
+              <div className="mx-auto flex max-w-xs items-center gap-2">
+                <div className="pbar !h-2.5 flex-1"><div style={{ width: `${prep.pct}%` }} /></div>
+                <span className="text-xs font-bold text-neutral-400">{prep.pct}%</span>
+              </div>
+              <p className="mt-1 text-xs font-semibold text-neutral-400">Preparing Studio voices for instant playback…</p>
+            </div>
+          ) : (
+            <p className="mt-4 text-sm font-semibold text-neutral-400">Preparing voice…</p>
+          )}
+
+          <button
+            className="btn mt-6 disabled:opacity-60"
+            disabled={!prep.ready && prep.neural}
+            onClick={() => setIndex(0)}
+          >
+            {(!prep.ready && prep.neural) ? `Preparing… ${prep.pct}%` : 'Begin'}
+          </button>
+          {!prep.ready && prep.neural && (
+            <div>
+              <button className="mt-3 text-sm font-bold text-neutral-400 underline" onClick={() => setIndex(0)}>
+                Skip and start now (audio may lag on the first question)
+              </button>
+            </div>
+          )}
         </div>
       </div>
     )

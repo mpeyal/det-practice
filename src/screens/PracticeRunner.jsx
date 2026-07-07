@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { QUESTION_COMPONENTS } from '../questions/index.js'
 import { ProgressHeader } from '../components/ui.jsx'
 import { gradeItem } from '../lib/grading.js'
@@ -6,7 +6,7 @@ import { LEVEL_META, marksFor } from '../lib/difficulty.js'
 import DetailView from '../components/DetailView.jsx'
 import SubjectiveReview from '../components/SubjectiveReview.jsx'
 import QuestionView from '../components/QuestionView.jsx'
-import { stopSpeaking } from '../lib/tts.js'
+import { stopSpeaking, prepareTts } from '../lib/tts.js'
 
 /** Difficulty + marks chip shown above every practice question. */
 function LevelBadge({ item }) {
@@ -35,6 +35,10 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
   const [selfScore, setSelfScore] = useState(null)
   const responsesRef = useRef({})
   const selfScoresRef = useRef({})
+
+  // warm the voice engine up front so the first listening question plays with
+  // no delay (non-blocking — system voices are ready almost immediately)
+  useEffect(() => { prepareTts().catch(() => {}) }, [])
 
   const item = items[index]
 
