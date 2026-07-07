@@ -278,14 +278,41 @@ function nativeSay() {
   return (typeof window !== 'undefined' && window.parrot?.platform === 'darwin' && window.parrot?.say) || null
 }
 
+// cache of the OS voices `say -v '?'` reports (desktop only)
+let _nativeVoices = null
+export function nativeVoices() { return _nativeVoices || [] }
+function loadNativeVoices() {
+  const n = nativeSay()
+  if (!n || !n.voices || _nativeVoices) return
+  n.voices().then(vs => { _nativeVoices = Array.isArray(vs) ? vs.filter(v => /^en/i.test(v.lang)) : [] }).catch(() => { _nativeVoices = [] })
+}
+if (typeof window !== 'undefined') loadNativeVoices()
+
+/** Pick a native `say` voice name for a gender: pinned first, then by name. */
+function nativeVoiceName(gender) {
+  const st = getSettings()
+  const pin = gender === 'male' ? st.voiceMale : gender === 'female' ? st.voiceFemale : ''
+  if (pin) return pin
+  const list = nativeVoices()
+  const match = list.find(v => guessGender(v) === gender)
+  return match ? match.name : undefined
+}
+
 function speakSystem(text, opts = {}) {
   const native = nativeSay()
   if (native) {
     const { rate = 1, voice = null, voiceKey = null } = opts
-    let v = voice && voice.neuralGender ? voiceOfGender(voice.neuralGender) : voice
-    if (!v) { const k = voiceKey != null ? voiceForKey(voiceKey) : pickVoice(); v = k && k.neuralGender ? voiceOfGender(k.neuralGender) : k }
-    // Chromium names voices like "Ava (Enhanced)" — `say` wants plain "Ava"
-    const name = v?.name ? v.name.replace(/\s*\(.*?\)\s*/g, '').replace(/^Microsoft |^Google /,'').trim() : undefined
+    // an explicitly passed native voice (Settings test button) wins; otherwise
+    // resolve the gender and pick a native `say` voice (pinned or by name)
+    let name
+    if (voice && !voice.neuralGender && voice.name) {
+      name = voice.name
+    } else {
+      const gender = voice?.neuralGender
+        || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
+        || 'female'
+      name = nativeVoiceName(gender)
+    }
     _nativeSaying = true
     return native.say.speak({ text, voice: name, rate })
       .then(r => {

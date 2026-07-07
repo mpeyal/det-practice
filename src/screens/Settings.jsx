@@ -243,17 +243,23 @@ function VoiceSelect({ label, value, onChange, gender, voices }) {
 }
 
 function VoiceSection({ s, setS }) {
-  const [voices, setVoices] = useState(englishVoices())
+  const macDesktop = typeof window !== 'undefined' && window.parrot?.platform === 'darwin' && window.parrot?.say
+  const [webVoices, setWebVoices] = useState(englishVoices())
+  const [nativeVoices, setNativeVoices] = useState([])
   useEffect(() => {
-    const refresh = () => setVoices(englishVoices())
+    const refresh = () => setWebVoices(englishVoices())
     const t = setTimeout(refresh, 400)
     window.speechSynthesis?.addEventListener?.('voiceschanged', refresh)
+    // on the Mac desktop app the real engine is Apple `say` — list ITS voices
+    if (macDesktop) window.parrot.say.voices().then(vs => setNativeVoices(Array.isArray(vs) ? vs.filter(v => /^en/i.test(v.lang)) : [])).catch(() => {})
     return () => { clearTimeout(t); window.speechSynthesis?.removeEventListener?.('voiceschanged', refresh); stopSpeaking() }
-  }, [])
+  }, []) // eslint-disable-line
 
+  // prefer the native macOS voice list on the desktop app; otherwise the browser's
+  const voices = (macDesktop && nativeVoices.length) ? nativeVoices : webVoices
   const natural = voices.filter(v => scoreVoice(v) >= 6).length
   const set = patch => { setS({ ...s, ...patch }); saveSettings(patch) }
-  const isMac = /Mac/i.test(navigator.platform || navigator.userAgent)
+  const isMac = macDesktop || /Mac/i.test(navigator.platform || navigator.userAgent)
 
   return (
     <div>
@@ -286,17 +292,24 @@ function VoiceSection({ s, setS }) {
         <StudioReady />
       ) : (
         <>
-          <div className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${natural > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
-            {natural > 0
-              ? `✅ ${natural} natural-quality voice${natural > 1 ? 's' : ''} detected on this browser.`
+          <div className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${voices.length > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
+            {voices.length > 0
+              ? (macDesktop
+                  ? `✅ ${voices.length} macOS voice${voices.length > 1 ? 's' : ''} available.`
+                  : `✅ ${voices.length} voice${voices.length > 1 ? 's' : ''} available${natural > 0 ? ` (${natural} natural-quality)` : ''}.`)
               : isMac
-                ? '⚠️ Only basic voices detected. On macOS: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download “Enhanced/Premium” voices (e.g. Ava, Evan, Zoe) — they then appear here in Safari and Chrome.'
-                : '⚠️ Only basic voices detected. On Windows, open the app in Microsoft Edge for built-in neural “(Natural)” voices.'}
+                ? '⚠️ No selectable voices yet. The app will use your Mac’s default system voice. To add better voices: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download an “Enhanced” voice (e.g. Ava, Evan, Zoe).'
+                : '⚠️ No selectable voices yet — the app will use your device’s default. On Windows, open in Microsoft Edge for neural “(Natural)” voices, or use the Studio voices above.'}
           </div>
-          <div className="mt-3 space-y-2">
-            <VoiceSelect label="Female voice" gender="female" voices={voices} value={s.voiceFemale} onChange={v => set({ voiceFemale: v })} />
-            <VoiceSelect label="Male voice" gender="male" voices={voices} value={s.voiceMale} onChange={v => set({ voiceMale: v })} />
-          </div>
+          {voices.length > 0 && (
+            <div className="mt-3 space-y-2">
+              <VoiceSelect label="Female voice" gender="female" voices={voices} value={s.voiceFemale} onChange={v => set({ voiceFemale: v })} />
+              <VoiceSelect label="Male voice" gender="male" voices={voices} value={s.voiceMale} onChange={v => set({ voiceMale: v })} />
+            </div>
+          )}
+          <p className="mt-2 text-xs font-semibold text-neutral-400">
+            Prefer no setup? <button className="font-black text-[#3f8f00] underline" onClick={() => set({ ttsEngine: 'neural' })}>Use Studio voices</button> — instant and identical on every device.
+          </p>
         </>
       )}
 

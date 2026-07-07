@@ -123,6 +123,28 @@ function registerSayIPC() {
     })
   })
   ipcMain.handle('say:stop', () => { try { sayProc?.kill() } catch {} ; sayProc = null; return true })
+
+  // list the installed macOS voices (`say -v '?'`) so Settings can offer them
+  ipcMain.handle('say:voices', async () => {
+    if (process.platform !== 'darwin') return []
+    return await new Promise((resolve) => {
+      let out = ''
+      let p
+      try { p = spawn('/usr/bin/say', ['-v', '?'], { stdio: ['ignore', 'pipe', 'ignore'] }) }
+      catch { resolve([]); return }
+      p.stdout.on('data', d => { out += d.toString() })
+      p.on('error', () => resolve([]))
+      p.on('close', () => {
+        const voices = []
+        for (const line of out.split('\n')) {
+          // "Samantha            en_US    # Hello, my name is Samantha."
+          const m = line.match(/^(.+?)\s{2,}([a-z]{2}[-_][A-Z]{2})\s*#/)
+          if (m) voices.push({ name: m[1].trim(), lang: m[2].replace('_', '-') })
+        }
+        resolve(voices)
+      })
+    })
+  })
 }
 
 async function createWindow() {

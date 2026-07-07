@@ -13,5 +13,6 @@ contextBridge.exposeInMainWorld('parrot', {
   say: {
     speak: (opts) => ipcRenderer.invoke('say:speak', opts),
     stop: () => ipcRenderer.invoke('say:stop'),
+    voices: () => ipcRenderer.invoke('say:voices'),
   },
 })
