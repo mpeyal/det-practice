@@ -262,28 +262,28 @@ function VoiceSection({ s, setS }) {
         Dictation questions rotate between speakers, and conversations use a female/male pair — like the real test.
       </p>
 
-      {/* engine choice: System (OS/native — instant, realtime) vs Studio
-          (Piper neural — higher quality but slow to synthesize in-browser) */}
+      {/* engine choice: Studio (pre-rendered Piper clips, bundled — instant &
+          identical everywhere) vs System (OS/native voices) */}
       <div className="mt-3 flex gap-2">
-        <button
-          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine === 'system' ? 'border-[#1cb0f6] bg-[#ddf4ff] text-[#1899d6]' : 'border-neutral-200 bg-white text-neutral-500'}`}
-          onClick={() => set({ ttsEngine: 'system' })}>
-          ⚡ System voices (instant · recommended)
-        </button>
         <button
           className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine !== 'system' ? 'border-[#58cc02] bg-[#d7ffb8] text-[#3f8f00]' : 'border-neutral-200 bg-white text-neutral-500'}`}
           onClick={() => set({ ttsEngine: 'neural' })}>
-          🎧 Studio voices (higher quality)
+          🎧 Studio voices (instant · recommended)
+        </button>
+        <button
+          className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine === 'system' ? 'border-[#1cb0f6] bg-[#ddf4ff] text-[#1899d6]' : 'border-neutral-200 bg-white text-neutral-500'}`}
+          onClick={() => set({ ttsEngine: 'system' })}>
+          ⚡ System voices
         </button>
       </div>
       <p className="mt-2 text-xs font-semibold text-neutral-400">
-        {s.ttsEngine === 'system'
-          ? 'System voices play instantly — best for timed exams. On the desktop app, macOS uses Apple’s built-in engine (download “Enhanced” voices for the most natural sound).'
-          : '⚠️ Studio voices sound great but synthesize slowly in the browser (a few seconds per sentence) — they are not instant. Best for untimed practice, not timed exams.'}
+        {s.ttsEngine !== 'system'
+          ? '✅ Studio voices are pre-recorded and built into the app — they play instantly, sound the same on every device, and work fully offline. No download needed.'
+          : 'System voices use your device’s built-in speech engine. On the desktop app, macOS uses Apple’s engine (download “Enhanced” voices for the most natural sound).'}
       </p>
 
       {s.ttsEngine !== 'system' ? (
-        <StudioVoices />
+        <StudioReady />
       ) : (
         <>
           <div className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${natural > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
@@ -305,6 +305,28 @@ function VoiceSection({ s, setS }) {
           onChange={e => set({ varyVoices: e.target.checked })} />
         Vary the speaker between listening questions (recommended — like the real exam)
       </label>
+    </div>
+  )
+}
+
+/** Studio voices are pre-rendered + bundled — nothing to download; just test. */
+function StudioReady() {
+  const [testing, setTesting] = useState('')
+  const sample = 'My sister walks to work every morning when the weather is nice.'
+  useEffect(() => () => stopSpeaking(), [])
+  const test = async (gender) => {
+    setTesting(gender)
+    try { await speak(sample, { rate: getSettings().ttsRate, voice: { neuralGender: gender } }) }
+    finally { setTesting('') }
+  }
+  return (
+    <div className="mt-3 rounded-2xl border-2 border-[#e8e8e6] p-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-[#d7ffb8] px-2.5 py-0.5 text-xs font-black text-[#3f8f00]">built in · instant · offline</span>
+        <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={!!testing} onClick={() => test('female')}>{testing === 'female' ? '🔊 …' : '🔊 Test female'}</button>
+        <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={!!testing} onClick={() => test('male')}>{testing === 'male' ? '🔊 …' : '🔊 Test male'}</button>
+      </div>
+      <p className="mt-1.5 text-xs font-semibold text-neutral-400">Professional Studio voices, pre-recorded and bundled into the app — no download.</p>
     </div>
   )
 }

@@ -4,3 +4,6 @@ dev-dist
 release
 .env
 .env.local
+
+# Piper render tooling (models) — not committed; run scripts/render-voices.py
+build/piper/

@@ -21,6 +21,43 @@
 
 import { getSettings } from './storage.js'
 import { speakNeural, stopNeural, isDownloaded, isNeuralSpeaking, storedNeuralVoices, STUDIO_VOICES } from './neuralTts.js'
+import VOICE_PACK from '../data/voicePack.json'
+
+// ---- pre-rendered Studio audio (bundled MP3s) ----
+// The exam's spoken content comes from finite banks, so every clip is rendered
+// ONCE with the Studio (Piper) voices at build time and shipped as MP3. At
+// runtime we just play the matching file — instant, Studio quality, offline,
+// and with NO model download. voicePack.json is the manifest of available keys.
+const _pack = new Set(VOICE_PACK)
+
+/** Deterministic key for a clip — MUST match scripts/render-voices.py exactly. */
+function packKey(text, gender) {
+  let h = 7
+  const s = gender + String(text)
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0
+  return h.toString(16)
+}
+function preRenderedUrl(text, gender) {
+  if (!_pack.size) return null
+  const k = packKey(text, gender)
+  return _pack.has(k) ? `${import.meta.env.BASE_URL}voices/${k}.mp3` : null
+}
+
+let _preAudio = null
+function playUrl(url, rate) {
+  return new Promise((resolve) => {
+    let a
+    try { a = new Audio(url) } catch { resolve(false); return }
+    _preAudio = a
+    a.playbackRate = rate || 1
+    if ('preservesPitch' in a) a.preservesPitch = true
+    let done = false
+    const fin = (ok) => { if (done) return; done = true; if (_preAudio === a) _preAudio = null; resolve(ok) }
+    a.onended = () => fin(true)
+    a.onerror = () => fin(false)
+    a.play().catch(() => fin(false))
+  })
+}
 
 // learn which studio voices are downloaded as soon as the app starts, so the
 // first listening question already uses them when available
@@ -60,21 +97,15 @@ function ensureVoicesLoaded(timeout = 2500) {
 }
 
 /**
- * Warm the ACTIVE engine before an audio session so the first question plays
- * with no delay. System/native voices are essentially instant (just enumerate
- * the voice list). Studio voices load + warm their models (slower). onProgress
- * receives (gender, pct) for Studio; ('system', 100) once for the OS path.
+ * Warm the audio engine before a session. Studio clips are pre-rendered and
+ * bundled (nothing to load), so this just enumerates the OS voice list — used
+ * both for the 'system' engine and as the fallback when a rare piece of text
+ * has no pre-rendered clip. Essentially instant.
  */
 export async function prepareTts(onProgress) {
-  if (engine() === 'neural' && (isDownloaded('female') || isDownloaded('male'))) {
-    try {
-      const m = await import('./neuralTts.js')
-      if (m.prepareVoices) return await m.prepareVoices(['female', 'male'], onProgress)
-    } catch { /* fall through to system */ }
-  }
   await ensureVoicesLoaded()
   onProgress && onProgress('system', 100)
-  return { ready: true, engine: 'system' }
+  return { ready: true }
 }
 
 // ---------- voice ranking & gender tagging ----------
@@ -220,13 +251,22 @@ export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   // speakNeural picks the requested gender when downloaded, or any downloaded
   // studio voice; if NONE is downloaded it resolves false and we fall back to
   // the system voice for this utterance (never a silent question).
-  if (engine() === 'neural' && (isDownloaded('female') || isDownloaded('male'))) {
+  if (engine() === 'neural') {
     const gender = voice?.neuralGender
       || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
       || 'female'
-    stopSpeaking()
-    return speakNeural(text, { gender, rate }).then(ok =>
-      ok ? true : speakSystem(text, { rate, voice, voiceKey }))
+    // 1) bundled pre-rendered Studio clip → INSTANT, no download, offline
+    const url = preRenderedUrl(text, gender)
+    if (url) {
+      stopSpeaking()
+      return playUrl(url, rate).then(ok => ok ? true : speakSystem(text, { rate, voice, voiceKey }))
+    }
+    // 2) live Studio synthesis if the model is downloaded (slow, non-realtime)
+    if (isDownloaded('female') || isDownloaded('male')) {
+      stopSpeaking()
+      return speakNeural(text, { gender, rate }).then(ok =>
+        ok ? true : speakSystem(text, { rate, voice, voiceKey }))
+    }
   }
   return speakSystem(text, { rate, voice, voiceKey })
 }
@@ -320,11 +360,12 @@ export function stopSpeaking() {
   _speakToken++ // invalidate any in-flight sequence
   stopKeepAlive()
   stopNeural()
+  if (_preAudio) { try { _preAudio.pause() } catch {} _preAudio = null }
   const native = nativeSay()
   if (native) { _nativeSaying = false; native.say.stop().catch?.(() => {}) }
   if (ttsSupported()) window.speechSynthesis.cancel()
 }
 
 export function isSpeaking() {
-  return isNeuralSpeaking() || _nativeSaying || (ttsSupported() && window.speechSynthesis.speaking)
+  return isNeuralSpeaking() || !!_preAudio || _nativeSaying || (ttsSupported() && window.speechSynthesis.speaking)
 }

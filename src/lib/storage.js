@@ -7,10 +7,10 @@ const DEFAULT_SETTINGS = {
   apiKey: '',            // Anthropic API key (can also come from VITE_ANTHROPIC_API_KEY)
   model: 'claude-sonnet-5',
   ttsRate: 1,            // default playback speed
-  // 'system' = OS/native voices — INSTANT (realtime), reliable on the desktop
-  // app via Apple `say` / Windows SAPI. 'neural' = Studio voices (Piper): higher
-  // quality but slow to synthesize in-browser (~seconds/sentence) — not realtime.
-  ttsEngine: 'system',
+  // 'neural' = Studio voices: pre-rendered with Piper and BUNDLED as MP3, so
+  // they play instantly (realtime), sound identical on every platform, work
+  // offline, and need no download. 'system' = OS/native voices (also instant).
+  ttsEngine: 'neural',
   voiceFemale: '',       // pinned female voice ('' = auto best)
   voiceMale: '',         // pinned male voice ('' = auto best)
   varyVoices: true,      // rotate speakers across listening questions
