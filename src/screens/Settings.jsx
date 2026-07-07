@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
 import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
-import { STUDIO_VOICES, loadNeural, neuralReady, speakNeural, stopNeural, storedNeuralVoices, onNeuralProgress } from '../lib/neuralTts.js'
+import { STUDIO_VOICES, downloadNeural, speakNeural, stopNeural, storedNeuralVoices, activeNeuralGender, onNeuralProgress } from '../lib/neuralTts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
 /* ---------- app self-update (desktop app only) ---------- */
@@ -308,47 +308,61 @@ function StudioVoices() {
   const [stored, setStored] = useState({ female: false, male: false })
   const [pct, setPct] = useState({ female: null, male: null }) // null = idle
   const [testing, setTesting] = useState('')
+  const [rowNote, setRowNote] = useState({ female: '', male: '' })
 
   useEffect(() => {
-    storedNeuralVoices().then(setStored)
+    storedNeuralVoices(true).then(setStored)
     const off = onNeuralProgress((gender, p) => {
       setPct(prev => ({ ...prev, [gender]: p }))
-      if (p >= 100) storedNeuralVoices().then(setStored)
+      if (p >= 100) storedNeuralVoices(true).then(setStored)
     })
     return () => { off(); stopNeural() }
   }, [])
 
   const get = async (gender) => {
+    setRowNote(n => ({ ...n, [gender]: '' }))
     setPct(prev => ({ ...prev, [gender]: 0 }))
-    try { await loadNeural(gender) } catch { setPct(prev => ({ ...prev, [gender]: null })) }
+    try { await downloadNeural(gender) } catch { setPct(prev => ({ ...prev, [gender]: null })); setRowNote(n => ({ ...n, [gender]: 'Download failed — check your internet and try again.' })) }
   }
+
   const test = async (gender) => {
+    // never play the wrong voice: if this one isn't downloaded, say so
+    if (!stored[gender]) {
+      setRowNote(n => ({ ...n, [gender]: `⬇️ Download the ${gender} voice first, then test it.` }))
+      return
+    }
+    setRowNote(n => ({ ...n, [gender]: '' }))
     setTesting(gender)
     try {
-      await loadNeural(gender)
-      await speakNeural(`Hello! I am the ${gender === 'female' ? 'female' : 'male'} studio voice. This is exactly how the listening questions will sound.`, { gender, rate: getSettings().ttsRate })
+      const ok = await speakNeural(`Hello! I am the ${gender === 'female' ? 'female' : 'male'} studio voice. This is exactly how the listening questions will sound.`, { gender, rate: getSettings().ttsRate, strict: true })
+      if (!ok) setRowNote(n => ({ ...n, [gender]: 'Could not play this voice — try downloading it again.' }))
     } finally { setTesting('') }
   }
 
   const Row = ({ gender }) => {
-    const ready = neuralReady(gender) || stored[gender]
+    const ready = stored[gender] // ready = actually downloaded, nothing else
     const loading = pct[gender] != null && pct[gender] < 100 && !ready
     return (
-      <div className="flex flex-wrap items-center gap-2 rounded-2xl border-2 border-[#e8e8e6] p-3">
-        <span className="w-32 text-sm font-extrabold text-neutral-600">{STUDIO_VOICES[gender].label}</span>
-        {ready ? (
-          <span className="rounded-full bg-[#d7ffb8] px-2.5 py-0.5 text-xs font-black text-[#3f8f00]">ready · works offline</span>
-        ) : loading ? (
-          <div className="flex flex-1 items-center gap-2">
-            <div className="pbar !h-2.5 flex-1"><div style={{ width: `${pct[gender]}%` }} /></div>
-            <span className="text-xs font-bold text-neutral-400">{pct[gender]}%</span>
-          </div>
-        ) : (
-          <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => get(gender)}>⬇️ Download (~60 MB, one time)</button>
-        )}
-        <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={testing === gender} onClick={() => test(gender)}>
-          {testing === gender ? '🔊 …' : '🔊 Test'}
-        </button>
+      <div className="rounded-2xl border-2 border-[#e8e8e6] p-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="w-32 text-sm font-extrabold text-neutral-600">{STUDIO_VOICES[gender].label}</span>
+          {ready ? (
+            <span className="rounded-full bg-[#d7ffb8] px-2.5 py-0.5 text-xs font-black text-[#3f8f00]">
+              downloaded · works offline{activeNeuralGender() === gender ? ' · active' : ''}
+            </span>
+          ) : loading ? (
+            <div className="flex flex-1 items-center gap-2">
+              <div className="pbar !h-2.5 flex-1"><div style={{ width: `${pct[gender]}%` }} /></div>
+              <span className="text-xs font-bold text-neutral-400">{pct[gender]}%</span>
+            </div>
+          ) : (
+            <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => get(gender)}>⬇️ Download (~60 MB, one time)</button>
+          )}
+          <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={testing === gender || loading} onClick={() => test(gender)}>
+            {testing === gender ? '🔊 …' : '🔊 Test'}
+          </button>
+        </div>
+        {rowNote[gender] && <p className="mt-1.5 text-xs font-bold text-amber-700">{rowNote[gender]}</p>}
       </div>
     )
   }

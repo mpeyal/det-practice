@@ -20,7 +20,11 @@
 //   Both — Chrome's "Google US English" voices are decent everywhere.
 
 import { getSettings } from './storage.js'
-import { speakNeural, stopNeural, neuralReady, loadNeural, isNeuralSpeaking, STUDIO_VOICES } from './neuralTts.js'
+import { speakNeural, stopNeural, isDownloaded, isNeuralSpeaking, storedNeuralVoices, STUDIO_VOICES } from './neuralTts.js'
+
+// learn which studio voices are downloaded as soon as the app starts, so the
+// first listening question already uses them when available
+if (typeof window !== 'undefined') storedNeuralVoices().catch(() => {})
 
 // Which engine speaks: 'neural' = bundled Studio voices (Piper — identical
 // professional quality on Mac/Windows/web), 'system' = OS voices.
@@ -181,18 +185,22 @@ function chunkText(text) {
 
 /** Speak text; resolves when finished (or immediately if unsupported). */
 export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
-  // Studio (neural) engine first — professional, identical on every platform
-  if (engine() === 'neural') {
+  // Studio (neural) engine first — professional, identical on every platform.
+  // speakNeural picks the requested gender when downloaded, or any downloaded
+  // studio voice; if NONE is downloaded it resolves false and we fall back to
+  // the system voice for this utterance (never a silent question).
+  if (engine() === 'neural' && (isDownloaded('female') || isDownloaded('male'))) {
     const gender = voice?.neuralGender
       || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
       || 'female'
-    if (neuralReady(gender) || neuralReady(gender === 'female' ? 'male' : 'female')) {
-      stopSpeaking()
-      return speakNeural(text, { gender, rate })
-    }
-    // not downloaded yet: kick the download and fall back to the system voice
-    loadNeural(gender).catch(() => {})
+    stopSpeaking()
+    return speakNeural(text, { gender, rate }).then(ok =>
+      ok ? true : speakSystem(text, { rate, voice, voiceKey }))
   }
+  return speakSystem(text, { rate, voice, voiceKey })
+}
+
+function speakSystem(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   return new Promise((resolve) => {
     if (!ttsSupported()) { resolve(false); return }
     const synth = window.speechSynthesis

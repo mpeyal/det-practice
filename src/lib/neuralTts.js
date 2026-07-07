@@ -1,31 +1,20 @@
 // Studio voices: neural text-to-speech with Piper (the open-source engine
 // used in production by Home Assistant), running locally via ONNX/WASM.
 //
-// Why: system voices vary wildly — robotic SAPI voices in the Windows desktop
-// app, whatever happens to be installed on a Mac. Piper gives the SAME
-// professional, Duolingo-grade voice on Mac, Windows and web. Two matched
-// studio voices ship as downloads (~60 MB each, female + male), fetched once
-// with progress and cached in the browser's origin-private file system (OPFS)
-// — after that they work fully offline.
+// IMPORTANT CONSTRAINT: the piper-tts-web library keeps ONE global session —
+// asking it for a second voice silently reuses the already-loaded model (you
+// hear the wrong voice). So this wrapper tracks which voice is TRULY loaded
+// (activeGender), resets the library singleton to switch voices (fast once
+// the model is in OPFS), and tracks downloads separately from readiness.
 //
-// speak flow: text → sentence chunks → session.predict(chunk) → WAV blob →
-// <audio> playback. The next chunk is synthesized WHILE the current one plays,
-// so long passages stream smoothly with no mid-sentence cutouts (this also
-// completely sidesteps Chromium's flaky SpeechSynthesis).
+// speak flow: text → sentence chunks → predict → WAV → <audio>, with the next
+// chunk synthesized while the current one plays.
 
 export const STUDIO_VOICES = {
   female: { id: 'en_US-hfc_female-medium', label: 'Studio Female (US)' },
   male: { id: 'en_US-hfc_male-medium', label: 'Studio Male (US)' },
 }
 
-const sessions = { female: null, male: null }
-const sessionLoading = { female: null, male: null }
-const progressCbs = new Set()
-
-// Loaded at RUNTIME from a pinned CDN build rather than bundled: the engine
-// drags in onnxruntime-web (~70 MB of WASM), which must never bloat the app
-// bundle. The library fetches its own WASM from CDNs regardless, and the
-// browser caches everything after first use.
 const LIB_URL = 'https://cdn.jsdelivr.net/npm/@mintplex-labs/piper-tts-web@1.0.4/+esm'
 
 let _lib = null
@@ -34,50 +23,79 @@ async function lib() {
   return _lib
 }
 
-/** Subscribe to voice-download progress: cb(gender, pct 0..100). */
+// ---- state ----
+let session = null            // the ONE live library session
+let activeGender = null       // which voice that session truly has loaded
+let switching = Promise.resolve() // serializes load/switch operations
+const downloaded = { female: false, male: false }
+let downloadedChecked = false
+
+const progressCbs = new Set()
 export function onNeuralProgress(cb) { progressCbs.add(cb); return () => progressCbs.delete(cb) }
 function emitProgress(gender, pct) { for (const cb of progressCbs) { try { cb(gender, pct) } catch {} } }
 
-export function neuralReady(gender = 'female') { return !!sessions[gender] }
-export function anyNeuralReady() { return !!(sessions.female || sessions.male) }
-
-/** Which studio voices are already cached on this machine (OPFS)? */
-export async function storedNeuralVoices() {
-  try {
-    const t = await lib()
-    const ids = await t.stored()
-    return {
-      female: ids.includes(STUDIO_VOICES.female.id),
-      male: ids.includes(STUDIO_VOICES.male.id),
-    }
-  } catch { return { female: false, male: false } }
+/** Which studio voices are downloaded (OPFS)? Cached after first check. */
+export async function storedNeuralVoices(force = false) {
+  if (!downloadedChecked || force) {
+    try {
+      const t = await lib()
+      const ids = await t.stored()
+      downloaded.female = ids.includes(STUDIO_VOICES.female.id)
+      downloaded.male = ids.includes(STUDIO_VOICES.male.id)
+      downloadedChecked = true
+    } catch { /* leave as-is */ }
+  }
+  return { ...downloaded }
 }
 
-/** Load (downloading + caching if needed) a studio voice session. */
-export async function loadNeural(gender = 'female') {
-  if (sessions[gender]) return sessions[gender]
-  if (sessionLoading[gender]) return sessionLoading[gender]
-  sessionLoading[gender] = (async () => {
+/** TRUTHFUL readiness: is this exact voice the one loaded right now? */
+export function neuralReady(gender = 'female') { return activeGender === gender && !!session }
+export function anyNeuralReady() { return !!session }
+export function activeNeuralGender() { return activeGender }
+export function isDownloaded(gender) { return !!downloaded[gender] }
+
+/** Download a voice to OPFS (no session switch). Progress via onNeuralProgress. */
+export async function downloadNeural(gender) {
+  const t = await lib()
+  await t.download(STUDIO_VOICES[gender].id, (p) => {
+    if (p && p.total) emitProgress(gender, Math.round((p.loaded / p.total) * 100))
+  })
+  downloaded[gender] = true
+  emitProgress(gender, 100)
+}
+
+/**
+ * Make `gender` the ACTIVE voice (downloading if necessary). Resets the
+ * library singleton when switching — required, or it reuses the old model.
+ */
+export function loadNeural(gender = 'female') {
+  const run = async () => {
+    if (activeGender === gender && session) return session
     const t = await lib()
-    const session = await t.TtsSession.create({
+    await storedNeuralVoices()
+    if (!downloaded[gender]) await downloadNeural(gender)
+    // reset the lib's global session so the new voice REALLY loads
+    try { t.TtsSession._instance = null } catch {}
+    session = await t.TtsSession.create({
       voiceId: STUDIO_VOICES[gender].id,
-      progress: (p) => {
-        if (p && p.total) emitProgress(gender, Math.round((p.loaded / p.total) * 100))
-      },
+      progress: (p) => { if (p && p.total) emitProgress(gender, Math.round((p.loaded / p.total) * 100)) },
     })
-    // TtsSession is a singleton internally in some versions — keep our own ref
-    sessions[gender] = session
+    activeGender = gender
     emitProgress(gender, 100)
     return session
-  })()
-  try { return await sessionLoading[gender] } finally { if (!sessions[gender]) sessionLoading[gender] = null }
+  }
+  switching = switching.then(run, run)
+  return switching
 }
 
-/** Preload both studio voices in the background (call from Settings / app start). */
+/** Preload: activate the female voice; make sure the male is downloaded too. */
 export function warmupNeural() {
-  loadNeural('female').catch(() => {})
-  // stagger the second voice so the first is usable sooner
-  setTimeout(() => loadNeural('male').catch(() => {}), 4000)
+  storedNeuralVoices().then(async (d) => {
+    try {
+      if (d.female) await loadNeural('female')
+      // don't silently pull 60MB for the male voice — Settings offers it
+    } catch {}
+  })
 }
 
 // ---- playback ----
@@ -114,10 +132,8 @@ function playBlob(blob, rate, token) {
       if (_audio === a) _audio = null
       resolve(ok)
     }
-    // CRITICAL: when another speak()/stop supersedes this one, the audio is
-    // paused — which never fires 'ended'. Without this watchdog the promise
-    // hangs forever and the caller's playing/speaking state sticks, killing
-    // replay buttons and conversation flow.
+    // when superseded, the audio is paused — which never fires 'ended';
+    // resolve via watchdog so callers never hang (stuck replay buttons)
     const watchdog = setInterval(() => { if (token !== _token) { try { a.pause() } catch {} done(false) } }, 200)
     a.onended = () => done(true)
     a.onerror = () => done(false)
@@ -126,27 +142,36 @@ function playBlob(blob, rate, token) {
 }
 
 /**
- * Speak text with a studio voice. Sentence-chunked and pipelined: chunk N+1
- * synthesizes while chunk N plays. Resolves when playback finishes.
- * NOTE: the session must be loaded — callers check neuralReady() and fall
- * back to the system engine otherwise (tts.js handles this).
+ * Speak with a studio voice.
+ * - strict: use EXACTLY this gender (switching if needed); fails if not
+ *   downloaded (Settings Test uses this — never plays the wrong voice).
+ * - non-strict (exam speech): prefer the requested gender when downloaded,
+ *   otherwise use whichever studio voice is available; returns false if none.
  */
-export async function speakNeural(text, { gender = 'female', rate = 1 } = {}) {
-  const session = sessions[gender] || sessions[gender === 'female' ? 'male' : 'female']
-  if (!session) return false
+export async function speakNeural(text, { gender = 'female', rate = 1, strict = false } = {}) {
+  await storedNeuralVoices()
+  let target = gender
+  if (!downloaded[target]) {
+    if (strict) return false
+    const other = target === 'female' ? 'male' : 'female'
+    if (!downloaded[other]) return false
+    target = other
+  }
+  if (activeGender !== target || !session) {
+    try { await loadNeural(target) } catch { return false }
+  }
+  const s = session
   const token = ++_token
   const chunks = chunkText(text)
 
-  let nextWav = session.predict(chunks[0])
+  let nextWav = s.predict(chunks[0])
   for (let i = 0; i < chunks.length; i++) {
     if (token !== _token) return false
     let wav
     try { wav = await nextWav } catch { return false }
     if (token !== _token) return false
-    // start synthesizing the next chunk while this one plays
-    if (i + 1 < chunks.length) nextWav = session.predict(chunks[i + 1])
-    const ok = await playBlob(wav, rate, token)
-    if (!ok && token !== _token) return false
+    if (i + 1 < chunks.length) nextWav = s.predict(chunks[i + 1])
+    await playBlob(wav, rate, token)
   }
   return token === _token
 }
