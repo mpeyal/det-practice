@@ -119,6 +119,15 @@ export function guessGender(v) {
   return 'unknown'
 }
 
+// macOS `say -v '?'` lists every voice, including robotic novelty ones — hide
+// those so the picker shows only real, natural voices.
+const NOVELTY = /^(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|deranged|hysterical|pipe|princess|junior|ralph|fred|kathy|bruce|agnes|grandma|grandpa|rocko|sandy|shelley|flo|eddy|reed|sara)\b/i
+
+/** Keep only usable English voices (drop other languages + novelty voices). */
+export function usableVoices(list) {
+  return (list || []).filter(v => /^en/i.test(v.lang) && !NOVELTY.test(v.name))
+}
+
 /** Heuristic quality ranking: neural/premium voices far above robotic ones. */
 export function scoreVoice(v) {
   const n = v.name.toLowerCase()
@@ -284,7 +293,7 @@ export function nativeVoices() { return _nativeVoices || [] }
 function loadNativeVoices() {
   const n = nativeSay()
   if (!n || !n.voices || _nativeVoices) return
-  n.voices().then(vs => { _nativeVoices = Array.isArray(vs) ? vs.filter(v => /^en/i.test(v.lang)) : [] }).catch(() => { _nativeVoices = [] })
+  n.voices().then(vs => { _nativeVoices = usableVoices(vs) }).catch(() => { _nativeVoices = [] })
 }
 if (typeof window !== 'undefined') loadNativeVoices()
 

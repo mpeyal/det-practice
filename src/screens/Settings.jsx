@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
 import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
-import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
+import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported, usableVoices } from '../lib/tts.js'
 import { STUDIO_VOICES, downloadNeural, speakNeural, stopNeural, storedNeuralVoices, activeNeuralGender, onNeuralProgress } from '../lib/neuralTts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
@@ -251,7 +251,7 @@ function VoiceSection({ s, setS }) {
     const t = setTimeout(refresh, 400)
     window.speechSynthesis?.addEventListener?.('voiceschanged', refresh)
     // on the Mac desktop app the real engine is Apple `say` — list ITS voices
-    if (macDesktop) window.parrot.say.voices().then(vs => setNativeVoices(Array.isArray(vs) ? vs.filter(v => /^en/i.test(v.lang)) : [])).catch(() => {})
+    if (macDesktop) window.parrot.say.voices().then(vs => setNativeVoices(usableVoices(vs))).catch(() => {})
     return () => { clearTimeout(t); window.speechSynthesis?.removeEventListener?.('voiceschanged', refresh); stopSpeaking() }
   }, []) // eslint-disable-line
 
