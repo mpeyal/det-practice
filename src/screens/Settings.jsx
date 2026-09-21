@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
-import { cachedModels, KNOWN_MODELS, detectBackend } from '../lib/ai.js'
+import { detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported, usableVoices } from '../lib/tts.js'
 import { STUDIO_VOICES, downloadNeural, speakNeural, stopNeural, storedNeuralVoices, activeNeuralGender, onNeuralProgress } from '../lib/neuralTts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
@@ -187,27 +187,6 @@ function SoundCheck() {
           {mic === 'error' && <p className="mt-2 text-xs font-bold text-red-500">{micMsg}</p>}
         </div>
       </div>
-    </div>
-  )
-}
-
-/* ---------- AI model picker ---------- */
-
-function ModelPicker({ s, setS }) {
-  const models = cachedModels() || KNOWN_MODELS
-  // make sure the saved model is always selectable, even if not in the list
-  const options = models.some(m => m.id === s.model) ? models : [{ id: s.model, label: s.model }, ...models]
-
-  return (
-    <div className="mt-2 flex flex-wrap items-center gap-2">
-      <label className="text-sm font-extrabold text-neutral-500">Model</label>
-      <select
-        className="min-w-0 flex-1 rounded-xl border-2 border-neutral-200 p-2.5 text-sm font-semibold focus:border-[#1cb0f6] focus:outline-none"
-        value={s.model}
-        onChange={e => { setS({ ...s, model: e.target.value }); saveSettings({ model: e.target.value }) }}
-      >
-        {options.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
-      </select>
     </div>
   )
 }
@@ -443,22 +422,11 @@ export default function Settings({ go }) {
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="font-black">🤖 AI Account {backend ? <span className="ml-1 rounded-full bg-[#d7ffb8] px-2 py-0.5 text-xs text-[#3f8f00]">backend on</span> : <span className="ml-1 rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-400">backend off</span>}</h2>
-              <p className="mt-0.5 text-sm font-semibold text-neutral-500">
-                Switch Claude account, log in a new user, apply a per-app override, or switch to a ChatGPT backend.
-              </p>
+              <p className="mt-0.5 text-sm font-semibold text-neutral-500">Choose Claude or ChatGPT Codex and sign in to the account you want to use for AI marking.</p>
             </div>
             <button className="btn !px-4 !py-2 text-sm" onClick={() => setShowAccount(true)}>Manage</button>
           </div>
           {!backend && <p className="mt-2 text-xs font-bold text-amber-700">Account switching needs the local backend — run <b>npm run serve</b> and open the app on localhost:8000.</p>}
-        </div>
-
-        <div>
-          <h2 className="font-black">AI grading model</h2>
-          <p className="mt-1 text-sm font-semibold text-neutral-500">
-            Which Claude model grades your writing &amp; speaking. Authentication (your Claude subscription or an API-key
-            override) is set above in <b>AI Account</b>. When AI is connected, grading runs automatically — no button needed.
-          </p>
-          <ModelPicker s={s} setS={setS} />
         </div>
 
         <UpdateSection />

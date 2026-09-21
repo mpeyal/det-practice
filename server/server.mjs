@@ -1,9 +1,9 @@
-// Optional local backend for AGENTIC AI grading with a Claude subscription.
+// Optional local backend for AI grading with a ChatGPT subscription.
 //
 // The offline app itself never needs a server. This tiny Node server adds one
-// capability: it shells out to the Claude Code CLI (`claude -p`), which is
-// already logged in with your Claude Pro/Max subscription, so writing and
-// speaking get graded automatically — no API key, no copy/paste.
+// capability: it shells out to the Codex CLI (`codex exec`), which is already
+// logged in with the user's ChatGPT subscription, so writing and speaking get
+// graded automatically — no API key, no copy/paste.
 //
 // (Same approach as the NeuroVAT studio backend: a local process invokes the
 // claude CLI, inheriting its subscription OAuth login.)
@@ -12,8 +12,8 @@
 //       node server/server.mjs   → serve an existing dist/ + /api
 //
 // Endpoints:
-//   GET  /api/health  → { ok, backend: 'claude-cli'|'none', cli }
-//   POST /api/grade   → { ok, text }  (body: { prompt, model })
+//   GET  /api/health  → { ok, backend: 'openai-cli'|'none', cli }
+//   POST /api/grade   → { ok, text }  (body: { prompt })
 
 import { createServer } from 'node:http'
 import { spawn, execSync } from 'node:child_process'
@@ -146,7 +146,7 @@ function redetectCodex() {
 // Mirrors the NeuroVAT "Claude account" dialog: switch provider, override the
 // login for THIS app only, without touching the global Claude Code login.
 const account = {
-  provider: 'claude',      // 'claude' | 'openai'
+  provider: 'openai',      // ParrotReady uses the existing ChatGPT/Codex login.
   overrideKind: null,      // 'api_key' | 'oauth' | null
   overrideValue: null,
   openaiKey: null,
@@ -200,12 +200,35 @@ function runClaudeCmd(args, { detached = false, timeout = 30000 } = {}) {
   })
 }
 
+function runCodexCmd(args, { detached = false, timeout = 30000 } = {}) {
+  return new Promise((resolve) => {
+    let child
+    try {
+      child = spawn(CODEX, args, {
+        cwd: ROOT,
+        shell: process.platform === 'win32',
+        windowsHide: !detached,
+        detached,
+        stdio: detached ? 'ignore' : 'pipe',
+        env: cliEnv(),
+      })
+    } catch (e) { resolve({ ok: false, out: e.message }); return }
+    if (detached) { try { child.unref() } catch {} ; resolve({ ok: true, out: 'launched' }); return }
+    let out = '', err = ''
+    const timer = setTimeout(() => { try { child.kill() } catch {} ; resolve({ ok: false, out: 'timed out' }) }, timeout)
+    child.stdout.on('data', d => (out += d))
+    child.stderr.on('data', d => (err += d))
+    child.on('error', e => { clearTimeout(timer); resolve({ ok: false, out: e.message }) })
+    child.on('close', code => { clearTimeout(timer); resolve({ ok: code === 0, out: out || err }) })
+  })
+}
+
 async function accountStatus() {
   const providers = {
     claude: { available: !!CLI_FOUND, cli: CLI_FOUND ? CLAUDE : null },
     openai: { available: !!CODEX, cli: CODEX },
   }
-  const st = { provider: account.provider, providers, override: null, account: null, claudePath: account.claudePath, cliResolved: CLI_FOUND ? CLAUDE : null }
+  const st = { provider: account.provider, providers, override: null, account: null, openaiAccount: null, claudePath: account.claudePath, cliResolved: CLI_FOUND ? CLAUDE : null }
   if (account.overrideValue) {
     st.override = { kind: account.overrideKind, tail: account.overrideValue.slice(-4) }
   }
@@ -217,6 +240,10 @@ async function accountStatus() {
         if (m) st.account = JSON.parse(m[0])
       } catch {}
     }
+  }
+  if (CODEX) {
+    const r = await runCodexCmd(['login', 'status'])
+    st.openaiAccount = { loggedIn: r.ok, status: r.out.trim() }
   }
   return st
 }
@@ -241,8 +268,9 @@ function spawnGrader(prompt, model) {
   // OpenAI (ChatGPT subscription) path via the codex CLI
   if (account.provider === 'openai') {
     if (!CODEX) return { error: 'ChatGPT/codex CLI not installed — run `npm i -g @openai/codex` and `codex login`, or switch provider to Claude' }
+    // Do not pass -m: Codex selects the model configured for the signed-in
+    // ChatGPT account, so the app has no model picker to maintain.
     const args = ['exec', '--sandbox', 'read-only']
-    if (model && /^[a-z0-9._-]+$/i.test(model)) args.push('-m', model)
     args.push('-')
     return { cli: CODEX, args, kind: 'codex' }
   }
@@ -373,6 +401,18 @@ function makeHandler(distDir) {
         sendJson(res, 200, { ok: r.ok, message: 'A sign-in window/browser is opening. Finish there, then Refresh.' })
         return
       }
+      if (action === 'openai-login') {
+        if (!CODEX) { sendJson(res, 503, { ok: false, error: 'OpenAI codex CLI not found' }); return }
+        const r = await runCodexCmd(['login'], { detached: true })
+        sendJson(res, 200, { ok: r.ok, message: 'ChatGPT sign-in is opening. Finish there, then Refresh.' })
+        return
+      }
+      if (action === 'openai-logout') {
+        if (!CODEX) { sendJson(res, 503, { ok: false, error: 'OpenAI codex CLI not found' }); return }
+        const r = await runCodexCmd(['logout'])
+        sendJson(res, 200, { ok: r.ok, message: r.out || 'Signed out of ChatGPT.' })
+        return
+      }
       if (action === 'logout') {
         const r = await runClaudeCmd(['auth', 'logout'])
         sendJson(res, 200, { ok: r.ok, message: r.out })
@@ -444,7 +484,7 @@ export function startServer({ port = PORT, distDir = DIST } = {}) {
     server.listen(port, () => {
       const actual = server.address().port
       console.log(`\n  ParrotReady server → http://localhost:${actual}`)
-      console.log(`  AI grading backend: ${CLI_FOUND ? `claude CLI ✓ (${CLAUDE})` : 'NOT found — offline/self-score only'}`)
+      console.log(`  AI grading backend: ${CODEX ? `ChatGPT Codex CLI ✓ (${CODEX})` : 'NOT found — offline/self-score only'}`)
       resolve({ server, port: actual })
     })
   })

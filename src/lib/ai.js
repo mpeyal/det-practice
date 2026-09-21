@@ -8,9 +8,9 @@ export function aiAvailable() {
   return Boolean(getApiKey()) && (typeof navigator === 'undefined' || navigator.onLine)
 }
 
-// ---- local backend (Claude Code CLI) for subscription grading ----
+// ---- local backend (Claude Code or Codex CLI) for subscription grading ----
 // When the app is served by server/server.mjs, /api/grade shells out to the
-// `claude` CLI (logged in with your Claude subscription) — fully agentic
+// selected CLI (logged in with the user's subscription) — fully agentic
 // grading with no API key. Probed once and cached.
 
 let _backendProbe = undefined // undefined = not probed, null = none, obj = available
@@ -23,7 +23,7 @@ export async function detectBackend() {
     const r = await fetch('/api/health', { signal: ctrl.signal })
     clearTimeout(t)
     const j = await r.json()
-    _backendProbe = j && j.backend === 'claude-cli' ? j : null
+    _backendProbe = j && ['claude-cli', 'openai-cli'].includes(j.backend) ? j : null
   } catch {
     _backendProbe = null // not served by our backend (e.g. opened from file://)
   }
@@ -53,13 +53,13 @@ export async function accountAction(action, body = {}) {
   return j
 }
 
-/** Grade via the local Claude-subscription backend. Throws on failure. */
+/** Grade via the selected subscription backend. Throws on failure. */
 export async function backendGrade({ kind, taskLabel, prompt, response }) {
   const promptText = buildGradingPrompt({ kind, taskLabel, prompt, response })
   const r = await fetch('/api/grade', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ prompt: promptText, model: getSettings().model }),
+    body: JSON.stringify({ prompt: promptText }),
   })
   const j = await r.json().catch(() => ({ ok: false, error: `HTTP ${r.status}` }))
   if (!j.ok) throw new Error(j.error || 'backend grading failed')

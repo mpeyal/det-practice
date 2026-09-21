@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getHistory } from '../lib/storage.js'
-import { aiAvailable, detectBackend } from '../lib/ai.js'
+import { detectBackend } from '../lib/ai.js'
 
 export default function Home({ go }) {
   const history = getHistory().slice(0, 6)
@@ -38,12 +38,10 @@ export default function Home({ go }) {
         </button>
       </div>
 
-      <div className={`mt-4 rounded-2xl px-4 py-3 text-sm font-bold ${backend || aiAvailable() ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-neutral-100 text-neutral-500'}`}>
+      <div className={`mt-4 rounded-2xl px-4 py-3 text-sm font-bold ${backend ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-neutral-100 text-neutral-500'}`}>
         {backend
-          ? '✨ AI marking is ON via your Claude subscription (local backend) — writing & speaking grade with one click.'
-          : aiAvailable()
-          ? '✨ AI marking is ON via your API key — writing & speaking get Claude feedback.'
-          : '📴 Offline mode — writing & speaking use bundled model answers + self-scoring. Run “npm run serve” to grade with your Claude subscription, or add an API key in Settings.'}
+          ? '✨ AI marking is ON through your selected subscription — writing & speaking grade automatically.'
+          : '📴 Offline mode — writing & speaking use bundled model answers + self-scoring. In Settings, sign in to Claude or ChatGPT Codex to enable AI marking.'}
       </div>
 
       {history.length > 0 && (

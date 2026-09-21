@@ -13,7 +13,6 @@ export default function AccountDialog({ onClose }) {
   const [busy, setBusy] = useState(false)
   const [ovKind, setOvKind] = useState('api_key')
   const [ovValue, setOvValue] = useState('')
-  const [openaiKey, setOpenaiKey] = useState('')
   const [cliPath, setCliPath] = useState('')
 
   const refresh = async () => {
@@ -40,6 +39,7 @@ export default function AccountDialog({ onClose }) {
   const acc = st?.account
   const provClaude = st?.providers?.claude
   const provOpenai = st?.providers?.openai
+  const openaiAccount = st?.openaiAccount
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
@@ -73,7 +73,7 @@ export default function AccountDialog({ onClose }) {
               </div>
               {st.provider === 'openai' && !provOpenai?.available && (
                 <p className="mt-1 text-xs font-bold text-amber-700">
-                  ChatGPT grading needs OpenAI's codex CLI: <code>npm i -g @openai/codex</code> then <code>codex login</code> with your ChatGPT subscription. Restart the backend after.
+                  ChatGPT grading needs OpenAI's codex CLI. Install it, then reopen ParrotReady.
                 </p>
               )}
             </div>
@@ -141,13 +141,18 @@ export default function AccountDialog({ onClose }) {
               </div>
             )}
 
-            {/* OpenAI key */}
             {st.provider === 'openai' && (
-              <div>
-                <div className="mb-1 text-xs font-extrabold uppercase tracking-wide text-neutral-400">OpenAI API key (optional — codex login is used otherwise)</div>
-                <div className="flex gap-2">
-                  <input className="min-w-0 flex-1 rounded-xl border-2 border-neutral-200 p-2 font-mono text-xs" placeholder="sk-…" value={openaiKey} onChange={e => setOpenaiKey(e.target.value)} />
-                  <button className="btn !px-3 !py-1.5 text-xs" onClick={() => act('openai-key', { value: openaiKey })} disabled={busy}>Apply</button>
+              <div className="rounded-2xl bg-neutral-50 p-3">
+                {openaiAccount?.loggedIn ? (
+                  <div className="text-sm font-black text-[#0b7a5e]">✓ {openaiAccount.status || 'Signed in to ChatGPT'}</div>
+                ) : (
+                  <div className="text-sm font-bold text-neutral-500">Not signed in to ChatGPT.</div>
+                )}
+                <p className="mt-1 text-xs font-semibold text-neutral-500">ParrotReady uses your ChatGPT subscription through Codex. No API key or model selection is needed.</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={refresh} disabled={busy}>↻ Refresh</button>
+                  <button className="btn !px-3 !py-1.5 text-xs" onClick={() => act('openai-login')} disabled={busy}>Log in / switch ChatGPT</button>
+                  <button className="btn-ghost !px-3 !py-1.5 text-xs !text-red-400" onClick={() => act('openai-logout')} disabled={busy}>Log out</button>
                 </div>
               </div>
             )}
