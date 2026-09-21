@@ -35,6 +35,7 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
   const [selfScore, setSelfScore] = useState(null)
   const responsesRef = useRef({})
   const selfScoresRef = useRef({})
+  const resultsRef = useRef({})
 
   // warm the voice engine up front so the first listening question plays with
   // no delay (non-blocking — system voices are ready almost immediately)
@@ -58,7 +59,7 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
     setFeedback(null)
     setSelfScore(null)
     if (index + 1 >= items.length) {
-      onFinishAll(items, responsesRef.current, selfScoresRef.current)
+      onFinishAll(items, responsesRef.current, selfScoresRef.current, resultsRef.current)
     } else {
       setIndex(i => i + 1)
     }
@@ -102,7 +103,7 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
                 )}
               </div>
               <QuestionView item={item} />
-              <SubjectiveReview item={item} response={feedback.response} selfScore={selfScore} onScore={setSelfScore} />
+              <SubjectiveReview key={item.id} item={item} response={feedback.response} selfScore={selfScore} onScore={f => { selfScoresRef.current[item.id] = f; setSelfScore(f) }} onResult={r => { resultsRef.current[item.id] = r }} />
             </div>
           )}
           <div className="mt-4 text-right">

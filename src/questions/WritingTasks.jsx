@@ -83,7 +83,7 @@ export function WritingSample({ item, timed, onComplete }) {
   const [left] = useCountdown(item.timeLimit, { running: timed, onExpire: submit, resetKey: item.id })
 
   return (
-    <QuestionCard label="Writing Sample (ungraded)" instructions="This part is shown to institutions on the real test. Write your best response." seconds={timed ? left : null}>
+    <QuestionCard label="Writing Sample" instructions="Write your best response. Your writing will receive practice feedback after submission." seconds={timed ? left : null}>
       <p className="mb-3 text-lg font-bold">{item.payload.prompt}</p>
       <TA placeholder="Write your response…" value={text} onChange={e => setText(e.target.value)} />
       <WordCount text={text} min={120} />

@@ -62,7 +62,7 @@ export default function App() {
           items={screen.items}
           timed={screen.timed}
           onQuit={() => go({ name: 'practice-menu' })}
-          onFinishAll={(items, responses) => go({ name: 'review', title: `${screen.title} (practice)`, items, responses })}
+          onFinishAll={(items, responses, subjectiveScores, subjectiveResults) => go({ name: 'review', title: `${screen.title} (practice)`, items, responses, subjectiveScores, subjectiveResults })}
         />
       )
       break
@@ -76,8 +76,8 @@ export default function App() {
           responses={h ? h.responses : screen.responses}
           history={!!h}
           attemptId={h ? h.id : undefined}
-          savedSubjectiveScores={h ? h.subjectiveScores : undefined}
-          savedSubjectiveResults={h ? h.subjectiveResults : undefined}
+          savedSubjectiveScores={h ? h.subjectiveScores : screen.subjectiveScores}
+          savedSubjectiveResults={h ? h.subjectiveResults : screen.subjectiveResults}
           onHome={() => go({ name: 'home' })}
         />
       )

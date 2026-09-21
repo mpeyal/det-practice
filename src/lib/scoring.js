@@ -36,7 +36,7 @@ const LEVEL_WEIGHT = { easy: 0.7, medium: 0.88, hard: 1 }
 /**
  * items: exam items; responses: map itemId -> response;
  * subjectiveScores: map itemId -> 0..1 (from AI marking or self-scoring).
- * Ungraded samples (isSample) are excluded, like the real test.
+ * Writing and speaking samples contribute to their skill estimates.
  */
 export function computeResults(items, responses, subjectiveScores = {}) {
   const skills = { reading: { got: 0, of: 0 }, listening: { got: 0, of: 0 }, writing: { got: 0, of: 0 }, speaking: { got: 0, of: 0 } }
@@ -44,7 +44,6 @@ export function computeResults(items, responses, subjectiveScores = {}) {
   for (const item of items) {
     const g = gradeItem(item, responses[item.id])
     graded.push({ item, response: responses[item.id], grade: g })
-    if (item.isSample) continue
     const skill = SKILL_OF_TYPE[item.type]
     if (g.subjective) {
       const s = subjectiveScores[item.id]
@@ -58,11 +57,15 @@ export function computeResults(items, responses, subjectiveScores = {}) {
   let wSum = 0, wOf = 0
   for (const k of Object.keys(skills)) {
     const { got, of } = skills[k]
-    sub[k] = of ? toScale(got / of) : null
-    if (of) { wSum += got; wOf += of }
+    // AI/self grades already represent the 10–160 scale. Applying the
+    // objective-item curve again inflates the writing and speaking grades.
+    sub[k] = of ? (['writing', 'speaking'].includes(k)
+      ? Math.round((10 + 150 * got / of) / 5) * 5
+      : toScale(got / of)) : null
+    if (of) { wSum += sub[k]; wOf += 1 }
   }
   return {
-    overall: wOf ? toScale(wSum / wOf) : null,
+    overall: wOf ? Math.round(wSum / wOf / 5) * 5 : null,
     subscores: sub,
     graded,
   }

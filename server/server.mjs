@@ -300,8 +300,9 @@ function runClaude(prompt, model) {
     child.stdout.on('data', d => (out += d))
     child.stderr.on('data', d => (err += d))
     child.on('error', e => { clearTimeout(timer); resolve({ ok: false, error: `${spec.kind} CLI error: ${e.message}` }) })
-    child.on('close', () => {
+    child.on('close', code => {
       clearTimeout(timer)
+      if (code !== 0) { resolve({ ok: false, error: (err || out || `CLI exited with code ${code}`).slice(-1000) }); return }
       if (spec.kind === 'codex') {
         // codex exec prints the plain assistant reply on stdout
         if (!out.trim()) { resolve({ ok: false, error: (err || 'no output from codex').slice(-500) }); return }

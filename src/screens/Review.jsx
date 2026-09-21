@@ -46,13 +46,13 @@ export default function Review({ title, items, responses, onHome, history = fals
     [items, responses, subjectiveScores]
   )
   const weak = useMemo(() => studySummary(results.graded), [results])
+  const pendingGrades = results.graded.filter(({ item, grade }) => grade.subjective && subjectiveScores[item.id] == null).length
 
   // total marks: every question is worth marks by difficulty (5/8/10);
   // unscored writing/speaking don't count toward the possible total yet
   const marks = useMemo(() => {
     let earned = 0, possible = 0
     for (const { item, grade } of results.graded) {
-      if (item.isSample) continue
       const m = marksFor(item)
       if (grade.subjective) {
         const s = subjectiveScores[item.id]
@@ -67,9 +67,8 @@ export default function Review({ title, items, responses, onHome, history = fals
 
   // persist / live-update this attempt in history — now with the FULL items +
   // responses + grades, so "Recent results" can re-open the whole review.
-  // (Skipped when we're already viewing a saved attempt from history.)
+  // Also save newly requested grades when reopening an existing attempt.
   useEffect(() => {
-    if (history) return
     upsertAttempt({
       id: attemptId.current,
       title,
@@ -102,6 +101,7 @@ export default function Review({ title, items, responses, onHome, history = fals
           <p className="text-[11px] font-semibold text-neutral-400">
             Estimated score for study purposes — the real DET uses adaptive IRT scoring. Grade your writing/speaking below to refine it.
           </p>
+          {pendingGrades > 0 && <p className="text-sm font-bold text-amber-700">Provisional result: {pendingGrades} writing/speaking response(s) still need marking. Use “Grade this response” below for any missing grade.</p>}
         </div>
       </div>
 
@@ -139,14 +139,14 @@ export default function Review({ title, items, responses, onHome, history = fals
                     {LEVEL_META[item.level].icon} {LEVEL_META[item.level].label}
                   </span>
                 )}
-                {item.isSample && <span className="ml-2 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-black text-neutral-400">ungraded sample</span>}
+                {item.isSample && <span className="ml-2 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-black text-neutral-400">sample</span>}
               </div>
               {!grade.subjective ? (
                 <span className={`whitespace-nowrap rounded-full px-3 py-1 text-sm font-black
                   ${grade.score >= 0.85 ? 'bg-[#d7ffb8] text-[#3f8f00]' : grade.score >= 0.5 ? 'bg-[#fff3c4] text-amber-600' : 'bg-[#ffdfe0] text-[#d33131]'}`}>
                   {Math.round(grade.score * marksFor(item))}/{marksFor(item)} · {Math.round(grade.score * 100)}%
                 </span>
-              ) : subjectiveScores[item.id] != null && !item.isSample ? (
+              ) : subjectiveScores[item.id] != null ? (
                 <span className="whitespace-nowrap rounded-full bg-[#ddf4ff] px-3 py-1 text-sm font-black text-[#1899d6]">
                   {Math.round(subjectiveScores[item.id] * marksFor(item))}/{marksFor(item)} marks
                 </span>
