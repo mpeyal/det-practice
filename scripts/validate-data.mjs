@@ -63,13 +63,24 @@ try {
   const cs = load('conversations.json')
   ok(`conversations: ${cs.length}`)
   cs.forEach(c => {
-    const choices = c.turns.filter(t => t.kind === 'choice')
-    if (!choices.length) err(`${c.id}: no choice turns`)
-    choices.forEach((t, j) => { if (!t.options.includes(t.answer)) err(`${c.id} choice ${j}: answer not in options`) })
-    if (c.turns[0].kind !== 'line') err(`${c.id}: must start with a line turn`)
-    for (const n of [1, 2]) if (!c.completion.text.includes(`{${n}}`)) err(`${c.id}: completion missing {${n}}`)
-    if (c.completion.answers.length !== 2) err(`${c.id}: completion needs 2 answers`)
-    if (!c.summary?.keywords?.length) err(`${c.id}: summary keywords missing`)
+    // dialogue: alternating spoken lines, each tagged partner/you
+    if (!Array.isArray(c.dialogue) || !c.dialogue.length) return err(`${c.id}: no dialogue`)
+    c.dialogue.forEach((t, j) => {
+      if (!['partner', 'you'].includes(t.speaker)) err(`${c.id} dialogue ${j}: speaker must be 'partner' or 'you'`)
+      if (!t.text) err(`${c.id} dialogue ${j}: missing text`)
+    })
+    // comprehension: typed-answer blanks, answer required
+    if (!Array.isArray(c.comprehension) || !c.comprehension.length) return err(`${c.id}: no comprehension items`)
+    c.comprehension.forEach((q, j) => { if (!q.answer) err(`${c.id} comprehension ${j}: missing answer`) })
+    // opener: single-best-choice, answer must be one of the options
+    if (!c.opener?.options?.length) return err(`${c.id}: opener missing options`)
+    if (!c.opener.options.includes(c.opener.answer)) err(`${c.id}: opener answer not in options`)
+    // rounds: each a single-best-choice response, answer must be in options
+    if (!Array.isArray(c.rounds) || !c.rounds.length) return err(`${c.id}: no rounds`)
+    c.rounds.forEach((rd, j) => {
+      if (!rd.options?.length) return err(`${c.id} round ${j}: missing options`)
+      if (!rd.options.includes(rd.answer)) err(`${c.id} round ${j}: answer not in options`)
+    })
   })
 } catch (e) { err('conversations.json: ' + e.message) }
 
