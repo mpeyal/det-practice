@@ -99,8 +99,26 @@ function findCodexCli() {
   const home = os.homedir()
   const isWin = process.platform === 'win32'
   const exe = isWin ? 'codex.exe' : 'codex'
-  const cand = join(home, '.codex', 'bin', exe)
-  if (existsSync(cand)) return cand
+  // The standalone Codex installer places its user-facing command in
+  // ~/.local/bin on macOS/Linux. A desktop app launched by Finder has a
+  // minimal PATH, so checking only PATH (or the old ~/.codex/bin location)
+  // makes a correctly installed CLI look missing.
+  const direct = [
+    join(home, '.local', 'bin', exe),
+    join(home, '.codex', 'bin', exe), // legacy location
+    ...(isWin ? [] : EXTRA_BIN_DIRS.map(d => join(d, 'codex'))),
+  ]
+  for (const p of direct) if (existsSync(p)) return p
+  if (!isWin) {
+    const shells = [process.env.SHELL, '/bin/zsh', '/bin/bash', '/bin/sh'].filter(Boolean)
+    for (const sh of [...new Set(shells)]) {
+      try {
+        const raw = execSync(`'${sh}' -ilc 'command -v codex || which codex' 2>/dev/null`, { encoding: 'utf8', timeout: 6000, shell: '/bin/sh' })
+        const line = raw.split('\n').map(s => s.trim()).filter(Boolean).reverse().find(s => s.startsWith('/') && existsSync(s))
+        if (line) return line
+      } catch { /* try next shell */ }
+    }
+  }
   return which('codex') ? 'codex' : null
 }
 
@@ -118,7 +136,11 @@ function redetectClaude() {
   CLI_FOUND = CLAUDE !== 'claude' || which('claude')
   return { cli: CLAUDE, found: CLI_FOUND }
 }
-const CODEX = findCodexCli()
+let CODEX = findCodexCli()
+function redetectCodex() {
+  CODEX = findCodexCli()
+  return { cli: CODEX, found: !!CODEX }
+}
 
 // ---- per-app account state (never written to disk; lives in this process) ----
 // Mirrors the NeuroVAT "Claude account" dialog: switch provider, override the
@@ -323,13 +345,15 @@ function makeHandler(distDir) {
 
   if (url.pathname === '/api/health') {
     const anyBackend = (account.provider === 'claude' && CLI_FOUND) || (account.provider === 'openai' && CODEX)
-    sendJson(res, 200, { ok: true, backend: anyBackend ? `${account.provider}-cli` : 'none', provider: account.provider, cli: CLI_FOUND ? CLAUDE : null })
+    const cli = account.provider === 'openai' ? CODEX : (CLI_FOUND ? CLAUDE : null)
+    sendJson(res, 200, { ok: true, backend: anyBackend ? `${account.provider}-cli` : 'none', provider: account.provider, cli })
     return
   }
 
   // --- account management (mirrors the NeuroVAT "Claude account" dialog) ---
   if (url.pathname === '/api/account' && req.method === 'GET') {
     redetectClaude() // re-scan for the CLI (user may have just installed/logged in)
+    redetectCodex()
     sendJson(res, 200, { ok: true, ...(await accountStatus()) })
     return
   }
@@ -358,6 +382,7 @@ function makeHandler(distDir) {
         const p = String(body.provider || '').toLowerCase()
         if (!['claude', 'openai'].includes(p)) { sendJson(res, 400, { ok: false, error: 'provider must be claude|openai' }); return }
         account.provider = p
+        redetectCodex()
         sendJson(res, 200, { ok: true, ...(await accountStatus()) })
         return
       }
@@ -396,7 +421,8 @@ function makeHandler(distDir) {
       let body
       try { body = JSON.parse(raw) } catch { sendJson(res, 400, { ok: false, error: 'bad JSON' }); return }
       if (!body.prompt) { sendJson(res, 400, { ok: false, error: 'missing prompt' }); return }
-      if (!CLI_FOUND) { sendJson(res, 503, { ok: false, error: 'claude CLI not found — install Claude Code and log in' }); return }
+      if (account.provider === 'claude' && !CLI_FOUND) { sendJson(res, 503, { ok: false, error: 'claude CLI not found — install Claude Code and log in' }); return }
+      if (account.provider === 'openai' && !CODEX) { sendJson(res, 503, { ok: false, error: 'OpenAI codex CLI not found — install Codex and sign in with ChatGPT' }); return }
       const result = await runClaude(body.prompt, body.model)
       sendJson(res, result.ok ? 200 : 502, result)
     })
