@@ -224,6 +224,11 @@ function runCodexCmd(args, { detached = false, timeout = 30000 } = {}) {
 }
 
 async function accountStatus() {
+  let codexModels = []
+  try {
+    const cache = JSON.parse(await readFile(join(process.env.CODEX_HOME || join(os.homedir(), '.codex'), 'models_cache.json'), 'utf8'))
+    codexModels = (cache.models || []).filter(m => m.visibility === 'list').map(m => ({ id: m.slug, label: m.display_name || m.slug }))
+  } catch { /* Automatic remains available before Codex has cached its catalog. */ }
   const providers = {
     claude: { available: !!CLI_FOUND, cli: CLI_FOUND ? CLAUDE : null },
     openai: { available: !!CODEX, cli: CODEX },
@@ -245,6 +250,7 @@ async function accountStatus() {
     const r = await runCodexCmd(['login', 'status'])
     st.openaiAccount = { loggedIn: r.ok, status: r.out.trim() }
   }
+  st.models = { openai: codexModels, claude: [{ id: 'opus', label: 'Opus' }, { id: 'sonnet', label: 'Sonnet' }, { id: 'haiku', label: 'Haiku' }] }
   return st
 }
 
@@ -256,27 +262,21 @@ function which(cmd) {
   return false
 }
 
-// grading only needs plain text generation, so map to a safe CLI model alias
-function cliModel(m) {
-  const s = String(m || '').toLowerCase()
-  if (s.includes('opus')) return 'opus'
-  if (s.includes('haiku')) return 'haiku'
-  return 'sonnet' // default: best quality/cost for grading
-}
-
 function spawnGrader(prompt, model) {
+  if (model && !/^[a-z0-9._-]+$/i.test(model)) return { error: 'Invalid grading model' }
   // OpenAI (ChatGPT subscription) path via the codex CLI
   if (account.provider === 'openai') {
     if (!CODEX) return { error: 'ChatGPT/codex CLI not installed — run `npm i -g @openai/codex` and `codex login`, or switch provider to Claude' }
-    // Do not pass -m: Codex selects the model configured for the signed-in
-    // ChatGPT account, so the app has no model picker to maintain.
-    const args = ['exec', '--sandbox', 'read-only']
+    const args = ['exec', '--sandbox', 'read-only', '--skip-git-repo-check']
+    if (model) args.push('-m', model)
     args.push('-')
     return { cli: CODEX, args, kind: 'codex' }
   }
   // Claude path
   if (!CLI_FOUND) return { error: 'claude CLI not found — install Claude Code and log in' }
-  return { cli: CLAUDE, args: ['-p', '--output-format', 'json', '--model', cliModel(model)], kind: 'claude' }
+  const args = ['-p', '--output-format', 'json']
+  if (model) args.push('--model', model)
+  return { cli: CLAUDE, args, kind: 'claude' }
 }
 
 function runClaude(prompt, model) {
@@ -463,7 +463,8 @@ function makeHandler(distDir) {
       if (!body.prompt) { sendJson(res, 400, { ok: false, error: 'missing prompt' }); return }
       if (account.provider === 'claude' && !CLI_FOUND) { sendJson(res, 503, { ok: false, error: 'claude CLI not found — install Claude Code and log in' }); return }
       if (account.provider === 'openai' && !CODEX) { sendJson(res, 503, { ok: false, error: 'OpenAI codex CLI not found — install Codex and sign in with ChatGPT' }); return }
-      const result = await runClaude(body.prompt, body.model)
+      const model = body.models?.[account.provider] ?? body.model
+      const result = await runClaude(body.prompt, model)
       sendJson(res, result.ok ? 200 : 502, result)
     })
     return

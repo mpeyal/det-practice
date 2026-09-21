@@ -409,7 +409,7 @@ export default function Settings({ go }) {
   const [showAccount, setShowAccount] = useState(false)
   useEffect(() => { detectBackend().then(b => setBackend(!!b)) }, [])
 
-  const save = () => { saveSettings(s); setSaved(true); setTimeout(() => setSaved(false), 1500) }
+  const save = () => { const { gradingModels, ...settings } = s; saveSettings(settings); setSaved(true); setTimeout(() => setSaved(false), 1500) }
 
   return (
     <div className="mx-auto w-full max-w-2xl pb-16">

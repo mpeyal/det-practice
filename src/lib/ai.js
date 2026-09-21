@@ -59,7 +59,7 @@ export async function backendGrade({ kind, taskLabel, prompt, response }) {
   const r = await fetch('/api/grade', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ prompt: promptText }),
+    body: JSON.stringify({ prompt: promptText, models: getSettings().gradingModels || {} }),
   })
   const j = await r.json().catch(() => ({ ok: false, error: `HTTP ${r.status}` }))
   if (!j.ok) throw new Error(j.error || 'backend grading failed')

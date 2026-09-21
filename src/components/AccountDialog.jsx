@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getAccount, accountAction } from '../lib/ai.js'
+import { getSettings, saveSettings } from '../lib/storage.js'
 
 /**
  * AI Account dialog (like NeuroVAT's "Claude account" panel).
@@ -14,6 +15,7 @@ export default function AccountDialog({ onClose }) {
   const [ovKind, setOvKind] = useState('api_key')
   const [ovValue, setOvValue] = useState('')
   const [cliPath, setCliPath] = useState('')
+  const [gradingModels, setGradingModels] = useState(() => getSettings().gradingModels || {})
 
   const refresh = async () => {
     setError('')
@@ -40,6 +42,8 @@ export default function AccountDialog({ onClose }) {
   const provClaude = st?.providers?.claude
   const provOpenai = st?.providers?.openai
   const openaiAccount = st?.openaiAccount
+  const selectedModel = gradingModels[st?.provider] || ''
+  const modelOptions = st?.models?.[st?.provider] || []
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
@@ -76,6 +80,20 @@ export default function AccountDialog({ onClose }) {
                   ChatGPT grading needs OpenAI's codex CLI. Install it, then reopen ParrotReady.
                 </p>
               )}
+            </div>
+
+            <div>
+              <label htmlFor="grading-model" className="mb-1 block text-xs font-extrabold uppercase tracking-wide text-neutral-400">Grading model</label>
+              <select id="grading-model" className="w-full rounded-xl border-2 border-neutral-200 p-2.5 text-sm" value={selectedModel} onChange={e => {
+                const next = { ...gradingModels, [st.provider]: e.target.value }
+                setGradingModels(next)
+                saveSettings({ gradingModels: next })
+              }}>
+                <option value="">Automatic (CLI default)</option>
+                {selectedModel && !modelOptions.some(m => m.id === selectedModel) && <option value={selectedModel}>{selectedModel}</option>}
+                {modelOptions.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+              </select>
+              <p className="mt-1 text-xs text-neutral-500">Saved separately for Claude and ChatGPT. Model access depends on your subscription.</p>
             </div>
 
             {/* Claude CLI not found → let the user point us at it manually */}
@@ -148,7 +166,7 @@ export default function AccountDialog({ onClose }) {
                 ) : (
                   <div className="text-sm font-bold text-neutral-500">Not signed in to ChatGPT.</div>
                 )}
-                <p className="mt-1 text-xs font-semibold text-neutral-500">ParrotReady uses your ChatGPT subscription through Codex. No API key or model selection is needed.</p>
+                <p className="mt-1 text-xs font-semibold text-neutral-500">ParrotReady uses your ChatGPT subscription through Codex. No API key is needed.</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={refresh} disabled={busy}>↻ Refresh</button>
                   <button className="btn !px-3 !py-1.5 text-xs" onClick={() => act('openai-login')} disabled={busy}>Log in / switch ChatGPT</button>
