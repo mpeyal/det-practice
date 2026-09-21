@@ -1,7 +1,7 @@
 [
   {
     "id": "il1",
-    "scenario": "You are a student asking your professor for a short extension on an essay.",
+    "scenario": "You have been ill this week. Your essay is due on Friday, and you would like three extra days to finish it. You are meeting your professor to discuss an extension.",
     "partner": "Professor",
     "you": "Student",
     "dialogue": [
@@ -31,13 +31,25 @@
       },
       {
         "speaker": "partner",
-        "text": "You are welcome. Focus on getting better, and I will see you in class next week."
+        "text": "Please include your course number in the email so the office can find your record."
+      },
+      {
+        "speaker": "you",
+        "text": "I will include the course number and the new deadline."
+      },
+      {
+        "speaker": "partner",
+        "text": "That is everything. If you are still unwell on Monday, let me know before the deadline."
+      },
+      {
+        "speaker": "you",
+        "text": "I will contact you before Monday’s deadline if I need further advice."
       }
     ],
     "comprehension": [
       {
-        "q": "Why do you need an extension?",
-        "pre": "I have been",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You have been",
         "post": "this week.",
         "answer": "ill",
         "alts": [
@@ -46,45 +58,42 @@
         ]
       },
       {
-        "q": "How many extra days do you ask for?",
-        "pre": "I ask for",
-        "post": "extra days.",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your essay is due on",
+        "post": ".",
+        "answer": "Friday",
+        "alts": []
+      },
+      {
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You would like",
+        "post": "extra days to finish.",
         "answer": "three",
         "alts": [
           "3"
-        ]
-      },
-      {
-        "q": "What must you do to make it official?",
-        "pre": "I must",
-        "post": "the student office.",
-        "answer": "email",
-        "alts": [
-          "e-mail",
-          "message",
-          "contact"
         ]
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "Yes, thank you. I have been ill this week and I am worried I cannot finish by Friday.",
         "Actually, I think your lectures are too early in the morning.",
         "No, I came to ask whether the exam grades have been posted.",
-        "You should really assign less homework to everyone."
+        "You should really assign less homework to everyone.",
+        "Yes, thank you. I have been ill this week and I am worried I cannot finish by Friday."
       ],
       "answer": "Yes, thank you. I have been ill this week and I am worried I cannot finish by Friday.",
-      "explanation": "It directly answers the professor's question and explains the reason for the request."
+      "explanation": "It directly answers the professor's question and explains the reason for the request.",
+      "audio": "Hi, come in. You mentioned in your email that you wanted to talk about the essay deadline?"
     },
     "rounds": [
       {
         "audio": "I am sorry to hear that. How much extra time do you think you would need?",
         "prompt": "Select the best response",
         "options": [
-          "If possible, three extra days would let me finish the last section properly.",
           "I would prefer to skip the essay completely this term.",
           "Time is a very interesting concept, philosophically speaking.",
+          "If possible, three extra days would let me finish the last section properly.",
           "That depends on what my friends are doing this weekend."
         ],
         "answer": "If possible, three extra days would let me finish the last section properly.",
@@ -94,19 +103,43 @@
         "audio": "Three days is fine. Please email the student office so the extension is recorded officially.",
         "prompt": "Select the best response",
         "options": [
-          "I will send them a message this afternoon. Thank you so much for understanding.",
           "That sounds like too much paperwork, so I will just hand it in late.",
+          "I will send them a message this afternoon. Thank you so much for understanding.",
           "Could you email them for me instead? I am quite busy.",
           "Actually, I no longer want the extension at all."
         ],
         "answer": "I will send them a message this afternoon. Thank you so much for understanding.",
         "explanation": "It accepts the professor's instruction politely and confirms the next step."
+      },
+      {
+        "audio": "Please include your course number in the email so the office can find your record.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will include the course number and the new deadline.",
+          "I will send just my name and leave out the course information.",
+          "I will ask the office to choose a different course for me.",
+          "Could we discuss a different subject instead?"
+        ],
+        "answer": "I will include the course number and the new deadline.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "That is everything. If you are still unwell on Monday, let me know before the deadline.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will wait until after the deadline to mention any problems.",
+          "I will assume another extension is automatic.",
+          "Could we discuss a different subject instead?",
+          "I will contact you before Monday’s deadline if I need further advice."
+        ],
+        "answer": "I will contact you before Monday’s deadline if I need further advice.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il2",
-    "scenario": "You are a student meeting your academic advisor to plan next semester's courses.",
+    "scenario": "You are planning next semester with your academic advisor. You have chosen two courses and need a third. Your degree still requires a writing course and a science elective.",
     "partner": "Advisor",
     "you": "Student",
     "dialogue": [
@@ -136,13 +169,25 @@
       },
       {
         "speaker": "partner",
-        "text": "Perfect. Come back and see me if anything changes with your schedule."
+        "text": "Before registering, check that the writing seminar does not clash with your other classes."
+      },
+      {
+        "speaker": "you",
+        "text": "I will compare the seminar time with my existing schedule."
+      },
+      {
+        "speaker": "partner",
+        "text": "If it is full, join the waiting list and email me. We can discuss a backup."
+      },
+      {
+        "speaker": "you",
+        "text": "I will join the waiting list and contact you about another option."
       }
     ],
     "comprehension": [
       {
-        "q": "How many courses have you already chosen?",
-        "pre": "I have already picked",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You have already chosen",
         "post": "courses.",
         "answer": "two",
         "alts": [
@@ -150,42 +195,41 @@
         ]
       },
       {
-        "q": "Which course will you take now?",
-        "pre": "I will take the",
-        "post": "course now.",
-        "answer": "writing",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You need help choosing your",
+        "post": "course.",
+        "answer": "third",
         "alts": [
-          "academic writing"
+          "3rd"
         ]
       },
       {
-        "q": "Why should you register early?",
-        "pre": "The writing course",
-        "post": "up quickly.",
-        "answer": "fills",
-        "alts": [
-          "fills"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "One remaining requirement is a",
+        "post": "course.",
+        "answer": "writing",
+        "alts": []
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "Yes, I have picked two courses, but I am not sure what to choose for my third.",
         "No, and honestly I do not think planning ahead is useful.",
         "I was hoping you could tell me where the cafeteria is.",
+        "Yes, I have picked two courses, but I am not sure what to choose for my third.",
         "The catalog cover design could really use some improvement."
       ],
       "answer": "Yes, I have picked two courses, but I am not sure what to choose for my third.",
-      "explanation": "It answers the advisor's question and explains what help is needed."
+      "explanation": "It answers the advisor's question and explains what help is needed.",
+      "audio": "Good morning. Have you had a chance to look at the course catalog for next semester?"
     },
     "rounds": [
       {
         "audio": "What are you leaning toward? Your degree still requires one more writing course and one science elective.",
         "prompt": "Select the best response",
         "options": [
-          "In that case, I would like to take the writing course now and save the science elective for later.",
           "I would rather take five cooking classes instead.",
+          "In that case, I would like to take the writing course now and save the science elective for later.",
           "Requirements are unfair and I refuse to follow them.",
           "Can we talk about my roommate problems instead?"
         ],
@@ -203,12 +247,36 @@
         ],
         "answer": "Thanks for the warning. I will register on the first day so I do not lose my place.",
         "explanation": "It acknowledges the advice about the course filling up and acts on it sensibly."
+      },
+      {
+        "audio": "Before registering, check that the writing seminar does not clash with your other classes.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will register without checking because required courses cannot overlap.",
+          "I will cancel my other classes immediately.",
+          "Could we discuss a different subject instead?",
+          "I will compare the seminar time with my existing schedule."
+        ],
+        "answer": "I will compare the seminar time with my existing schedule.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "If it is full, join the waiting list and email me. We can discuss a backup.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will attend without registering or telling anyone.",
+          "Could we discuss a different subject instead?",
+          "I will join the waiting list and contact you about another option.",
+          "I will give up on completing the requirement."
+        ],
+        "answer": "I will join the waiting list and contact you about another option.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il3",
-    "scenario": "You are a student asking a librarian for help finding a book for a research project.",
+    "scenario": "You are working on a research project about ocean pollution. You need a book from the university library, but you cannot find it on the shelf. You are asking a librarian for help.",
     "partner": "Librarian",
     "you": "Student",
     "dialogue": [
@@ -238,47 +306,55 @@
       },
       {
         "speaker": "partner",
-        "text": "Of course. Log in with your student account and I will walk you through it."
+        "text": "Sign in to the library website with your student account and search the title."
+      },
+      {
+        "speaker": "you",
+        "text": "I will use my student account to find the online book."
+      },
+      {
+        "speaker": "partner",
+        "text": "The online version is available now. We will also email you when the printed copy returns."
+      },
+      {
+        "speaker": "you",
+        "text": "Thank you. I can start reading online while I wait for the printed copy."
       }
     ],
     "comprehension": [
       {
-        "q": "What is the book about?",
-        "pre": "The book is about ocean",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your research project is about",
         "post": ".",
-        "answer": "pollution",
+        "answer": "ocean pollution",
         "alts": []
       },
       {
-        "q": "Why can’t you take the book today?",
-        "pre": "The library’s copy is checked",
-        "post": ".",
-        "answer": "out",
-        "alts": [
-          "out"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You cannot find a",
+        "post": "on the shelf.",
+        "answer": "book",
+        "alts": []
       },
       {
-        "q": "What can you read for free meanwhile?",
-        "pre": "I can read the",
-        "post": "version online.",
-        "answer": "electronic",
-        "alts": [
-          "digital",
-          "online"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are asking a",
+        "post": "for help.",
+        "answer": "librarian",
+        "alts": []
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "Hi, I am looking for a book on ocean pollution, but I cannot find it on the shelf.",
         "I would like to complain about the temperature in this building.",
+        "Hi, I am looking for a book on ocean pollution, but I cannot find it on the shelf.",
         "Nothing really, I am just walking around the library.",
         "Do you know what time the football match starts tonight?"
       ],
       "answer": "Hi, I am looking for a book on ocean pollution, but I cannot find it on the shelf.",
-      "explanation": "It states the actual problem the student needs help with at the help desk."
+      "explanation": "It states the actual problem the student needs help with at the help desk.",
+      "audio": "Hello, welcome to the help desk. What can I do for you today?"
     },
     "rounds": [
       {
@@ -297,19 +373,43 @@
         "audio": "Usually about a week. In the meantime, we have an electronic version you can read online for free.",
         "prompt": "Select the best response",
         "options": [
-          "That would be great. Could you show me how to access the electronic version?",
           "A week is far too long, so please cancel my library card.",
           "Reading on screens is wrong and I refuse to try it.",
-          "Actually, I have decided I no longer need any sources."
+          "Actually, I have decided I no longer need any sources.",
+          "That would be great. Could you show me how to access the electronic version?"
         ],
         "answer": "That would be great. Could you show me how to access the electronic version?",
         "explanation": "It responds positively to the offer and asks for the practical next step."
+      },
+      {
+        "audio": "Sign in to the library website with your student account and search the title.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will search the shelves again instead of signing in.",
+          "Could we discuss a different subject instead?",
+          "I will use my student account to find the online book.",
+          "I will create a new shopping account to buy the book."
+        ],
+        "answer": "I will use my student account to find the online book.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "The online version is available now. We will also email you when the printed copy returns.",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "Thank you. I can start reading online while I wait for the printed copy.",
+          "Please cancel the online version until the printed book returns.",
+          "I will wait for your email before starting any research."
+        ],
+        "answer": "Thank you. I can start reading online while I wait for the printed copy.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il4",
-    "scenario": "You are arranging a meeting time with a classmate to prepare a group presentation.",
+    "scenario": "You and a classmate need to prepare a history presentation. You want to arrange a meeting after Wednesday’s lecture. You have not yet decided how to divide the work.",
     "partner": "Classmate",
     "you": "Student",
     "dialogue": [
@@ -339,35 +439,44 @@
       },
       {
         "speaker": "partner",
-        "text": "Deal. I will book a study room and send you the confirmation tonight."
+        "text": "Could we each bring two reliable sources to support our part?"
+      },
+      {
+        "speaker": "you",
+        "text": "Yes, I will find two sources for my section before we meet."
+      },
+      {
+        "speaker": "partner",
+        "text": "Perfect. After comparing our notes, we can rehearse the whole presentation."
+      },
+      {
+        "speaker": "you",
+        "text": "That sounds useful. We can also check how long it takes."
       }
     ],
     "comprehension": [
       {
-        "q": "What are you meeting about?",
-        "pre": "We are meeting about the",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are preparing a",
         "post": "presentation.",
         "answer": "history",
         "alts": []
       },
       {
-        "q": "What time will you meet?",
-        "pre": "We will meet at",
-        "post": "o’clock.",
-        "answer": "six",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You suggest meeting after the lecture on",
+        "post": ".",
+        "answer": "Wednesday",
         "alts": [
-          "6",
-          "6pm"
+          "Wednesday afternoon"
         ]
       },
       {
-        "q": "How will you divide the work?",
-        "pre": "Each of us will prepare",
-        "post": "of the topic.",
-        "answer": "half",
-        "alts": [
-          "a half"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are working with a",
+        "post": ".",
+        "answer": "classmate",
+        "alts": []
       }
     ],
     "opener": {
@@ -379,17 +488,18 @@
         "Did you watch anything good on television last night?"
       ],
       "answer": "You are right. Are you free on Wednesday afternoon after the lecture?",
-      "explanation": "It agrees about the urgency and proposes a concrete meeting time."
+      "explanation": "It agrees about the urgency and proposes a concrete meeting time.",
+      "audio": "Hey, we really need to meet about the history presentation before it is due next week."
     },
     "rounds": [
       {
         "audio": "Wednesday is tricky because I work until five. Could we meet in the evening instead?",
         "prompt": "Select the best response",
         "options": [
-          "Sure, six o'clock at the library works for me if that suits you.",
           "No, afternoons are the only time I will ever accept.",
           "Maybe we should just drop the course entirely.",
-          "Why do you even have a job during the semester?"
+          "Why do you even have a job during the semester?",
+          "Sure, six o'clock at the library works for me if that suits you."
         ],
         "answer": "Sure, six o'clock at the library works for me if that suits you.",
         "explanation": "It accepts the evening suggestion and proposes a specific time and place."
@@ -398,328 +508,445 @@
         "audio": "Great. Should we split the topic so we each prepare half before we meet?",
         "prompt": "Select the best response",
         "options": [
-          "Good idea. I can cover the first half, and you take the second.",
           "No, I think you should prepare everything by yourself.",
           "Splitting topics never works, so let us not prepare at all.",
+          "Good idea. I can cover the first half, and you take the second.",
           "I would rather talk about the weather forecast for Wednesday."
         ],
         "answer": "Good idea. I can cover the first half, and you take the second.",
         "explanation": "It accepts the plan to divide the work and proposes a fair split."
+      },
+      {
+        "audio": "Could we each bring two reliable sources to support our part?",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "Yes, I will find two sources for my section before we meet.",
+          "I will leave the sources for you to find for both sections.",
+          "We should avoid sources because they make presentations longer."
+        ],
+        "answer": "Yes, I will find two sources for my section before we meet.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Perfect. After comparing our notes, we can rehearse the whole presentation.",
+        "prompt": "Select the best response",
+        "options": [
+          "That sounds useful. We can also check how long it takes.",
+          "Let us rehearse separately and never compare our notes.",
+          "We should skip rehearsal if our sources are reliable.",
+          "Could we discuss a different subject instead?"
+        ],
+        "answer": "That sounds useful. We can also check how long it takes.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il5",
-    "scenario": "You are visiting a doctor because you have had a sore throat and a cough for several days.",
-    "partner": "Doctor",
+    "scenario": "You missed five days of classes because of a cold. You are now meeting your professor to ask how to catch up before the next quiz.",
+    "partner": "Professor",
     "you": "Patient",
     "dialogue": [
       {
         "speaker": "partner",
-        "text": "Good afternoon. What seems to be the problem today?"
+        "text": "Welcome back. How can I help you catch up?"
       },
       {
         "speaker": "you",
-        "text": "I have had a sore throat and a dry cough for about five days now."
+        "text": "I missed five days because I had a cold. Could we discuss what I should study first?"
       },
       {
         "speaker": "partner",
-        "text": "Any fever or trouble breathing during that time?"
+        "text": "Start with the notes for chapters three and four. Have you managed to get them?"
       },
       {
         "speaker": "you",
-        "text": "I had a slight fever the first two nights, but my breathing has been fine."
+        "text": "Not yet. I will ask a classmate for the notes today."
       },
       {
         "speaker": "partner",
-        "text": "That sounds like a mild viral infection. I recommend rest, warm fluids, and throat lozenges rather than antibiotics."
+        "text": "Good. Then attempt the practice questions online. They will show you which topics need more work."
       },
       {
         "speaker": "you",
-        "text": "Understood. Should I come back if the cough has not improved by next week?"
+        "text": "I will work through those questions after reading the notes."
       },
       {
         "speaker": "partner",
-        "text": "Exactly. If it lasts beyond ten days or the fever returns, book another appointment right away."
+        "text": "Bring any questions you cannot solve to my office hours on Tuesday."
+      },
+      {
+        "speaker": "you",
+        "text": "I will try them first and bring the difficult ones on Tuesday."
+      },
+      {
+        "speaker": "partner",
+        "text": "That should prepare you for Friday. Let me know if you are still struggling after office hours."
+      },
+      {
+        "speaker": "you",
+        "text": "Thank you. I will follow that plan and let you know how it goes."
       }
     ],
     "comprehension": [
       {
-        "q": "How long have you had symptoms?",
-        "pre": "I have had symptoms for about",
-        "post": "days.",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You missed",
+        "post": "days of classes.",
         "answer": "five",
         "alts": [
           "5"
         ]
       },
       {
-        "q": "What does the doctor recommend?",
-        "pre": "The doctor recommends rest and warm",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You were absent because you had a",
         "post": ".",
-        "answer": "fluids",
-        "alts": [
-          "liquids",
-          "drinks"
-        ]
+        "answer": "cold",
+        "alts": []
       },
       {
-        "q": "When should you return?",
-        "pre": "I should return if it lasts beyond",
-        "post": "days.",
-        "answer": "ten",
-        "alts": [
-          "10"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You need to catch up before the next",
+        "post": ".",
+        "answer": "quiz",
+        "alts": []
       }
     ],
     "opener": {
-      "prompt": "Pick the best option to start the conversation",
+      "audio": "Welcome back. How can I help you catch up?",
+      "prompt": "Select the best response",
+      "answer": "I missed five days because I had a cold. Could we discuss what I should study first?",
       "options": [
-        "I have had a sore throat and a dry cough for about five days now.",
-        "Nothing is wrong, I just enjoy visiting clinics.",
-        "My neighbor is very noisy and it is ruining my life.",
-        "Could you tell me which lottery numbers to pick?"
+        "Could we change the subject?",
+        "I do not think I need to do anything about that.",
+        "I will ask you about something unrelated instead.",
+        "I missed five days because I had a cold. Could we discuss what I should study first?"
       ],
-      "answer": "I have had a sore throat and a dry cough for about five days now.",
-      "explanation": "It describes the symptoms clearly, which is what the doctor asked about."
+      "explanation": "This reply responds to the question and helps resolve the situation."
     },
     "rounds": [
       {
-        "audio": "Any fever or trouble breathing during that time?",
+        "audio": "Start with the notes for chapters three and four. Have you managed to get them?",
         "prompt": "Select the best response",
+        "answer": "Not yet. I will ask a classmate for the notes today.",
         "options": [
-          "I had a slight fever the first two nights, but my breathing has been fine.",
-          "I never measure anything because thermometers cannot be trusted.",
-          "Breathing is something I try not to think about.",
-          "My cousin had a fever once, many years ago."
+          "I do not think I need to do anything about that.",
+          "I will ask you about something unrelated instead.",
+          "Not yet. I will ask a classmate for the notes today.",
+          "Could we change the subject?"
         ],
-        "answer": "I had a slight fever the first two nights, but my breathing has been fine.",
-        "explanation": "It answers both parts of the doctor's question with useful detail."
+        "explanation": "This reply responds to the question and helps resolve the situation."
       },
       {
-        "audio": "That sounds like a mild viral infection. I recommend rest, warm fluids, and throat lozenges rather than antibiotics.",
+        "audio": "Good. Then attempt the practice questions online. They will show you which topics need more work.",
+        "prompt": "Select the best response",
+        "answer": "I will work through those questions after reading the notes.",
+        "options": [
+          "I will ask you about something unrelated instead.",
+          "I will work through those questions after reading the notes.",
+          "Could we change the subject?",
+          "I do not think I need to do anything about that."
+        ],
+        "explanation": "This reply responds to the question and helps resolve the situation."
+      },
+      {
+        "audio": "Bring any questions you cannot solve to my office hours on Tuesday.",
         "prompt": "Select the best response",
         "options": [
-          "Understood. Should I come back if the cough has not improved by next week?",
-          "I refuse to leave until you prescribe the strongest antibiotics.",
-          "Viruses are just a rumor spread by pharmacies.",
-          "Can I go running in the cold tonight to toughen up?"
+          "I will try them first and bring the difficult ones on Tuesday.",
+          "I will leave that until after the deadline.",
+          "I think we should ignore that issue.",
+          "Could we discuss a different subject instead?"
         ],
-        "answer": "Understood. Should I come back if the cough has not improved by next week?",
-        "explanation": "It accepts the advice and asks a sensible follow-up about recovery."
+        "answer": "I will try them first and bring the difficult ones on Tuesday.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "That should prepare you for Friday. Let me know if you are still struggling after office hours.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will leave that until after the deadline.",
+          "I think we should ignore that issue.",
+          "Could we discuss a different subject instead?",
+          "Thank you. I will follow that plan and let you know how it goes."
+        ],
+        "answer": "Thank you. I will follow that plan and let you know how it goes.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il6",
-    "scenario": "You are calling your landlord to report a leaking tap in your kitchen.",
-    "partner": "Landlord",
+    "scenario": "You and a classmate are preparing a laboratory report. Your measurements do not match, and the report is due tomorrow. You want to compare your notes before writing the results.",
+    "partner": "Classmate",
     "you": "Tenant",
     "dialogue": [
       {
         "speaker": "partner",
-        "text": "Hello, this is your landlord speaking. What can I help you with?"
+        "text": "You said there was a problem with our results. What did you notice?"
       },
       {
         "speaker": "you",
-        "text": "Hi, the kitchen tap has been leaking since yesterday and it is getting worse."
+        "text": "Our measurements are different. Could we compare the notes from the experiment?"
       },
       {
         "speaker": "partner",
-        "text": "Thanks for letting me know. Is it just dripping, or is water spreading onto the floor?"
+        "text": "Of course. I wrote the temperatures in Celsius. What units did you use?"
       },
       {
         "speaker": "you",
-        "text": "It is mostly dripping, but a small puddle forms under the sink overnight."
+        "text": "I used Fahrenheit. That might explain why the numbers looked different."
       },
       {
         "speaker": "partner",
-        "text": "Alright, I will send a plumber tomorrow morning. Will someone be home around nine?"
+        "text": "Let us convert them to the same unit before deciding whether we need to repeat anything."
       },
       {
         "speaker": "you",
-        "text": "Yes, I will be home all morning, so nine works perfectly."
+        "text": "Agreed. I will convert mine to Celsius and then compare them with yours."
       },
       {
         "speaker": "partner",
-        "text": "Great. Please put a bucket under the pipe tonight so the cabinet does not get damaged."
+        "text": "The converted measurements match closely. Could you update the results table?"
+      },
+      {
+        "speaker": "you",
+        "text": "Yes, I will label the units clearly and update the table."
+      },
+      {
+        "speaker": "partner",
+        "text": "Great. I will check the calculations tonight, and we can submit tomorrow morning."
+      },
+      {
+        "speaker": "you",
+        "text": "That works. I will send you the revised table this afternoon."
       }
     ],
     "comprehension": [
       {
-        "q": "What is the problem?",
-        "pre": "The kitchen",
-        "post": "is leaking.",
-        "answer": "tap",
-        "alts": [
-          "faucet",
-          "sink"
-        ]
-      },
-      {
-        "q": "When will the plumber come?",
-        "pre": "The plumber will come tomorrow",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are preparing a",
         "post": ".",
-        "answer": "morning",
+        "answer": "laboratory report",
         "alts": []
       },
       {
-        "q": "What should you do tonight?",
-        "pre": "I should put a",
-        "post": "under the pipe.",
-        "answer": "bucket",
-        "alts": [
-          "pot",
-          "container"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You need to compare your",
+        "post": ".",
+        "answer": "measurements",
+        "alts": []
+      },
+      {
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "The report is due",
+        "post": ".",
+        "answer": "tomorrow",
+        "alts": []
       }
     ],
     "opener": {
-      "prompt": "Pick the best option to start the conversation",
+      "audio": "You said there was a problem with our results. What did you notice?",
+      "prompt": "Select the best response",
+      "answer": "Our measurements are different. Could we compare the notes from the experiment?",
       "options": [
-        "Hi, the kitchen tap has been leaking since yesterday and it is getting worse.",
-        "I am calling to ask if you can lower everyone's rent for fun.",
-        "Just checking whether you are having a nice week.",
-        "The neighbors bought a new car and I think it is too loud."
+        "I do not think I need to do anything about that.",
+        "I will ask you about something unrelated instead.",
+        "Our measurements are different. Could we compare the notes from the experiment?",
+        "Could we change the subject?"
       ],
-      "answer": "Hi, the kitchen tap has been leaking since yesterday and it is getting worse.",
-      "explanation": "It reports the actual maintenance problem clearly and promptly."
+      "explanation": "This reply responds to the question and helps resolve the situation."
     },
     "rounds": [
       {
-        "audio": "Thanks for letting me know. Is it just dripping, or is water spreading onto the floor?",
+        "audio": "Of course. I wrote the temperatures in Celsius. What units did you use?",
         "prompt": "Select the best response",
+        "answer": "I used Fahrenheit. That might explain why the numbers looked different.",
         "options": [
-          "It is mostly dripping, but a small puddle forms under the sink overnight.",
-          "I have not looked at it and I do not plan to.",
-          "Water is fascinating when you really think about it.",
-          "The floor has always been wet since I moved in, probably."
+          "I will ask you about something unrelated instead.",
+          "I used Fahrenheit. That might explain why the numbers looked different.",
+          "Could we change the subject?",
+          "I do not think I need to do anything about that."
         ],
-        "answer": "It is mostly dripping, but a small puddle forms under the sink overnight.",
-        "explanation": "It answers the landlord's question with the specific details needed."
+        "explanation": "This reply responds to the question and helps resolve the situation."
       },
       {
-        "audio": "Alright, I will send a plumber tomorrow morning. Will someone be home around nine?",
+        "audio": "Let us convert them to the same unit before deciding whether we need to repeat anything.",
+        "prompt": "Select the best response",
+        "answer": "Agreed. I will convert mine to Celsius and then compare them with yours.",
+        "options": [
+          "Agreed. I will convert mine to Celsius and then compare them with yours.",
+          "Could we change the subject?",
+          "I do not think I need to do anything about that.",
+          "I will ask you about something unrelated instead."
+        ],
+        "explanation": "This reply responds to the question and helps resolve the situation."
+      },
+      {
+        "audio": "The converted measurements match closely. Could you update the results table?",
         "prompt": "Select the best response",
         "options": [
-          "Yes, I will be home all morning, so nine works perfectly.",
-          "No, and I refuse to change any of my plans for this.",
-          "Plumbers make me nervous, so please send a gardener instead.",
-          "Tomorrow I am moving out without any notice."
+          "I will leave that until after the deadline.",
+          "I think we should ignore that issue.",
+          "Could we discuss a different subject instead?",
+          "Yes, I will label the units clearly and update the table."
         ],
-        "answer": "Yes, I will be home all morning, so nine works perfectly.",
-        "explanation": "It confirms availability for the repair visit the landlord proposed."
+        "answer": "Yes, I will label the units clearly and update the table.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Great. I will check the calculations tonight, and we can submit tomorrow morning.",
+        "prompt": "Select the best response",
+        "options": [
+          "I think we should ignore that issue.",
+          "Could we discuss a different subject instead?",
+          "That works. I will send you the revised table this afternoon.",
+          "I will leave that until after the deadline."
+        ],
+        "answer": "That works. I will send you the revised table this afternoon.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il7",
-    "scenario": "You are returning a jacket to a clothing shop because it does not fit.",
-    "partner": "Shop Assistant",
+    "scenario": "You borrowed a jacket from a classmate for a university debate last weekend. You want to return it, but you noticed a loose button. You are talking to your classmate about repairing it.",
+    "partner": "Classmate",
     "you": "Customer",
     "dialogue": [
       {
         "speaker": "partner",
-        "text": "Hi there, how can I help you today?"
+        "text": "How did the debate go? Did the jacket fit?"
       },
       {
         "speaker": "you",
-        "text": "I bought this jacket last weekend, but it is too small and I would like to return it."
+        "text": "It fitted well, thank you. I noticed a loose button and wanted to ask about fixing it."
       },
       {
         "speaker": "partner",
-        "text": "No problem. Do you have the receipt with you?"
+        "text": "Thanks for telling me. Is the button still attached?"
       },
       {
         "speaker": "you",
-        "text": "Yes, here it is. I paid by card, if that matters."
+        "text": "Yes, but the thread is coming loose. I kept the jacket safe so the button would not fall off."
       },
       {
         "speaker": "partner",
-        "text": "Thanks. We can refund your card, or you could exchange the jacket for a larger size."
+        "text": "I have matching thread at home. Could you bring the jacket tomorrow?"
       },
       {
         "speaker": "you",
-        "text": "I would rather exchange it if you have the same jacket in a medium."
+        "text": "Certainly. I can bring it before our morning lecture."
       },
       {
         "speaker": "partner",
-        "text": "Let me check the stockroom. If we have a medium, I will bring it right out."
+        "text": "That would be fine. It should only take a few minutes to sew it back on."
+      },
+      {
+        "speaker": "you",
+        "text": "Thanks. I can help if you show me what to do."
+      },
+      {
+        "speaker": "partner",
+        "text": "No problem. I am glad you told me before it came off completely."
+      },
+      {
+        "speaker": "you",
+        "text": "I appreciate you lending it to me. I will see you tomorrow morning."
       }
     ],
     "comprehension": [
       {
-        "q": "Why are you returning the jacket?",
-        "pre": "The jacket is too",
-        "post": ".",
-        "answer": "small",
-        "alts": [
-          "tight"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You borrowed a",
+        "post": "from a classmate.",
+        "answer": "jacket",
+        "alts": []
       },
       {
-        "q": "How did you pay?",
-        "pre": "I paid by",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You wore it for a university",
         "post": ".",
-        "answer": "card",
-        "alts": [
-          "credit card",
-          "debit card"
-        ]
+        "answer": "debate",
+        "alts": []
       },
       {
-        "q": "What do you decide to do?",
-        "pre": "I decide to",
-        "post": "it for a larger size.",
-        "answer": "exchange",
-        "alts": [
-          "swap"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You noticed a loose",
+        "post": ".",
+        "answer": "button",
+        "alts": []
       }
     ],
     "opener": {
-      "prompt": "Pick the best option to start the conversation",
+      "audio": "How did the debate go? Did the jacket fit?",
+      "prompt": "Select the best response",
+      "answer": "It fitted well, thank you. I noticed a loose button and wanted to ask about fixing it.",
       "options": [
-        "I bought this jacket last weekend, but it is too small and I would like to return it.",
-        "I am here to sell you some jackets of my own.",
-        "Your shop window could use a much better display.",
-        "No help needed, I am just standing near the counter."
+        "I will ask you about something unrelated instead.",
+        "It fitted well, thank you. I noticed a loose button and wanted to ask about fixing it.",
+        "Could we change the subject?",
+        "I do not think I need to do anything about that."
       ],
-      "answer": "I bought this jacket last weekend, but it is too small and I would like to return it.",
-      "explanation": "It explains the purpose of the visit clearly to the assistant."
+      "explanation": "This reply responds to the question and helps resolve the situation."
     },
     "rounds": [
       {
-        "audio": "No problem. Do you have the receipt with you?",
+        "audio": "Thanks for telling me. Is the button still attached?",
         "prompt": "Select the best response",
+        "answer": "Yes, but the thread is coming loose. I kept the jacket safe so the button would not fall off.",
         "options": [
-          "Yes, here it is. I paid by card, if that matters.",
-          "Receipts are unnecessary and I never keep them on principle.",
-          "I lost it, but you should trust me completely anyway.",
-          "What is a receipt exactly?"
+          "Yes, but the thread is coming loose. I kept the jacket safe so the button would not fall off.",
+          "Could we change the subject?",
+          "I do not think I need to do anything about that.",
+          "I will ask you about something unrelated instead."
         ],
-        "answer": "Yes, here it is. I paid by card, if that matters.",
-        "explanation": "It answers the question and offers helpful payment information."
+        "explanation": "This reply responds to the question and helps resolve the situation."
       },
       {
-        "audio": "Thanks. We can refund your card, or you could exchange the jacket for a larger size.",
+        "audio": "I have matching thread at home. Could you bring the jacket tomorrow?",
+        "prompt": "Select the best response",
+        "answer": "Certainly. I can bring it before our morning lecture.",
+        "options": [
+          "Could we change the subject?",
+          "I do not think I need to do anything about that.",
+          "I will ask you about something unrelated instead.",
+          "Certainly. I can bring it before our morning lecture."
+        ],
+        "explanation": "This reply responds to the question and helps resolve the situation."
+      },
+      {
+        "audio": "That would be fine. It should only take a few minutes to sew it back on.",
         "prompt": "Select the best response",
         "options": [
-          "I would rather exchange it if you have the same jacket in a medium.",
-          "Neither option interests me, so I will just leave the jacket here.",
-          "Do you sell refrigerators as well?",
-          "I want a refund and an exchange at the same time."
+          "I think we should ignore that issue.",
+          "Could we discuss a different subject instead?",
+          "Thanks. I can help if you show me what to do.",
+          "I will leave that until after the deadline."
         ],
-        "answer": "I would rather exchange it if you have the same jacket in a medium.",
-        "explanation": "It chooses one of the two options offered and specifies the needed size."
+        "answer": "Thanks. I can help if you show me what to do.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "No problem. I am glad you told me before it came off completely.",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "I appreciate you lending it to me. I will see you tomorrow morning.",
+          "I will leave that until after the deadline.",
+          "I think we should ignore that issue."
+        ],
+        "answer": "I appreciate you lending it to me. I will see you tomorrow morning.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il8",
-    "scenario": "You are asking a coworker to cover your shift so you can attend a family wedding.",
-    "partner": "Coworker",
+    "scenario": "You work at the campus cafe with a classmate. Your cousin is getting married on Saturday, when you are scheduled to work. You are asking your classmate to exchange shifts.",
+    "partner": "Classmate",
     "you": "Coworker",
     "dialogue": [
       {
@@ -748,34 +975,42 @@
       },
       {
         "speaker": "partner",
-        "text": "Perfect. Thanks for offering the trade instead of just asking for a favor."
+        "text": "The manager usually needs both of us to confirm the exact times."
+      },
+      {
+        "speaker": "you",
+        "text": "I will include both shift times in my message."
+      },
+      {
+        "speaker": "partner",
+        "text": "Once the manager approves, I will put the change on the shared calendar."
+      },
+      {
+        "speaker": "you",
+        "text": "Thanks. I will check the calendar after we receive approval."
       }
     ],
     "comprehension": [
       {
-        "q": "Why do you need Saturday off?",
-        "pre": "My cousin is getting",
-        "post": "that day.",
-        "answer": "married",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "The person getting married is your",
+        "post": ".",
+        "answer": "cousin",
         "alts": []
       },
       {
-        "q": "What do you offer in exchange?",
-        "pre": "I offer to take the",
-        "post": "night shift.",
-        "answer": "Friday",
-        "alts": [
-          "friday"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your scheduled shift is on",
+        "post": ".",
+        "answer": "Saturday",
+        "alts": []
       },
       {
-        "q": "Who must approve the trade?",
-        "pre": "The",
-        "post": "must confirm the swap.",
-        "answer": "manager",
-        "alts": [
-          "boss"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are asking a",
+        "post": "to exchange shifts.",
+        "answer": "classmate",
+        "alts": []
       }
     ],
     "opener": {
@@ -787,17 +1022,18 @@
         "Did you see how long the lunch line was today?"
       ],
       "answer": "Yes, could you cover my Saturday shift? My cousin is getting married that day.",
-      "explanation": "It makes the request directly and gives the reason for it."
+      "explanation": "It makes the request directly and gives the reason for it.",
+      "audio": "Hey, you wanted to ask me something about the schedule?"
     },
     "rounds": [
       {
         "audio": "Congratulations to your cousin! I could do it, but I am already working Friday night.",
         "prompt": "Select the best response",
         "options": [
-          "I understand. Would it help if I took your Friday night shift in exchange?",
           "Friday night is your problem, not mine.",
           "Then forget it, I will just skip work without telling anyone.",
-          "Weddings are overrated anyway, so never mind."
+          "Weddings are overrated anyway, so never mind.",
+          "I understand. Would it help if I took your Friday night shift in exchange?"
         ],
         "answer": "I understand. Would it help if I took your Friday night shift in exchange?",
         "explanation": "It responds to the coworker's difficulty by offering a fair trade."
@@ -806,19 +1042,43 @@
         "audio": "That would actually work perfectly. Let me confirm with the manager before we make it official.",
         "prompt": "Select the best response",
         "options": [
-          "Sounds good. I will email the manager too so everything is clear in writing.",
           "Why involve the manager? Let us keep this secret.",
           "If the manager says no, I will quit immediately.",
+          "Sounds good. I will email the manager too so everything is clear in writing.",
           "Actually, I have changed my mind about the whole wedding."
         ],
         "answer": "Sounds good. I will email the manager too so everything is clear in writing.",
         "explanation": "It supports the plan to confirm the swap properly with the manager."
+      },
+      {
+        "audio": "The manager usually needs both of us to confirm the exact times.",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "I will include both shift times in my message.",
+          "I will leave out the times so we can decide later.",
+          "I will confirm only your shift and ignore mine."
+        ],
+        "answer": "I will include both shift times in my message.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Once the manager approves, I will put the change on the shared calendar.",
+        "prompt": "Select the best response",
+        "options": [
+          "Thanks. I will check the calendar after we receive approval.",
+          "I will assume the swap is approved before the manager replies.",
+          "Let us keep the change off the calendar.",
+          "Could we discuss a different subject instead?"
+        ],
+        "answer": "Thanks. I will check the calendar after we receive approval.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il9",
-    "scenario": "You are asking your professor for advice about choosing a research topic for your final paper.",
+    "scenario": "You are choosing a topic for a ten-page final paper. You are interested in renewable energy but think it may be too broad. You are meeting your professor to discuss a narrower focus.",
     "partner": "Professor",
     "you": "Student",
     "dialogue": [
@@ -848,55 +1108,66 @@
       },
       {
         "speaker": "partner",
-        "text": "Try the university library portal first, and email me if you get stuck."
+        "text": "Start with the university research database and use filters for peer-reviewed articles."
+      },
+      {
+        "speaker": "you",
+        "text": "I will search there and filter for peer-reviewed sources."
+      },
+      {
+        "speaker": "partner",
+        "text": "Bring a short outline next week so we can check that your argument is focused."
+      },
+      {
+        "speaker": "you",
+        "text": "I will prepare an outline showing my main argument and supporting points."
       }
     ],
     "comprehension": [
       {
-        "q": "What broad subject interests you?",
-        "pre": "I am interested in renewable",
-        "post": ".",
-        "answer": "energy",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your final paper should be",
+        "post": "pages long.",
+        "answer": "ten",
         "alts": [
-          "power"
+          "10"
         ]
       },
       {
-        "q": "How will you narrow the topic?",
-        "pre": "I will focus on",
-        "post": "power in desert regions.",
-        "answer": "solar",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your broad area of interest is",
+        "post": ".",
+        "answer": "renewable energy",
         "alts": []
       },
       {
-        "q": "How many academic sources are required?",
-        "pre": "I need at least",
-        "post": "academic sources.",
-        "answer": "five",
-        "alts": [
-          "5"
-        ]
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You are meeting your",
+        "post": "to narrow the topic.",
+        "answer": "professor",
+        "alts": []
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "Yes, I am interested in renewable energy, but the subject feels too broad for ten pages.",
         "No, I finished the paper months ago, before the course even started.",
         "I mainly came to ask why the classroom chairs are so uncomfortable.",
-        "Topics are your job to choose, not mine."
+        "Topics are your job to choose, not mine.",
+        "Yes, I am interested in renewable energy, but the subject feels too broad for ten pages."
       ],
       "answer": "Yes, I am interested in renewable energy, but the subject feels too broad for ten pages.",
-      "explanation": "It confirms the problem and names the area of interest and the difficulty."
+      "explanation": "It confirms the problem and names the area of interest and the difficulty.",
+      "audio": "So, you said you were having trouble settling on a topic for the final paper?"
     },
     "rounds": [
       {
         "audio": "That is a common problem. Could you narrow it to one technology or one region?",
         "prompt": "Select the best response",
         "options": [
-          "I could focus on solar power in desert regions, since I have read a lot about it.",
           "Narrowing things down feels like giving up, so no.",
           "I would rather write about my summer holiday instead.",
+          "I could focus on solar power in desert regions, since I have read a lot about it.",
           "Can you just assign me a topic and write the outline too?"
         ],
         "answer": "I could focus on solar power in desert regions, since I have read a lot about it.",
@@ -906,19 +1177,43 @@
         "audio": "That is a strong choice. Make sure you use at least five academic sources, not just news articles.",
         "prompt": "Select the best response",
         "options": [
-          "Understood. Could you recommend a database where I can find those academic sources?",
           "Five sources is far too many, so I will use one blog post.",
+          "Understood. Could you recommend a database where I can find those academic sources?",
           "News articles are more truthful than academic journals anyway.",
           "I prefer to write papers without reading anything at all."
         ],
         "answer": "Understood. Could you recommend a database where I can find those academic sources?",
         "explanation": "It accepts the requirement and asks a practical question about meeting it."
+      },
+      {
+        "audio": "Start with the university research database and use filters for peer-reviewed articles.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will search there and filter for peer-reviewed sources.",
+          "I will rely only on social media posts.",
+          "I will remove the academic filters to avoid journal articles.",
+          "Could we discuss a different subject instead?"
+        ],
+        "answer": "I will search there and filter for peer-reviewed sources.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Bring a short outline next week so we can check that your argument is focused.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will bring only a list of unrelated topics.",
+          "I will wait until the final deadline to choose an argument.",
+          "Could we discuss a different subject instead?",
+          "I will prepare an outline showing my main argument and supporting points."
+        ],
+        "answer": "I will prepare an outline showing my main argument and supporting points.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il10",
-    "scenario": "You are asking a classmate to share notes from a lecture you missed while you were sick.",
+    "scenario": "You missed a lecture because you had a bad cold. A quiz is coming up, and you want to catch up on the material. You are asking a classmate to share their notes.",
     "partner": "Classmate",
     "you": "Student",
     "dialogue": [
@@ -948,55 +1243,63 @@
       },
       {
         "speaker": "partner",
-        "text": "Good luck, and let me know if anything in the notes is unclear."
+        "text": "There was also a diagram on the board. I drew it at the bottom of the second page."
+      },
+      {
+        "speaker": "you",
+        "text": "I will look for the diagram on the second page."
+      },
+      {
+        "speaker": "partner",
+        "text": "If anything is unclear, we could review together tomorrow before class."
+      },
+      {
+        "speaker": "you",
+        "text": "That would help. I will read the notes first and bring my questions."
       }
     ],
     "comprehension": [
       {
-        "q": "Why did you miss the lecture?",
-        "pre": "I had a bad",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You missed class because you had a bad",
         "post": ".",
         "answer": "cold",
-        "alts": [
-          "flu"
-        ]
+        "alts": []
       },
       {
-        "q": "How will you receive the notes?",
-        "pre": "I will get",
-        "post": "of the notes.",
-        "answer": "photos",
-        "alts": [
-          "pictures",
-          "pics"
-        ]
-      },
-      {
-        "q": "What will the quiz cover?",
-        "pre": "The quiz focuses on the last two",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You need to prepare for a",
         "post": ".",
-        "answer": "chapters",
+        "answer": "quiz",
+        "alts": []
+      },
+      {
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You want your classmate to share their",
+        "post": ".",
+        "answer": "notes",
         "alts": []
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "I had a bad cold, so I stayed home. Could I borrow your notes from that day?",
         "I skipped it on purpose because lectures bore me.",
         "Everything is fine, and I have no idea why you are asking.",
+        "I had a bad cold, so I stayed home. Could I borrow your notes from that day?",
         "Tuesday is my least favorite day of the week, historically."
       ],
       "answer": "I had a bad cold, so I stayed home. Could I borrow your notes from that day?",
-      "explanation": "It explains the absence and makes the request for notes politely."
+      "explanation": "It explains the absence and makes the request for notes politely.",
+      "audio": "Hey, we missed you in the economics lecture on Tuesday. Is everything alright?"
     },
     "rounds": [
       {
         "audio": "Of course. My handwriting is messy, though, so I could send you photos or type them up.",
         "prompt": "Select the best response",
         "options": [
-          "Photos are fine, I just need to see the main points before the quiz.",
           "If your handwriting is messy, maybe you should not take notes at all.",
+          "Photos are fine, I just need to see the main points before the quiz.",
           "Neither, please read them aloud to me every evening.",
           "I have decided notes are useless, so never mind."
         ],
@@ -1014,12 +1317,36 @@
         ],
         "answer": "That is really helpful to know. I will start reviewing those chapters tonight.",
         "explanation": "It thanks the classmate for the tip and responds with a sensible plan."
+      },
+      {
+        "audio": "There was also a diagram on the board. I drew it at the bottom of the second page.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will ignore the second page because diagrams cannot help.",
+          "I will assume the diagram is on the first page.",
+          "Could we discuss a different subject instead?",
+          "I will look for the diagram on the second page."
+        ],
+        "answer": "I will look for the diagram on the second page.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "If anything is unclear, we could review together tomorrow before class.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will skip the quiz rather than review.",
+          "Could we discuss a different subject instead?",
+          "That would help. I will read the notes first and bring my questions.",
+          "Please explain everything before I look at the notes."
+        ],
+        "answer": "That would help. I will read the notes first and bring my questions.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il11",
-    "scenario": "You are meeting your advisor to discuss applying for a summer internship.",
+    "scenario": "You are interested in a summer internship in marketing. You completed a statistics project last term and want to discuss applications with your advisor. You hope to work on real campaigns.",
     "partner": "Advisor",
     "you": "Student",
     "dialogue": [
@@ -1049,46 +1376,55 @@
       },
       {
         "speaker": "partner",
-        "text": "Smart plan. Send me a draft of your application letter and I will give you feedback."
+        "text": "Tailor your cover letter to each company rather than sending exactly the same one."
+      },
+      {
+        "speaker": "you",
+        "text": "I will explain how my experience relates to each company’s work."
+      },
+      {
+        "speaker": "partner",
+        "text": "Send me a draft of your resume when it is ready, and I can give you feedback."
+      },
+      {
+        "speaker": "you",
+        "text": "Thank you. I will update it this week and send you a draft."
       }
     ],
     "comprehension": [
       {
-        "q": "What field do you want an internship in?",
-        "pre": "I want a position in",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "You want an internship during the",
+        "post": ".",
+        "answer": "summer",
+        "alts": []
+      },
+      {
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your preferred field is",
         "post": ".",
         "answer": "marketing",
         "alts": []
       },
       {
-        "q": "What will you add to your resume?",
-        "pre": "I will add my",
-        "post": "project.",
-        "answer": "statistics",
-        "alts": [
-          "stats"
-        ]
-      },
-      {
-        "q": "When is the application deadline?",
-        "pre": "The deadline is the end of",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Last term, you completed a project in",
         "post": ".",
-        "answer": "March",
-        "alts": [
-          "march"
-        ]
+        "answer": "statistics",
+        "alts": []
       }
     ],
     "opener": {
       "prompt": "Pick the best option to start the conversation",
       "options": [
-        "I would like something in marketing, ideally at a company where I could work on real campaigns.",
         "Any position, as long as I never have to do any work.",
+        "I would like something in marketing, ideally at a company where I could work on real campaigns.",
         "I have not thought about it, and I would rather you decide everything.",
         "Internships are a scam invented by companies, in my opinion."
       ],
       "answer": "I would like something in marketing, ideally at a company where I could work on real campaigns.",
-      "explanation": "It answers the question with a clear goal and a specific interest."
+      "explanation": "It answers the question with a clear goal and a specific interest.",
+      "audio": "You mentioned you wanted to talk about internships. What kind of position are you hoping for?"
     },
     "rounds": [
       {
@@ -1107,20 +1443,44 @@
         "audio": "Do that soon, because the application deadline for most summer programs is at the end of March.",
         "prompt": "Select the best response",
         "options": [
-          "Then I will submit everything before the middle of March to be safe.",
           "Deadlines are flexible if you explain yourself afterward.",
           "March is months away, so I will start thinking about it in April.",
-          "Maybe I will apply next year instead, or never."
+          "Maybe I will apply next year instead, or never.",
+          "Then I will submit everything before the middle of March to be safe."
         ],
         "answer": "Then I will submit everything before the middle of March to be safe.",
         "explanation": "It reacts to the deadline information with a sensible plan to apply early."
+      },
+      {
+        "audio": "Tailor your cover letter to each company rather than sending exactly the same one.",
+        "prompt": "Select the best response",
+        "options": [
+          "I will leave the company name out of every application.",
+          "Could we discuss a different subject instead?",
+          "I will explain how my experience relates to each company’s work.",
+          "I will send the same letter without reading about the companies."
+        ],
+        "answer": "I will explain how my experience relates to each company’s work.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Send me a draft of your resume when it is ready, and I can give you feedback.",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "Thank you. I will update it this week and send you a draft.",
+          "I will submit it everywhere before making any updates.",
+          "Please write my entire application without seeing my experience."
+        ],
+        "answer": "Thank you. I will update it this week and send you a draft.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   },
   {
     "id": "il12",
-    "scenario": "You are planning a client presentation together with a coworker at the office.",
-    "partner": "Coworker",
+    "scenario": "You and a classmate are preparing a project presentation for Thursday. It needs to cover the budget and the project timeline. You are meeting to divide those sections and arrange a rehearsal.",
+    "partner": "Classmate",
     "you": "Coworker",
     "dialogue": [
       {
@@ -1149,36 +1509,42 @@
       },
       {
         "speaker": "partner",
-        "text": "Excellent. If we prepare this well, Thursday should go smoothly."
+        "text": "Could you also bring a digital copy in case we need to change the timeline?"
+      },
+      {
+        "speaker": "you",
+        "text": "Yes, I will bring an editable version as well as the printed handouts."
+      },
+      {
+        "speaker": "partner",
+        "text": "Great. Let us leave ten minutes at the end of rehearsal for possible client questions."
+      },
+      {
+        "speaker": "you",
+        "text": "Good idea. We can prepare answers to the questions they are most likely to ask."
       }
     ],
     "comprehension": [
       {
-        "q": "When is the presentation?",
-        "pre": "The presentation is on",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "Your project presentation is on",
         "post": ".",
         "answer": "Thursday",
-        "alts": [
-          "thursday"
-        ]
+        "alts": []
       },
       {
-        "q": "Which section will you handle?",
-        "pre": "I will handle the project",
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "One section covers the",
+        "post": ".",
+        "answer": "budget",
+        "alts": []
+      },
+      {
+        "q": "Complete the sentence based on the scenario.",
+        "pre": "The other section covers the project",
         "post": ".",
         "answer": "timeline",
-        "alts": [
-          "schedule"
-        ]
-      },
-      {
-        "q": "How many handouts will you print?",
-        "pre": "I will print",
-        "post": "copies.",
-        "answer": "twenty",
-        "alts": [
-          "20"
-        ]
+        "alts": []
       }
     ],
     "opener": {
@@ -1190,17 +1556,18 @@
         "Have you tried the new coffee machine on the third floor?"
       ],
       "answer": "Yes, how about you present the budget section and I handle the project timeline?",
-      "explanation": "It answers the question with a concrete proposal for dividing the work."
+      "explanation": "It answers the question with a concrete proposal for dividing the work.",
+      "audio": "We have the client presentation on Thursday. Have you thought about how we should divide it?"
     },
     "rounds": [
       {
         "audio": "That split makes sense. Should we rehearse together on Wednesday afternoon?",
         "prompt": "Select the best response",
         "options": [
-          "Wednesday afternoon works, and we can use the small meeting room upstairs.",
           "Rehearsing is for beginners, so I will just improvise.",
           "Only if the rehearsal takes less than five minutes.",
-          "I would rather rehearse alone in my car."
+          "I would rather rehearse alone in my car.",
+          "Wednesday afternoon works, and we can use the small meeting room upstairs."
         ],
         "answer": "Wednesday afternoon works, and we can use the small meeting room upstairs.",
         "explanation": "It confirms the rehearsal time and suggests a practical location."
@@ -1209,13 +1576,37 @@
         "audio": "I will reserve the room from two to three. Can you print the handouts before we practice?",
         "prompt": "Select the best response",
         "options": [
-          "Sure, I will print twenty copies and bring them to the rehearsal.",
           "Printing is a waste of paper, so the client can just imagine them.",
           "Handouts are your responsibility because you mentioned them first.",
+          "Sure, I will print twenty copies and bring them to the rehearsal.",
           "I will try, but I make no promises about anything."
         ],
         "answer": "Sure, I will print twenty copies and bring them to the rehearsal.",
         "explanation": "It agrees to the request and commits to a specific, helpful action."
+      },
+      {
+        "audio": "Could you also bring a digital copy in case we need to change the timeline?",
+        "prompt": "Select the best response",
+        "options": [
+          "Could we discuss a different subject instead?",
+          "Yes, I will bring an editable version as well as the printed handouts.",
+          "I will delete the digital file after printing.",
+          "I will bring only an old version that cannot be edited."
+        ],
+        "answer": "Yes, I will bring an editable version as well as the printed handouts.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
+      },
+      {
+        "audio": "Great. Let us leave ten minutes at the end of rehearsal for possible client questions.",
+        "prompt": "Select the best response",
+        "options": [
+          "Good idea. We can prepare answers to the questions they are most likely to ask.",
+          "We should use all the time on slides and ignore questions.",
+          "I will tell the client not to ask any questions.",
+          "Could we discuss a different subject instead?"
+        ],
+        "answer": "Good idea. We can prepare answers to the questions they are most likely to ask.",
+        "explanation": "This reply addresses the speaker’s request and advances the conversation."
       }
     ]
   }

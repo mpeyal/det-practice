@@ -22,6 +22,7 @@
 import { getSettings } from './storage.js'
 import { speakNeural, stopNeural, isDownloaded, isNeuralSpeaking, storedNeuralVoices, STUDIO_VOICES } from './neuralTts.js'
 import VOICE_PACK from '../data/voicePack.json'
+import LISTENING_PACK from '../data/listeningVoicePack.json'
 
 // ---- pre-rendered Studio audio (bundled MP3s) ----
 // The exam's spoken content comes from finite banks, so every clip is rendered
@@ -29,6 +30,7 @@ import VOICE_PACK from '../data/voicePack.json'
 // runtime we just play the matching file — instant, Studio quality, offline,
 // and with NO model download. voicePack.json is the manifest of available keys.
 const _pack = new Set(VOICE_PACK)
+const _listeningPack = new Set(LISTENING_PACK)
 
 /** Deterministic key for a clip — MUST match scripts/render-voices.py exactly. */
 function packKey(text, gender) {
@@ -38,8 +40,8 @@ function packKey(text, gender) {
   return h.toString(16)
 }
 function preRenderedUrl(text, gender) {
-  if (!_pack.size) return null
   const k = packKey(text, gender)
+  if (_listeningPack.has(k)) return `${import.meta.env.BASE_URL}voices/${k}.m4a`
   return _pack.has(k) ? `${import.meta.env.BASE_URL}voices/${k}.mp3` : null
 }
 

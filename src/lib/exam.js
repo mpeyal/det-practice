@@ -43,7 +43,7 @@ export const TIME = {
   read_complete: 180,
   interactive_reading: 180, // per passage (6 linked tasks)
   listen_type: 60,          // includes listening + typing, max 3 plays
-  interactive_listening: 240,
+  interactive_listening: 465, // 6:30 listening + 1:15 summary
   il_summary: 75,
   write_photo: 60,
   interactive_writing_1: 300,
@@ -274,6 +274,7 @@ export const TYPE_LABELS = {
   interactive_reading: 'Interactive Reading',
   listen_type: 'Listen and Type',
   interactive_listening: 'Interactive Listening',
+  listening_summary: 'Summarize the Conversation',
   write_photo: 'Write About the Photo',
   interactive_writing: 'Interactive Writing',
   writing_sample: 'Writing Sample',

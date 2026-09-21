@@ -197,8 +197,11 @@ export function gradeItem(item, response) {
       // Part A: comprehension blanks (accept the answer or any listed alt)
       let compMissed = false
       p.comprehension.forEach((c, i) => {
-        const typed = (r.comprehension?.[i] || '').trim().toLowerCase()
-        const ok = typed === c.answer.toLowerCase() || (c.alts || []).some(a => a.toLowerCase() === typed)
+        const typed = normalize(r.comprehension?.[i] || '')
+        const ok = [c.answer, ...(c.alts || [])].some(answer => {
+          const expected = normalize(answer)
+          return typed === expected || (expected.length >= 5 && typed.length >= 5 && levenshtein(typed, expected) <= 1)
+        })
         if (!ok) compMissed = true
         parts.push({
           label: `Comprehension ${i + 1}`, user: r.comprehension?.[i] || '(none)', key: c.answer,
@@ -231,6 +234,7 @@ export function gradeItem(item, response) {
     case 'write_photo':
     case 'interactive_writing':
     case 'writing_sample':
+    case 'listening_summary':
     case 'speak_photo':
     case 'read_then_speak':
     case 'interactive_speaking':

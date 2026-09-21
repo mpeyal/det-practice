@@ -7,6 +7,7 @@ import DetailView from '../components/DetailView.jsx'
 import SubjectiveReview from '../components/SubjectiveReview.jsx'
 import QuestionView from '../components/QuestionView.jsx'
 import { stopSpeaking, prepareTts } from '../lib/tts.js'
+import { listeningSummaryItem } from '../lib/listening.js'
 
 /** Difficulty + marks chip shown above every practice question. */
 function LevelBadge({ item }) {
@@ -107,6 +108,10 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
             </div>
           )}
           <div className="mt-4 text-right">
+            {item.type === 'interactive_listening' && typeof feedback.response?.summary === 'string' && <div className="card mb-4 text-left">
+              <h2 className="mb-3 font-black">Summary feedback</h2>
+              <SubjectiveReview key={`${item.id}:summary`} item={listeningSummaryItem(item)} response={{ text: feedback.response.summary }} onScore={f => { selfScoresRef.current[`${item.id}:summary`] = f }} onResult={r => { resultsRef.current[`${item.id}:summary`] = r }} />
+            </div>}
             <button className="btn" onClick={next}>{index + 1 >= items.length ? 'See summary' : 'Next'}</button>
           </div>
         </div>

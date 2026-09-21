@@ -63,6 +63,9 @@ try {
   const cs = load('conversations.json')
   ok(`conversations: ${cs.length}`)
   cs.forEach(c => {
+    if (!c.scenario || !c.opener?.audio) err(`${c.id}: missing scenario or opening audio`)
+    if (![3,4].includes(c.comprehension?.length)) err(`${c.id}: expected 3–4 scenario blanks`)
+    if (![5,6].includes(1 + c.rounds?.length)) err(`${c.id}: expected 5–6 conversation responses`)
     // dialogue: alternating spoken lines, each tagged partner/you
     if (!Array.isArray(c.dialogue) || !c.dialogue.length) return err(`${c.id}: no dialogue`)
     c.dialogue.forEach((t, j) => {

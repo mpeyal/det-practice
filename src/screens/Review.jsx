@@ -7,6 +7,7 @@ import SubjectiveReview from '../components/SubjectiveReview.jsx'
 import QuestionView from '../components/QuestionView.jsx'
 import { upsertAttempt, stripResponses } from '../lib/storage.js'
 import { LEVEL_META, marksFor } from '../lib/difficulty.js'
+import { expandListeningSummaries } from '../lib/listening.js'
 
 function ScoreRing({ score }) {
   return (
@@ -35,7 +36,8 @@ function SubBar({ label, score }) {
  * explanations, AI/self grading for writing & speaking, and a
  * "What to study" summary grouped by skill theme.
  */
-export default function Review({ title, items, responses, onHome, history = false, savedSubjectiveScores, savedSubjectiveResults, attemptId: savedId }) {
+export default function Review({ title, items: originalItems, responses: originalResponses, onHome, history = false, savedSubjectiveScores, savedSubjectiveResults, attemptId: savedId }) {
+  const { items, responses } = useMemo(() => expandListeningSummaries(originalItems, originalResponses), [originalItems, originalResponses])
   const [subjectiveScores, setSubjectiveScores] = useState(savedSubjectiveScores || {})
   // full AI feedback objects per item, so history can re-show the details
   const [subjectiveResults, setSubjectiveResults] = useState(savedSubjectiveResults || {})

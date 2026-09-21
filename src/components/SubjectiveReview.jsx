@@ -17,6 +17,7 @@ export function subjectiveInfo(item, response) {
         models: [p.model, p.modelFollowUp], audio: [],
       }
     case 'writing_sample':
+    case 'listening_summary':
       return { kind: 'writing', prompt: p.prompt, response: r.text || '', models: [p.model], audio: [] }
     case 'speak_photo':
       return { kind: 'speaking', prompt: `Describe this photo aloud: ${p.photo.alt}`, response: r.transcript || '', models: [p.photo.modelSpoken], audio: r.url ? [r.url] : [] }

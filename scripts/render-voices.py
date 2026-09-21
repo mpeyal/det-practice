@@ -45,6 +45,10 @@ def spoken_strings():
     for s in load_json('sentences.json'):
         if s.get('text'): out.add(s['text'].strip())
     for c in load_json('conversations.json'):
+        if c.get('scenario'): out.add(c['scenario'].strip())
+        if c.get('opener', {}).get('audio'): out.add(c['opener']['audio'].strip())
+        for r in c.get('rounds', []):
+            if r.get('audio'): out.add(r['audio'].strip())
         # new schema: full scenario dialogue (both speakers) is spoken in Part A,
         # and each round's `audio` (a subset) is spoken again in Part B
         for t in c.get('dialogue', []):

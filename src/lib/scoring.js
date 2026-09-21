@@ -14,6 +14,7 @@ export const SKILL_OF_TYPE = {
   write_photo: 'writing',
   interactive_writing: 'writing',
   writing_sample: 'writing',
+  listening_summary: 'writing',
   speak_photo: 'speaking',
   read_then_speak: 'speaking',
   interactive_speaking: 'speaking',
