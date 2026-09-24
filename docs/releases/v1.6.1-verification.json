@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-24T05:45:42.316860+00:00",
+  "tag": "v1.6.1",
+  "commit": "9f5c17f353cbb375792b2c0d4f090e12e38daf2f",
+  "run": "https://github.com/mpeyal/det-practice/actions/runs/35960998781",
+  "downloads": [
+    {
+      "name": "ParrotReady-1.6.1-universal.dmg",
+      "bytes": 365087240,
+      "sha256": "80a84d384005ea10c7bdd45941d7ef279df59a93f2a821e499194db22bee813d",
+      "githubDigestMatches": true
+    },
+    {
+      "name": "ParrotReady-Setup-1.6.1-x64.exe",
+      "bytes": 263339533,
+      "sha256": "c9027b27c2e7a68dfc4353c64c51baa82e5f76fba9e7e7a8f819220d47799343",
+      "githubDigestMatches": true
+    }
+  ],
+  "mac": {
+    "diskImageChecksum": "valid",
+    "signature": "codesign --verify --deep --strict passed",
+    "architectures": [
+      "x86_64",
+      "arm64"
+    ],
+    "version": "1.6.1",
+    "sourceMediaMatches": {
+      "voices-natural": 1008,
+      "gpn/audio": 103,
+      "gpn/photos": 80
+    },
+    "sourcePdfMatches": true
+  },
+  "windows": {
+    "githubBuild": "success",
+    "downloadSignature": "MZ executable header valid",
+    "installationTestedOnWindows": false
+  },
+  "ok": true
+}

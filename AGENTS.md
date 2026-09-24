@@ -322,3 +322,23 @@ The hook now skips only `mac-universal-{x64,arm64}-temp` directories and signs
 the final merged app. A local universal build completed and passed strict
 codesign verification; lipo confirms x86_64 + arm64 and bundle version 1.6.1.
 The incomplete release was returned to draft while the corrected build runs.
+
+### 1.6.1 publication complete
+
+Published as the latest non-prerelease at
+https://github.com/mpeyal/det-practice/releases/tag/v1.6.1.
+The corrected tag points to `9f5c17f353cbb375792b2c0d4f090e12e38daf2f`.
+Both jobs passed in Actions run `35960998781`. Available assets:
+- `ParrotReady-Setup-1.6.1-x64.exe` (Windows)
+- `ParrotReady-1.6.1-universal.dmg` (Intel + Apple Silicon Mac)
+- `SHA256SUMS.txt`
+
+Downloaded both final installers and verified sizes/SHA-256 against GitHub's
+asset digests. The Mac DMG passed hdiutil verification; its mounted app passed
+strict codesign, has both CPU architectures and version 1.6.1, and contains all
+1,008 natural audio clips, 103 original GPN recordings, 80 GPN photos and source
+PDF identical to the repository. Windows build and executable header/checksum
+passed; no Windows installation was run from this Mac. Details are in
+`docs/releases/v1.6.1-verification.json`. Public latest-release API confirms both
+installers and checksums. No local app replacement was requested in this release
+turn; the existing installed copy can use its update check to find 1.6.1.
