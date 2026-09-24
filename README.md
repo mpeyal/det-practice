@@ -6,22 +6,29 @@ Timed Exam mode (50 distinct assembled exams) and a Section Practice mode,
 local auto-grading with explanations, an estimated 10–160 score with per-skill
 subscores, and optional AI marking of writing/speaking via the Anthropic API.
 
-Everything runs locally: exam content is bundled JSON, listening audio is your
-browser's built-in text-to-speech (SpeechSynthesis), speaking is recorded from
-your microphone and stored in memory for replay.
+## Desktop downloads
 
-> **Voice quality:** audio uses your browser's voices. The app ranks them,
-> keeps a pool of the best female + male voices, rotates speakers between
-> listening questions, and uses a female/male pair in conversations. Pin your
-> preferred voices (with test buttons) in ⚙️ Settings.
-> - **Windows:** open the app in **Microsoft Edge** — it ships neural
->   "(Natural)" voices very close to the real test.
-> - **macOS:** System Settings ▸ Accessibility ▸ Spoken Content ▸ System
->   Voice ▸ *Manage Voices…* → download **Enhanced/Premium** voices (Ava,
->   Evan, Zoe, Nathan…). They appear in Safari and Chrome after download and
->   work fully offline. **The only feature that ever
-touches the internet is AI marking, and it degrades gracefully to bundled
-model answers + a self-scoring rubric.**
+Download the latest **[ParrotReady release](https://github.com/mpeyal/det-practice/releases/latest)**:
+
+- **Windows:** run the x64 `.exe` installer.
+- **Mac:** open the universal `.dmg` and drag ParrotReady into Applications.
+  Version 1.6.1 supports both Apple Silicon and Intel in the same Mac download.
+
+See the release notes for installation instructions. The community installers
+are not signed with a paid publisher certificate or notarized by Apple.
+
+Practice content and listening audio are bundled for offline use. Speaking tasks
+record your microphone for replay. AI grading requires a configured online
+provider; account credentials are not bundled with the app.
+
+**Voices:** Settings → Natural US voices provides Heart and Michael, bundled
+American English voices with no model download. Use 1× for the original pace.
+Optional system voices are restricted to American English. Original GPN booklet
+recordings keep their original speakers.
+
+**GPN DET Sample:** a separate section with all 1,080 numbered samples, original
+answer keys, photos, recordings, and the source PDF. It does not mix with normal
+practice or exams. See [the import audit](docs/gpn/README.md).
 
 ## Run it
 

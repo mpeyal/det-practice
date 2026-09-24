@@ -300,3 +300,18 @@ The target branch is `main`. Existing normal question-bank data remains intact.
 The production build and Mac installation were verified before this repository
 update. Desktop installer CI runs only on a `v*` tag or manual workflow dispatch;
 a normal branch push updates the source without publishing a new installer release.
+
+## Desktop release 1.6.1
+
+Version fields in package.json and package-lock.json are 1.6.1. Package build
+configuration explicitly targets Windows x64 NSIS and a universal Mac DMG
+(Intel + Apple Silicon), with architecture-specific artifact names. Ad-hoc
+signing failure fails packaging instead of producing an unusable Mac download.
+
+The existing GitHub Actions workflow is unchanged: the available GitHub token
+can push code/tags and manage releases but cannot edit workflow files. Each
+platform's job uploads its installer to the tagged release. The release body is
+maintained in docs/releases/v1.6.1.md and applied through GitHub's API. Existing
+app updater compatibility is preserved: one .exe and one universal .dmg. No paid
+signing certificate or Apple notarization is configured. Check GitHub release
+v1.6.1 and its Actions run for final publication status.

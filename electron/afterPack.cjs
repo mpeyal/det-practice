@@ -16,6 +16,6 @@ exports.default = async function afterPack(context) {
     execSync(`codesign --deep --force --sign - "${appPath}"`, { stdio: 'inherit' })
     console.log(`  • ad-hoc signed ${appName}.app`)
   } catch (e) {
-    console.warn('  ! ad-hoc codesign failed:', e.message)
+    throw new Error(`Ad-hoc code signing failed: ${e.message}`)
   }
 }
