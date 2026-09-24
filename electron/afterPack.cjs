@@ -10,6 +10,10 @@ const { execSync } = require('node:child_process')
 
 exports.default = async function afterPack(context) {
   if (context.electronPlatformName !== 'darwin') return
+  // The universal merger requires identical resource files in its two inputs.
+  // Signing those temporary inputs creates architecture-specific CodeResources.
+  // electron-builder calls this hook again on the final merged universal app.
+  if (/-universal-(x64|arm64)-temp$/.test(context.appOutDir)) return
   const appName = context.packager.appInfo.productFilename
   const appPath = `${context.appOutDir}/${appName}.app`
   try {

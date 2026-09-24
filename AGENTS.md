@@ -315,3 +315,10 @@ maintained in docs/releases/v1.6.1.md and applied through GitHub's API. Existing
 app updater compatibility is preserved: one .exe and one universal .dmg. No paid
 signing certificate or Apple notarization is configured. Check GitHub release
 v1.6.1 and its Actions run for final publication status.
+
+The first 1.6.1 Mac build exposed a universal-merge signing error: the old hook
+signed both temporary architecture apps, creating different CodeResources files.
+The hook now skips only `mac-universal-{x64,arm64}-temp` directories and signs
+the final merged app. A local universal build completed and passed strict
+codesign verification; lipo confirms x86_64 + arm64 and bundle version 1.6.1.
+The incomplete release was returned to draft while the corrected build runs.
