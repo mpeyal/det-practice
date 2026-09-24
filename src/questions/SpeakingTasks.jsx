@@ -11,7 +11,7 @@ import { getSettings } from '../lib/storage.js'
  * Phase 1: prep countdown (read/look). Phase 2: record with its own countdown.
  * When time expires the recorder is force-stopped, then the answer submits.
  */
-function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed, resetKey, onComplete, children }) {
+export function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed, resetKey, onComplete, children }) {
   const [phase, setPhase] = useState(prepSeconds > 0 ? 'prep' : 'record')
   const [stopSignal, setStopSignal] = useState(0)
   // transcription runs on the user's request, not on exam time — pause the clock
@@ -45,7 +45,7 @@ function PrepRecordTask({ label, instructions, prepSeconds, recordSeconds, timed
       instructions={phase === 'prep' ? 'Prepare your answer. Recording starts when the prep timer ends.' : instructions}
       seconds={timed ? (phase === 'prep' ? prepLeft : recLeft) : null}
     >
-      {children}
+      {typeof children === 'function' ? children(phase) : children}
       <div className="mt-5">
         {phase === 'prep' ? (
           <div className="flex items-center justify-between rounded-2xl bg-[#fff8e1] p-4">
@@ -83,7 +83,7 @@ export function ReadThenSpeak({ item, timed, onComplete }) {
     <PrepRecordTask
       label="Read, Then Speak"
       instructions="Answer the prompt aloud. Try to speak for the whole time."
-      prepSeconds={TIME.read_then_speak_prep} recordSeconds={TIME.read_then_speak}
+      prepSeconds={item.payload.prepSeconds ?? TIME.read_then_speak_prep} recordSeconds={TIME.read_then_speak}
       timed={timed} resetKey={item.id} onComplete={onComplete}
     >
       <p className="text-lg font-bold leading-relaxed">{item.payload.prompt}</p>

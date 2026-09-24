@@ -51,7 +51,7 @@ export function sentenceSimilarity(target, response) {
 /** Token-overlap F1 between a selected span and the key span (Interactive Reading highlight). */
 export function spanF1(selected, answer) {
   const sel = new Set(normalize(selected).split(' ').filter(Boolean))
-  const ans = normalize(answer).split(' ').filter(Boolean)
+  const ans = [...new Set(normalize(answer).split(' ').filter(Boolean))]
   if (!ans.length || !sel.size) return 0
   let hit = 0
   for (const w of ans) if (sel.has(w)) hit++
@@ -166,8 +166,9 @@ export function gradeItem(item, response) {
         label: `Blank ${i + 1}`, user: r.blanks?.[i] || '(none)', key: b.answer,
         score: r.blanks?.[i] === b.answer ? 1 : 0, explanation: b.explanation,
       }))
+      if (p.sentence) parts.push({ label: 'Complete the sentence', user: r.sentence || '(none)', key: p.sentence.answer, score: r.sentence === p.sentence.answer ? 1 : 0 })
       p.highlight.forEach((h, i) => {
-        const f1 = spanF1(r.highlights?.[i] || '', h.answer)
+        const f1 = Math.max(...[h.answer, ...(h.alts || [])].map(answer => spanF1(r.highlights?.[i] || '', answer)))
         parts.push({
           label: `Highlight ${i + 1}: ${h.question}`, user: r.highlights?.[i] || '(none)', key: h.answer,
           score: f1 >= 0.99 ? 1 : f1 >= 0.6 ? 0.5 : 0, explanation: h.explanation,
@@ -178,7 +179,7 @@ export function gradeItem(item, response) {
       const score = parts.reduce((s, x) => s + x.score, 0) / parts.length
       const tags = []
       if (p.blanks.some((b, i) => r.blanks?.[i] !== b.answer)) tags.push('vocabulary', 'grammar')
-      if (p.highlight.some((h, i) => spanF1(r.highlights?.[i] || '', h.answer) < 0.6)) tags.push('reading-detail')
+      if (p.highlight.some((h, i) => Math.max(...[h.answer, ...(h.alts || [])].map(answer => spanF1(r.highlights?.[i] || '', answer))) < 0.6)) tags.push('reading-detail')
       if (r.mainIdea !== p.mainIdea.answer || r.title !== p.title.answer) tags.push('main-idea')
       return { score, correct: score >= 0.99, detail: parts, studyTags: [...new Set(tags)], explanation: '' }
     }
@@ -193,6 +194,11 @@ export function gradeItem(item, response) {
     }
     case 'interactive_listening': {
       const r = response || {}
+      if (p.gpnConversation) {
+        const detail = p.turns.filter(t => t.speaker === 'you').map((t, i) => ({ label: `Response ${i + 1}`, user: r.responses?.[i] || '(none)', key: t.answer, score: r.responses?.[i] === t.answer ? 1 : 0 }))
+        const score = detail.reduce((s, d) => s + d.score, 0) / detail.length
+        return { score, correct: score === 1, detail, studyTags: score < 1 ? ['listening-detail', 'pragmatics'] : [], explanation: 'Answers follow the booklet’s full conversation key.' }
+      }
       const parts = []
       // Part A: comprehension blanks (accept the answer or any listed alt)
       let compMissed = false
@@ -236,6 +242,8 @@ export function gradeItem(item, response) {
     case 'writing_sample':
     case 'listening_summary':
     case 'speak_photo':
+    case 'read_aloud':
+    case 'listen_then_speak':
     case 'read_then_speak':
     case 'interactive_speaking':
     case 'speaking_sample':

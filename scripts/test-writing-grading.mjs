@@ -37,4 +37,12 @@ assert.equal((await backendGrade({ kind: 'writing', taskLabel: 'Writing Sample',
 globalThis.fetch = originalFetch
 delete globalThis.localStorage
 assert(buildGradingPrompt({ kind: 'writing', taskLabel: 'Interactive Writing', prompt: 'Explain.', response: 'Answer.' }).includes('evaluate both parts'))
+const shortWriting = buildGradingPrompt({ kind: 'writing', taskLabel: 'Writing Sample', prompt: 'Explain why parks matter to a community.', response: 'Parks are good.' })
+assert(shortWriting.includes('expand it into a developed paragraph or paragraphs'))
+assert(shortWriting.includes("Score and critique only the candidate's original response"))
+assert(shortWriting.includes('Parks are good.'))
+assert(!shortWriting.includes('similar length'))
+assert(shortWriting.includes('separately labeled Part 1 and Part 2'))
+assert(shortWriting.includes('using only the supplied photo information'))
+assert(shortWriting.includes('for Read Aloud, the improved version is the exact text'))
 console.log('Writing grading regression checks passed.')

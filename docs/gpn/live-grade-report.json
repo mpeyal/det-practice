@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-24T02:22:16.235Z",
+  "provider": "openai",
+  "syntheticResponses": true,
+  "results": [
+    {
+      "kind": "writing",
+      "ok": true,
+      "score": 130,
+      "seconds": 11
+    },
+    {
+      "kind": "speaking",
+      "ok": true,
+      "score": 110,
+      "seconds": 15
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+// LEGACY renderer only. Current app uses render-natural-voices.mjs (US Kokoro).
+// Do not use this Daniel/en_GB pack for current listening playback.
 // Build portable, offline listening clips using the Mac's installed voices.
 import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'

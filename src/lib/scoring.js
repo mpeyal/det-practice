@@ -6,6 +6,8 @@ import { gradeItem } from './grading.js'
 
 export const SKILL_OF_TYPE = {
   read_select: 'reading',
+  read_aloud: 'speaking',
+  listen_then_speak: 'speaking',
   fill_blanks: 'reading',
   read_complete: 'reading',
   interactive_reading: 'reading',

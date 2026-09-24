@@ -20,7 +20,7 @@ export function TimerPill({ seconds, warn = 10 }) {
 export function QuestionCard({ label, instructions, seconds, children }) {
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="question-heading mb-3 flex items-center justify-between gap-3">
         <div>
           <div className="text-xs font-extrabold uppercase tracking-widest text-[#1cb0f6]">{label}</div>
           {instructions && <div className="mt-0.5 text-sm font-semibold text-neutral-500">{instructions}</div>}
@@ -124,7 +124,7 @@ export function PhotoView({ photo }) {
 }
 
 /** Multiple-choice option list. */
-export function Choices({ options, value, onChange, disabled }) {
+export function Choices({ options, value, onChange, disabled, letters = false }) {
   return (
     <div className="flex flex-col gap-2">
       {options.map((opt, i) => (
@@ -134,7 +134,7 @@ export function Choices({ options, value, onChange, disabled }) {
           disabled={disabled}
           onClick={() => onChange(opt)}
         >
-          <span className="mr-2 inline-block w-6 rounded-md bg-neutral-100 text-center text-sm font-black text-neutral-400">{i + 1}</span>
+          <span className="mr-2 inline-block w-6 rounded-md bg-neutral-100 text-center text-sm font-black text-neutral-400">{letters ? `${String.fromCharCode(97 + i)})` : i + 1}</span>
           {opt}
         </button>
       ))}

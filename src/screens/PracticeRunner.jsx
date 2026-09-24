@@ -69,7 +69,7 @@ export default function PracticeRunner({ title, items, timed, onFinishAll, onQui
   const Q = QUESTION_COMPONENTS[item.type]
 
   return (
-    <div className="pb-16">
+    <div className={`pb-16 ${item.source === 'gpn' ? 'gpn-practice' : ''}`}>
       <ProgressHeader index={index + (feedback ? 1 : 0)} total={items.length} onQuit={onQuit} title={`${title} · ${index + 1}/${items.length}`} />
 
       {!feedback ? (

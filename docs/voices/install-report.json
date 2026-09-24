@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-24T03:58:08.959836+00:00",
+  "ok": true,
+  "installed": "/Applications/ParrotReady.app",
+  "naturalClips": 1008,
+  "originalGpnRecordings": 103,
+  "indexSha256": "cfd1f26e30a79e8c71886cdb739b90307933e7c9f6ab879015685b780864fda5",
+  "checks": [
+    "Installed HTML matches build",
+    "Every natural clip matches verified source bytes",
+    "All original GPN recordings match source bytes",
+    "codesign --verify --deep --strict passed"
+  ]
+}

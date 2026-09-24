@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-24T02:27:48.107Z",
+  "clock": "countdown intervals accelerated 100x; original smoke separately used real 20 seconds",
+  "passed": [
+    "Read and Complete complete timer expiry",
+    "Read and Select complete timer expiry",
+    "Fill in the Blanks complete timer expiry",
+    "Listen and Type complete timer expiry",
+    "Read Aloud complete timer expiry",
+    "Interactive Reading complete timer expiry",
+    "Interactive Listening complete timer expiry",
+    "Write About the Photo complete timer expiry",
+    "Speak About the Photo complete timer expiry",
+    "Interactive Writing complete timer expiry",
+    "Read Then Speak complete timer expiry",
+    "Listen Then Speak complete timer expiry",
+    "Writing Sample complete timer expiry",
+    "Speaking Sample complete timer expiry",
+    "Original audio failure refund and retry",
+    "Offline self-scoring and saved history"
+  ]
+}

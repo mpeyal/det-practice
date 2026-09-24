@@ -36,7 +36,7 @@ function SubBar({ label, score }) {
  * explanations, AI/self grading for writing & speaking, and a
  * "What to study" summary grouped by skill theme.
  */
-export default function Review({ title, items: originalItems, responses: originalResponses, onHome, history = false, savedSubjectiveScores, savedSubjectiveResults, attemptId: savedId }) {
+export default function Review({ title, items: originalItems, responses: originalResponses, onHome, history = false, savedSubjectiveScores, savedSubjectiveResults, attemptId: savedId, returnLabel = 'Done — back to home' }) {
   const { items, responses } = useMemo(() => expandListeningSummaries(originalItems, originalResponses), [originalItems, originalResponses])
   const [subjectiveScores, setSubjectiveScores] = useState(savedSubjectiveScores || {})
   // full AI feedback objects per item, so history can re-show the details
@@ -179,7 +179,7 @@ export default function Review({ title, items: originalItems, responses: origina
       </div>
 
       <div className="mt-8 text-center">
-        <button className="btn" onClick={onHome}>Done — back to home</button>
+        <button className="btn" onClick={onHome}>{returnLabel}</button>
       </div>
     </div>
   )

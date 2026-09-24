@@ -4,7 +4,7 @@ import { gradeItem } from '../src/lib/grading.js'
 import { computeResults } from '../src/lib/scoring.js'
 import { expandListeningSummaries, LISTENING_SECONDS, SUMMARY_SECONDS } from '../src/lib/listening.js'
 const bank = JSON.parse(readFileSync(new URL('../src/data/conversations.json', import.meta.url)))
-const audioKeys = new Set(JSON.parse(readFileSync(new URL('../src/data/listeningVoicePack.json', import.meta.url))))
+const audioKeys = new Set(JSON.parse(readFileSync(new URL('../src/data/naturalVoicePack.json', import.meta.url))).keys)
 assert.equal(LISTENING_SECONDS, 390)
 assert.equal(SUMMARY_SECONDS, 75)
 for (const c of bank) {
@@ -13,7 +13,7 @@ for (const c of bank) {
     for(const ch of gender+text) h=(h*31+ch.charCodeAt(0))>>>0
     const key=h.toString(16)
     assert(audioKeys.has(key),`Missing bundled voice ${key}`)
-    assert(readFileSync(new URL(`../public/voices/${key}.m4a`,import.meta.url)).length>1000)
+    assert(readFileSync(new URL(`../public/voices-natural/${key}.m4a`,import.meta.url)).length>1000)
   }
   assert([3,4].includes(c.comprehension.length))
   assert([5,6].includes(c.rounds.length+1))

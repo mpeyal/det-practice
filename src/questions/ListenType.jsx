@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { QuestionCard } from '../components/ui.jsx'
+import RecordedAudio from '../components/RecordedAudio.jsx'
 import AudioBar from '../components/AudioBar.jsx'
 import { useCountdown, useLatest } from '../lib/hooks.js'
 
@@ -21,7 +22,7 @@ export default function ListenType({ item, timed, onComplete }) {
       seconds={timed ? left : null}
     >
       {/* voiceKey rotates the speaker per question, like the real test */}
-      <div className="mb-5"><AudioBar text={item.payload.text} maxPlays={3} voiceKey={item.id} autoPlay /></div>
+      <div className="mb-5">{item.payload.audio ? <RecordedAudio src={item.payload.audio} maxPlays={3} autoPlay /> : <AudioBar text={item.payload.text} maxPlays={3} voiceKey={item.id} autoPlay />}</div>
       <textarea
         autoFocus
         className="min-h-28 w-full rounded-xl border-2 border-neutral-200 p-3 text-lg font-medium focus:border-[#1cb0f6] focus:outline-none"

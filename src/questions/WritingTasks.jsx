@@ -78,16 +78,20 @@ export function InteractiveWriting({ item, timed, onComplete }) {
 /** Writing Sample — ungraded longer response (5 min). */
 export function WritingSample({ item, timed, onComplete }) {
   const [text, setText] = useState('')
+  const [preparing, setPreparing] = useState(!!item.payload.prepSeconds)
   const latest = useLatest(text)
   const submit = () => onComplete({ text: latest.current })
-  const [left] = useCountdown(item.timeLimit, { running: timed, onExpire: submit, resetKey: item.id })
+  const [left] = useCountdown(item.timeLimit, { running: timed && !preparing, onExpire: submit, resetKey: item.id })
 
+  const [prepLeft] = useCountdown(item.payload.prepSeconds || 0, { running: timed && preparing, onExpire: () => setPreparing(false), resetKey: `${item.id}-prep` })
   return (
-    <QuestionCard label="Writing Sample" instructions="Write your best response. Your writing will receive practice feedback after submission." seconds={timed ? left : null}>
+    <QuestionCard label="Writing Sample" instructions="Write your best response. Your writing will receive practice feedback after submission." seconds={timed ? (preparing ? prepLeft : left) : null}>
       <p className="mb-3 text-lg font-bold">{item.payload.prompt}</p>
+      {preparing ? <div className="flex items-center justify-between rounded-xl bg-amber-50 p-4"><b>Prepare your response</b><button className="btn-ghost" onClick={() => setPreparing(false)}>Start writing</button></div> : <>
       <TA placeholder="Write your response…" value={text} onChange={e => setText(e.target.value)} />
       <WordCount text={text} min={120} />
       <div className="mt-2 text-right"><button className="btn" onClick={submit}>Submit</button></div>
+      </>}
     </QuestionCard>
   )
 }

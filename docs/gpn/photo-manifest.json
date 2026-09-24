@@ -1,0 +1,486 @@
+{
+  "write": [
+    {
+      "number": 1,
+      "id": "gpn-write-1",
+      "img": "gpn/photos/write-1.jpeg",
+      "page": 122
+    },
+    {
+      "number": 2,
+      "id": "gpn-write-2",
+      "img": "gpn/photos/write-2.jpeg",
+      "page": 122
+    },
+    {
+      "number": 3,
+      "id": "gpn-write-3",
+      "img": "gpn/photos/write-3.jpeg",
+      "page": 123
+    },
+    {
+      "number": 4,
+      "id": "gpn-write-4",
+      "img": "gpn/photos/write-4.jpeg",
+      "page": 123
+    },
+    {
+      "number": 5,
+      "id": "gpn-write-5",
+      "img": "gpn/photos/write-5.jpeg",
+      "page": 123
+    },
+    {
+      "number": 6,
+      "id": "gpn-write-6",
+      "img": "gpn/photos/write-6.jpeg",
+      "page": 123
+    },
+    {
+      "number": 7,
+      "id": "gpn-write-7",
+      "img": "gpn/photos/write-7.jpeg",
+      "page": 123
+    },
+    {
+      "number": 8,
+      "id": "gpn-write-8",
+      "img": "gpn/photos/write-8.jpeg",
+      "page": 123
+    },
+    {
+      "number": 9,
+      "id": "gpn-write-9",
+      "img": "gpn/photos/write-9.jpeg",
+      "page": 124
+    },
+    {
+      "number": 10,
+      "id": "gpn-write-10",
+      "img": "gpn/photos/write-10.jpeg",
+      "page": 124
+    },
+    {
+      "number": 11,
+      "id": "gpn-write-11",
+      "img": "gpn/photos/write-11.jpeg",
+      "page": 124
+    },
+    {
+      "number": 12,
+      "id": "gpn-write-12",
+      "img": "gpn/photos/write-12.jpeg",
+      "page": 124
+    },
+    {
+      "number": 13,
+      "id": "gpn-write-13",
+      "img": "gpn/photos/write-13.jpeg",
+      "page": 124
+    },
+    {
+      "number": 14,
+      "id": "gpn-write-14",
+      "img": "gpn/photos/write-14.jpeg",
+      "page": 124
+    },
+    {
+      "number": 15,
+      "id": "gpn-write-15",
+      "img": "gpn/photos/write-15.jpeg",
+      "page": 125
+    },
+    {
+      "number": 16,
+      "id": "gpn-write-16",
+      "img": "gpn/photos/write-16.jpeg",
+      "page": 125
+    },
+    {
+      "number": 17,
+      "id": "gpn-write-17",
+      "img": "gpn/photos/write-17.jpeg",
+      "page": 125
+    },
+    {
+      "number": 18,
+      "id": "gpn-write-18",
+      "img": "gpn/photos/write-18.jpeg",
+      "page": 125
+    },
+    {
+      "number": 19,
+      "id": "gpn-write-19",
+      "img": "gpn/photos/write-19.jpeg",
+      "page": 125
+    },
+    {
+      "number": 20,
+      "id": "gpn-write-20",
+      "img": "gpn/photos/write-20.jpeg",
+      "page": 125
+    },
+    {
+      "number": 21,
+      "id": "gpn-write-21",
+      "img": "gpn/photos/write-21.jpeg",
+      "page": 126
+    },
+    {
+      "number": 22,
+      "id": "gpn-write-22",
+      "img": "gpn/photos/write-22.jpeg",
+      "page": 126
+    },
+    {
+      "number": 23,
+      "id": "gpn-write-23",
+      "img": "gpn/photos/write-23.jpeg",
+      "page": 126
+    },
+    {
+      "number": 24,
+      "id": "gpn-write-24",
+      "img": "gpn/photos/write-24.jpeg",
+      "page": 126
+    },
+    {
+      "number": 25,
+      "id": "gpn-write-25",
+      "img": "gpn/photos/write-25.jpeg",
+      "page": 126
+    },
+    {
+      "number": 26,
+      "id": "gpn-write-26",
+      "img": "gpn/photos/write-26.jpeg",
+      "page": 126
+    },
+    {
+      "number": 27,
+      "id": "gpn-write-27",
+      "img": "gpn/photos/write-27.jpeg",
+      "page": 127
+    },
+    {
+      "number": 28,
+      "id": "gpn-write-28",
+      "img": "gpn/photos/write-28.jpeg",
+      "page": 127
+    },
+    {
+      "number": 29,
+      "id": "gpn-write-29",
+      "img": "gpn/photos/write-29.jpeg",
+      "page": 127
+    },
+    {
+      "number": 30,
+      "id": "gpn-write-30",
+      "img": "gpn/photos/write-30.jpeg",
+      "page": 127
+    },
+    {
+      "number": 31,
+      "id": "gpn-write-31",
+      "img": "gpn/photos/write-31.jpeg",
+      "page": 127
+    },
+    {
+      "number": 32,
+      "id": "gpn-write-32",
+      "img": "gpn/photos/write-32.jpeg",
+      "page": 127
+    },
+    {
+      "number": 33,
+      "id": "gpn-write-33",
+      "img": "gpn/photos/write-33.jpeg",
+      "page": 128
+    },
+    {
+      "number": 34,
+      "id": "gpn-write-34",
+      "img": "gpn/photos/write-34.jpeg",
+      "page": 128
+    },
+    {
+      "number": 35,
+      "id": "gpn-write-35",
+      "img": "gpn/photos/write-35.jpeg",
+      "page": 128
+    },
+    {
+      "number": 36,
+      "id": "gpn-write-36",
+      "img": "gpn/photos/write-36.jpeg",
+      "page": 128
+    },
+    {
+      "number": 37,
+      "id": "gpn-write-37",
+      "img": "gpn/photos/write-37.jpeg",
+      "page": 128
+    },
+    {
+      "number": 38,
+      "id": "gpn-write-38",
+      "img": "gpn/photos/write-38.jpeg",
+      "page": 128
+    },
+    {
+      "number": 39,
+      "id": "gpn-write-39",
+      "img": "gpn/photos/write-39.jpeg",
+      "page": 129
+    },
+    {
+      "number": 40,
+      "id": "gpn-write-40",
+      "img": "gpn/photos/write-40.jpeg",
+      "page": 129
+    }
+  ],
+  "speak": [
+    {
+      "number": 1,
+      "id": "gpn-speak-1",
+      "img": "gpn/photos/speak-1.jpeg",
+      "page": 130
+    },
+    {
+      "number": 2,
+      "id": "gpn-speak-2",
+      "img": "gpn/photos/speak-2.jpeg",
+      "page": 130
+    },
+    {
+      "number": 3,
+      "id": "gpn-speak-3",
+      "img": "gpn/photos/speak-3.jpeg",
+      "page": 131
+    },
+    {
+      "number": 4,
+      "id": "gpn-speak-4",
+      "img": "gpn/photos/speak-4.jpeg",
+      "page": 131
+    },
+    {
+      "number": 5,
+      "id": "gpn-speak-5",
+      "img": "gpn/photos/speak-5.jpeg",
+      "page": 131
+    },
+    {
+      "number": 6,
+      "id": "gpn-speak-6",
+      "img": "gpn/photos/speak-6.jpeg",
+      "page": 131
+    },
+    {
+      "number": 7,
+      "id": "gpn-speak-7",
+      "img": "gpn/photos/speak-7.jpeg",
+      "page": 131
+    },
+    {
+      "number": 8,
+      "id": "gpn-speak-8",
+      "img": "gpn/photos/speak-8.jpeg",
+      "page": 131
+    },
+    {
+      "number": 9,
+      "id": "gpn-speak-9",
+      "img": "gpn/photos/speak-9.jpeg",
+      "page": 132
+    },
+    {
+      "number": 10,
+      "id": "gpn-speak-10",
+      "img": "gpn/photos/speak-10.jpeg",
+      "page": 132
+    },
+    {
+      "number": 11,
+      "id": "gpn-speak-11",
+      "img": "gpn/photos/speak-11.jpeg",
+      "page": 132
+    },
+    {
+      "number": 12,
+      "id": "gpn-speak-12",
+      "img": "gpn/photos/speak-12.jpeg",
+      "page": 132
+    },
+    {
+      "number": 13,
+      "id": "gpn-speak-13",
+      "img": "gpn/photos/speak-13.jpeg",
+      "page": 132
+    },
+    {
+      "number": 14,
+      "id": "gpn-speak-14",
+      "img": "gpn/photos/speak-14.jpeg",
+      "page": 132
+    },
+    {
+      "number": 15,
+      "id": "gpn-speak-15",
+      "img": "gpn/photos/speak-15.jpeg",
+      "page": 133
+    },
+    {
+      "number": 16,
+      "id": "gpn-speak-16",
+      "img": "gpn/photos/speak-16.jpeg",
+      "page": 133
+    },
+    {
+      "number": 17,
+      "id": "gpn-speak-17",
+      "img": "gpn/photos/speak-17.jpeg",
+      "page": 133
+    },
+    {
+      "number": 18,
+      "id": "gpn-speak-18",
+      "img": "gpn/photos/speak-18.jpeg",
+      "page": 133
+    },
+    {
+      "number": 19,
+      "id": "gpn-speak-19",
+      "img": "gpn/photos/speak-19.jpeg",
+      "page": 133
+    },
+    {
+      "number": 20,
+      "id": "gpn-speak-20",
+      "img": "gpn/photos/speak-20.jpeg",
+      "page": 133
+    },
+    {
+      "number": 21,
+      "id": "gpn-speak-21",
+      "img": "gpn/photos/speak-21.jpeg",
+      "page": 134
+    },
+    {
+      "number": 22,
+      "id": "gpn-speak-22",
+      "img": "gpn/photos/speak-22.jpeg",
+      "page": 134
+    },
+    {
+      "number": 23,
+      "id": "gpn-speak-23",
+      "img": "gpn/photos/speak-23.jpeg",
+      "page": 134
+    },
+    {
+      "number": 24,
+      "id": "gpn-speak-24",
+      "img": "gpn/photos/speak-24.jpeg",
+      "page": 134
+    },
+    {
+      "number": 25,
+      "id": "gpn-speak-25",
+      "img": "gpn/photos/speak-25.jpeg",
+      "page": 134
+    },
+    {
+      "number": 26,
+      "id": "gpn-speak-26",
+      "img": "gpn/photos/speak-26.jpeg",
+      "page": 134
+    },
+    {
+      "number": 27,
+      "id": "gpn-speak-27",
+      "img": "gpn/photos/speak-27.jpeg",
+      "page": 135
+    },
+    {
+      "number": 28,
+      "id": "gpn-speak-28",
+      "img": "gpn/photos/speak-28.jpeg",
+      "page": 135
+    },
+    {
+      "number": 29,
+      "id": "gpn-speak-29",
+      "img": "gpn/photos/speak-29.jpeg",
+      "page": 135
+    },
+    {
+      "number": 30,
+      "id": "gpn-speak-30",
+      "img": "gpn/photos/speak-30.jpeg",
+      "page": 135
+    },
+    {
+      "number": 31,
+      "id": "gpn-speak-31",
+      "img": "gpn/photos/speak-31.jpeg",
+      "page": 135
+    },
+    {
+      "number": 32,
+      "id": "gpn-speak-32",
+      "img": "gpn/photos/speak-32.jpeg",
+      "page": 135
+    },
+    {
+      "number": 33,
+      "id": "gpn-speak-33",
+      "img": "gpn/photos/speak-33.jpeg",
+      "page": 136
+    },
+    {
+      "number": 34,
+      "id": "gpn-speak-34",
+      "img": "gpn/photos/speak-34.jpeg",
+      "page": 136
+    },
+    {
+      "number": 35,
+      "id": "gpn-speak-35",
+      "img": "gpn/photos/speak-35.jpeg",
+      "page": 136
+    },
+    {
+      "number": 36,
+      "id": "gpn-speak-36",
+      "img": "gpn/photos/speak-36.jpeg",
+      "page": 136
+    },
+    {
+      "number": 37,
+      "id": "gpn-speak-37",
+      "img": "gpn/photos/speak-37.jpeg",
+      "page": 136
+    },
+    {
+      "number": 38,
+      "id": "gpn-speak-38",
+      "img": "gpn/photos/speak-38.jpeg",
+      "page": 136
+    },
+    {
+      "number": 39,
+      "id": "gpn-speak-39",
+      "img": "gpn/photos/speak-39.jpeg",
+      "page": 137
+    },
+    {
+      "number": 40,
+      "id": "gpn-speak-40",
+      "img": "gpn/photos/speak-40.jpeg",
+      "page": 137
+    }
+  ]
+}

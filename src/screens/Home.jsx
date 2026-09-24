@@ -38,6 +38,17 @@ export default function Home({ go }) {
         </button>
       </div>
 
+      <button onClick={() => go({ name: 'gpn-lobby' })}
+        className="card mt-4 flex w-full cursor-pointer items-start gap-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg">
+        <div className="text-4xl">📘</div>
+        <div>
+          <h2 className="text-xl font-black">GPN DET Sample</h2>
+          <p className="mt-1 text-sm font-semibold text-neutral-500">
+            Practice by question type, following the booklet’s sections. Choose an original question number, practice with or without a timer, and review the booklet’s answers.
+          </p>
+        </div>
+      </button>
+
       <div className={`mt-4 rounded-2xl px-4 py-3 text-sm font-bold ${backend ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-neutral-100 text-neutral-500'}`}>
         {backend
           ? '✨ AI marking is ON through your selected subscription — writing & speaking grade automatically.'

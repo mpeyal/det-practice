@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import Home from './screens/Home.jsx'
 import ExamLobby from './screens/ExamLobby.jsx'
 import ExamRunner from './screens/ExamRunner.jsx'
+import GpnLobby from './screens/GpnLobby.jsx'
+import GpnSets from './screens/GpnSets.jsx'
+import GpnBooklet from './screens/GpnBooklet.jsx'
 import PracticeMenu from './screens/PracticeMenu.jsx'
 import PracticeSets from './screens/PracticeSets.jsx'
 import PracticeRunner from './screens/PracticeRunner.jsx'
@@ -28,6 +31,28 @@ export default function App() {
     case 'lobby':
       content = <ExamLobby go={go} />
       break
+    case 'gpn-lobby':
+      content = <GpnLobby go={go} timed={screen.timed} />
+      break
+    case 'gpn-section':
+      content = <GpnSets go={go} type={screen.type} timed={screen.timed} />
+      break
+    case 'gpn-booklet':
+      content = <GpnBooklet go={go} type={screen.type} timed={screen.timed} />
+      break
+    case 'gpn-practice': {
+      const returnTo = { name: 'gpn-section', type: screen.type, timed: screen.timed }
+      content = (
+        <PracticeRunner
+          title={screen.title}
+          items={screen.items}
+          timed={screen.timed}
+          onQuit={() => go(returnTo)}
+          onFinishAll={(items, responses, subjectiveScores, subjectiveResults) => go({ name: 'review', title: screen.title, items, responses, subjectiveScores, subjectiveResults, returnTo })}
+        />
+      )
+      break
+    }
     case 'exam': {
       const exam = screen.exam || assembleExam(screen.examNo)
       content = (
@@ -78,7 +103,8 @@ export default function App() {
           attemptId={h ? h.id : undefined}
           savedSubjectiveScores={h ? h.subjectiveScores : screen.subjectiveScores}
           savedSubjectiveResults={h ? h.subjectiveResults : screen.subjectiveResults}
-          onHome={() => go({ name: 'home' })}
+          onHome={() => go(screen.returnTo || { name: 'home' })}
+          returnLabel={screen.returnTo ? 'Done — back to GPN practice' : undefined}
         />
       )
       break

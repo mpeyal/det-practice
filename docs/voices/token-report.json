@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-24T03:00:48.956Z",
+  "ok": true,
+  "chunks": 684,
+  "maxTokens": 317,
+  "limit": 510,
+  "language": "en-us (both selected voices)",
+  "method": "Real Kokoro phonemizer and tokenizer, truncation disabled; no synthesis needed"
+}

@@ -21,6 +21,8 @@ export function subjectiveInfo(item, response) {
       return { kind: 'writing', prompt: p.prompt, response: r.text || '', models: [p.model], audio: [] }
     case 'speak_photo':
       return { kind: 'speaking', prompt: `Describe this photo aloud: ${p.photo.alt}`, response: r.transcript || '', models: [p.photo.modelSpoken], audio: r.url ? [r.url] : [] }
+    case 'read_aloud':
+    case 'listen_then_speak':
     case 'read_then_speak':
     case 'speaking_sample':
       return { kind: 'speaking', prompt: p.prompt, response: r.transcript || '', models: [p.model], audio: r.url ? [r.url] : [] }
@@ -87,8 +89,9 @@ export default function SubjectiveReview({ item, response, selfScore, savedResul
     try {
       const current = await detectBackend()
       setBackend(current)
-      if (!current) throw new Error('Connect Claude or ChatGPT in Settings → AI Account, then retry.')
-      applyGrade(await gradeQueued(() => backendGrade(gradeArgs())))
+      const providerGrade = current ? backendGrade : aiAvailable() ? aiGrade : null
+      if (!providerGrade) throw new Error('Connect Claude or ChatGPT in Settings → AI Account, or add an API key, then retry.')
+      applyGrade(await gradeQueued(() => providerGrade(gradeArgs())))
     }
     catch (e) { setAiState('error'); setAiError(String(e.message || e)) }
     finally { grading.current = false }
@@ -152,7 +155,8 @@ export default function SubjectiveReview({ item, response, selfScore, savedResul
           </div>
           {ai.improved && (
             <details className="mt-3">
-              <summary className="cursor-pointer text-sm font-extrabold text-[#1899d6]">Improved version</summary>
+              <summary className="cursor-pointer text-sm font-extrabold text-[#1899d6]">Improved version · complete example</summary>
+              <p className="mt-1 text-xs text-neutral-500">See how to develop your answer. Your score assesses the response you submitted.</p>
               <p className="mt-1 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm">{ai.improved}</p>
             </details>
           )}
@@ -215,9 +219,13 @@ export default function SubjectiveReview({ item, response, selfScore, savedResul
 
       {/* offline fallback: model answer + rubric + self-score */}
       <div className="rounded-2xl bg-[#fffbe8] p-4">
-        <button className="text-sm font-extrabold text-amber-700 cursor-pointer" onClick={() => setShowModel(v => !v)}>
-          {showModel ? '▾' : '▸'} Sample model answer (offline — not an AI grade)
-        </button>
+        {item.source === 'gpn' && !info.models.some(Boolean) ? (
+          <div className="text-sm font-extrabold text-amber-700">Self-scoring rubric</div>
+        ) : (
+          <button className="text-sm font-extrabold text-amber-700 cursor-pointer" onClick={() => setShowModel(v => !v)}>
+            {showModel ? '▾' : '▸'} Sample model answer (offline — not an AI grade)
+          </button>
+        )}
         {showModel && (
           <div className="mt-2 space-y-2">
             {info.models.map((m, i) => <p key={i} className="whitespace-pre-wrap rounded-xl bg-white p-3 text-sm">{m}</p>)}
@@ -225,6 +233,7 @@ export default function SubjectiveReview({ item, response, selfScore, savedResul
             {SELF_RUBRIC.map(r => <p key={r.band} className="text-xs"><b>{r.band}:</b> {r.desc}</p>)}
           </div>
         )}
+        {item.source === 'gpn' && SELF_RUBRIC.map(r => <p key={r.band} className="mt-1 text-xs"><b>{r.band}:</b> {r.desc}</p>)}
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="text-xs font-extrabold uppercase text-neutral-400">Self-score:</span>
           {BANDS.map(b => (

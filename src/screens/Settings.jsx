@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { getSettings, saveSettings, clearHistory } from '../lib/storage.js'
 import { detectBackend } from '../lib/ai.js'
 import { englishVoices, scoreVoice, guessGender, pickVoice, speak, stopSpeaking, ttsSupported, usableVoices } from '../lib/tts.js'
-import { STUDIO_VOICES, downloadNeural, speakNeural, stopNeural, storedNeuralVoices, activeNeuralGender, onNeuralProgress } from '../lib/neuralTts.js'
 import AccountDialog from '../components/AccountDialog.jsx'
 
 /* ---------- app self-update (desktop app only) ---------- */
@@ -80,6 +79,7 @@ function UpdateSection() {
 
 function SoundCheck() {
   const [speaking, setSpeaking] = useState(false)
+  const [speakerError, setSpeakerError] = useState(false)
   const [mic, setMic] = useState('idle') // idle | testing | ok | error
   const [micMsg, setMicMsg] = useState('')
   const [level, setLevel] = useState(0)
@@ -96,9 +96,13 @@ function SoundCheck() {
   const testSpeaker = async () => {
     if (!ttsSupported()) return
     setSpeaking(true)
-    await speak('This is the voice you will hear during the listening questions. If you can hear this clearly, your speaker is working.',
-      { rate: getSettings().ttsRate, voice: pickVoice() })
-    setSpeaking(false)
+    setSpeakerError(false)
+    try {
+      const ok = await speak('This is the voice you will hear during the listening questions. If you can hear this clearly, your speaker is working.',
+        { rate: getSettings().ttsRate, voice: pickVoice() })
+      setSpeakerError(!ok)
+    } catch { setSpeakerError(true) }
+    finally { setSpeaking(false) }
   }
 
   const testMic = async () => {
@@ -163,6 +167,7 @@ function SoundCheck() {
             {speaking ? 'Playing…' : 'Test speaker'}
           </button>
           {!ttsSupported() && <p className="mt-1 text-xs font-bold text-amber-700">No speech synthesis in this browser.</p>}
+          {speakerError && <p role="alert" className="mt-2 text-xs font-bold text-amber-700">Playback stopped or could not finish. Try again with Natural US voices selected.</p>}
         </div>
 
         {/* microphone tile */}
@@ -247,13 +252,13 @@ function VoiceSection({ s, setS }) {
         Dictation questions rotate between speakers, and conversations use a female/male pair — like the real test.
       </p>
 
-      {/* engine choice: Studio (pre-rendered Piper clips, bundled — instant &
+      {/* engine choice: Studio (American Kokoro clips, bundled — instant &
           identical everywhere) vs System (OS/native voices) */}
       <div className="mt-3 flex gap-2">
         <button
           className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine !== 'system' ? 'border-[#58cc02] bg-[#d7ffb8] text-[#3f8f00]' : 'border-neutral-200 bg-white text-neutral-500'}`}
           onClick={() => set({ ttsEngine: 'neural' })}>
-          🎧 Studio voices (instant · recommended)
+          🎧 Natural US voices (recommended)
         </button>
         <button
           className={`flex-1 rounded-xl border-2 px-3 py-2 text-sm font-black cursor-pointer ${s.ttsEngine === 'system' ? 'border-[#1cb0f6] bg-[#ddf4ff] text-[#1899d6]' : 'border-neutral-200 bg-white text-neutral-500'}`}
@@ -263,8 +268,8 @@ function VoiceSection({ s, setS }) {
       </div>
       <p className="mt-2 text-xs font-semibold text-neutral-400">
         {s.ttsEngine !== 'system'
-          ? '✅ Studio voices are pre-recorded and built into the app — they play instantly, sound the same on every device, and work fully offline. No download needed.'
-          : 'System voices use your device’s built-in speech engine. On the desktop app, macOS uses Apple’s engine (download “Enhanced” voices for the most natural sound).'}
+          ? 'Warm, natural American English voices, built into the app. Instant playback, fully offline, with no download needed. Original booklet recordings keep their original speakers.'
+          : 'System voices use American English voices from your device. On the desktop app, macOS uses Apple’s engine (download “Enhanced” voices for the most natural sound).'}
       </p>
 
       {s.ttsEngine !== 'system' ? (
@@ -274,11 +279,11 @@ function VoiceSection({ s, setS }) {
           <div className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${voices.length > 0 ? 'bg-[#d7ffb8] text-[#3f8f00]' : 'bg-amber-50 text-amber-700'}`}>
             {voices.length > 0
               ? (macDesktop
-                  ? `✅ ${voices.length} macOS voice${voices.length > 1 ? 's' : ''} available.`
-                  : `✅ ${voices.length} voice${voices.length > 1 ? 's' : ''} available${natural > 0 ? ` (${natural} natural-quality)` : ''}.`)
+                  ? `✅ ${voices.length} macOS American English voice${voices.length > 1 ? 's' : ''} available.`
+                  : `✅ ${voices.length} American English voice${voices.length > 1 ? 's' : ''} available${natural > 0 ? ` (${natural} natural-quality)` : ''}.`)
               : isMac
-                ? '⚠️ No selectable voices yet. The app will use your Mac’s default system voice. To add better voices: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download an “Enhanced” voice (e.g. Ava, Evan, Zoe).'
-                : '⚠️ No selectable voices yet — the app will use your device’s default. On Windows, open in Microsoft Edge for neural “(Natural)” voices, or use the Studio voices above.'}
+                ? 'No American English system voices found. Use Natural US voices, or add a US voice: System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice ▸ Manage Voices… and download an “Enhanced” voice (e.g. Ava, Evan, Zoe).'
+                : 'No American English system voices found. Use Natural US voices above for offline listening.'}
           </div>
           {voices.length > 0 && (
             <div className="mt-3 space-y-2">
@@ -287,7 +292,7 @@ function VoiceSection({ s, setS }) {
             </div>
           )}
           <p className="mt-2 text-xs font-semibold text-neutral-400">
-            Prefer no setup? <button className="font-black text-[#3f8f00] underline" onClick={() => set({ ttsEngine: 'neural' })}>Use Studio voices</button> — instant and identical on every device.
+            Prefer no setup? <button className="font-black text-[#3f8f00] underline" onClick={() => set({ ttsEngine: 'neural' })}>Use Natural US voices</button> — instant and identical on every device.
           </p>
         </>
       )}
@@ -304,11 +309,14 @@ function VoiceSection({ s, setS }) {
 /** Studio voices are pre-rendered + bundled — nothing to download; just test. */
 function StudioReady() {
   const [testing, setTesting] = useState('')
+  const [failed, setFailed] = useState(false)
   const sample = 'My sister walks to work every morning when the weather is nice.'
   useEffect(() => () => stopSpeaking(), [])
   const test = async (gender) => {
     setTesting(gender)
-    try { await speak(sample, { rate: getSettings().ttsRate, voice: { neuralGender: gender } }) }
+    setFailed(false)
+    try { setFailed(!await speak(sample, { rate: getSettings().ttsRate, voice: { neuralGender: gender } })) }
+    catch { setFailed(true) }
     finally { setTesting('') }
   }
   return (
@@ -318,84 +326,8 @@ function StudioReady() {
         <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={!!testing} onClick={() => test('female')}>{testing === 'female' ? '🔊 …' : '🔊 Test female'}</button>
         <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={!!testing} onClick={() => test('male')}>{testing === 'male' ? '🔊 …' : '🔊 Test male'}</button>
       </div>
-      <p className="mt-1.5 text-xs font-semibold text-neutral-400">Professional Studio voices, pre-recorded and bundled into the app — no download.</p>
-    </div>
-  )
-}
-
-/** Studio (Piper neural) voices: download status + test per voice. */
-function StudioVoices() {
-  const [stored, setStored] = useState({ female: false, male: false })
-  const [pct, setPct] = useState({ female: null, male: null }) // null = idle
-  const [testing, setTesting] = useState('')
-  const [rowNote, setRowNote] = useState({ female: '', male: '' })
-
-  useEffect(() => {
-    storedNeuralVoices(true).then(setStored)
-    const off = onNeuralProgress((gender, p) => {
-      setPct(prev => ({ ...prev, [gender]: p }))
-      if (p >= 100) storedNeuralVoices(true).then(setStored)
-    })
-    return () => { off(); stopNeural() }
-  }, [])
-
-  const get = async (gender) => {
-    setRowNote(n => ({ ...n, [gender]: '' }))
-    setPct(prev => ({ ...prev, [gender]: 0 }))
-    try { await downloadNeural(gender) } catch { setPct(prev => ({ ...prev, [gender]: null })); setRowNote(n => ({ ...n, [gender]: 'Download failed — check your internet and try again.' })) }
-  }
-
-  const test = async (gender) => {
-    // never play the wrong voice: if this one isn't downloaded, say so
-    if (!stored[gender]) {
-      setRowNote(n => ({ ...n, [gender]: `⬇️ Download the ${gender} voice first, then test it.` }))
-      return
-    }
-    setRowNote(n => ({ ...n, [gender]: '' }))
-    setTesting(gender)
-    try {
-      const ok = await speakNeural(`Hello! I am the ${gender === 'female' ? 'female' : 'male'} studio voice. This is exactly how the listening questions will sound.`, { gender, rate: getSettings().ttsRate, strict: true })
-      if (!ok) setRowNote(n => ({ ...n, [gender]: 'Could not play this voice — try downloading it again.' }))
-    } finally { setTesting('') }
-  }
-
-  const Row = ({ gender }) => {
-    const ready = stored[gender] // ready = actually downloaded, nothing else
-    const loading = pct[gender] != null && pct[gender] < 100 && !ready
-    return (
-      <div className="rounded-2xl border-2 border-[#e8e8e6] p-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="w-32 text-sm font-extrabold text-neutral-600">{STUDIO_VOICES[gender].label}</span>
-          {ready ? (
-            <span className="rounded-full bg-[#d7ffb8] px-2.5 py-0.5 text-xs font-black text-[#3f8f00]">
-              downloaded · works offline{activeNeuralGender() === gender ? ' · active' : ''}
-            </span>
-          ) : loading ? (
-            <div className="flex flex-1 items-center gap-2">
-              <div className="pbar !h-2.5 flex-1"><div style={{ width: `${pct[gender]}%` }} /></div>
-              <span className="text-xs font-bold text-neutral-400">{pct[gender]}%</span>
-            </div>
-          ) : (
-            <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => get(gender)}>⬇️ Download (~60 MB, one time)</button>
-          )}
-          <button className="btn-ghost !px-3 !py-1.5 text-xs" disabled={testing === gender || loading} onClick={() => test(gender)}>
-            {testing === gender ? '🔊 …' : '🔊 Test'}
-          </button>
-        </div>
-        {rowNote[gender] && <p className="mt-1.5 text-xs font-bold text-amber-700">{rowNote[gender]}</p>}
-      </div>
-    )
-  }
-
-  return (
-    <div className="mt-3 space-y-2">
-      <p className="text-xs font-semibold text-neutral-500">
-        Professional neural voices built into the app — the SAME voice on Mac, Windows and web, no matter what the
-        computer has installed. Each downloads once (~60 MB) and then works fully offline. Until a studio voice is
-        ready, questions automatically use the system voice so nothing is ever blocked.
-      </p>
-      <Row gender="female" />
-      <Row gender="male" />
+      <p className="mt-1.5 text-xs font-semibold text-neutral-400">Heart (female) and Michael (male) · American English. Preview both voices here.</p>
+      {failed && <p role="alert" className="mt-2 text-xs font-bold text-amber-700">Playback stopped or could not finish. Tap a voice to try again.</p>}
     </div>
   )
 }
@@ -439,12 +371,13 @@ export default function Settings({ go }) {
           <h2 className="font-black">Listening voice speed (default)</h2>
           <div className="mt-2 flex gap-2">
             {[0.75, 1, 1.25].map(r => (
-              <button key={r} onClick={() => setS({ ...s, ttsRate: r })}
+              <button key={r} onClick={() => { setS({ ...s, ttsRate: r }); saveSettings({ ttsRate: r }) }}
                 className={`rounded-xl px-4 py-2 font-black cursor-pointer ${s.ttsRate === r ? 'bg-[#ddf4ff] text-[#1899d6]' : 'bg-neutral-100 text-neutral-400'}`}>
                 {r}×
               </button>
             ))}
           </div>
+          <p className="mt-2 text-xs font-semibold text-neutral-400">Use 1× for the original voice pace. Speed changes apply to the next playback, including previews above.</p>
         </div>
 
         <div className="flex items-center justify-between gap-3">

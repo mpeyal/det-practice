@@ -1,0 +1,120 @@
+[
+  {
+    "location": "Read and Complete 10",
+    "issue": "Printed answer truncates at point of; restored omitted ending from the question (density)."
+  },
+  {
+    "location": "Interactive Reading 3.2",
+    "issue": "Key letter differs from keyed answer text; matched keyed text.",
+    "key": "b) Among the spectators was a renowned scientist."
+  },
+  {
+    "location": "Interactive Reading 3.5",
+    "issue": "Key letter differs from keyed answer text; matched keyed text.",
+    "key": "c) Lara’s pride in her singing robot invention."
+  },
+  {
+    "location": "Interactive Reading 11.2",
+    "issue": "Key letter differs from keyed answer text; matched keyed text.",
+    "key": "c) Now she finally had the time in her life to go to college."
+  },
+  {
+    "location": "Interactive Reading 32.6",
+    "issue": "Key letter differs from keyed answer text; matched keyed text.",
+    "key": "d) Tales from the Deep"
+  },
+  {
+    "location": "Interactive Listening 1 response 5",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "d) Yeah, I know. But if we focus on one thing at a time we can get everything done by Friday.",
+    "choice": "Yeah, I know. But if we focus on one thing at a time and collaborate on the conclusion, we can get everything done by Friday.",
+    "similarity": 0.837
+  },
+  {
+    "location": "Interactive Listening 7 response 5",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "c) Yeah, that’s true, too. Alright, I’ll sign up for the class then! Thanks for the advice!",
+    "choice": "Yeah, that’s true, too. Alright, I’ll sign up for the class then! Thanks for the advice.",
+    "similarity": 0.989
+  },
+  {
+    "location": "Interactive Listening 8 response 3",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "b) Great, I can take on the writing portion of the report. I think if we all collaborate and communicate effectively, we can avoid last- minute hassles.",
+    "choice": "Great, I can take on the writing portion of the report. I think if we all collaborate and communicate effectively, we can avoid last-minute hassles.",
+    "similarity": 0.997
+  },
+  {
+    "location": "Interactive Listening 9 response 1",
+    "issue": "Key letter differs from keyed answer text; matched keyed text.",
+    "key": "a) Hey, do you have a minute? I need help with my English assignment."
+  },
+  {
+    "location": "Interactive Listening 21 response 3",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "a) Okay, that sounds like a good place to start. How long do you think the project will take?",
+    "choice": "Okay, that sounds like a good place to start. How long do you think it will take?",
+    "similarity": 0.936
+  },
+  {
+    "location": "Interactive Listening 23 response 3",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "a) That’s true. It’s like a double-edged sword. I’m interested in exploring this further, perhaps for my end-of-term project.",
+    "choice": "That’s true. It’s like a double-edged sword. I’m interested in exploring this further, perhaps for my end-of- term project.",
+    "similarity": 0.996
+  },
+  {
+    "location": "Interactive Listening 29 response 1",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "d) Hi, Professor. I wanted to talk to you about the requirements for doing an independent study.",
+    "choice": "Hi, Professor, I wanted to talk to you about the requirements for doing an independent study.",
+    "similarity": 0.989
+  },
+  {
+    "location": "Interactive Listening 31 response 4",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "c) Yes, I’ve been trying, but it’s hard because I don’t have anyone to practice with.",
+    "choice": "Yes, I’ve been trying but it’s hard because I don’t have anyone to practice with.",
+    "similarity": 0.994
+  },
+  {
+    "location": "Interactive Listening 32 response 4",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "a) Yeah, I’ve read a few articles and studies on the topic already. But I’m having trouble finding good data sources to use for my case study.",
+    "choice": "Yeah, I’ve read a few articles, but I’m having trouble finding good data to use for my case study.",
+    "similarity": 0.819
+  },
+  {
+    "location": "Interactive Listening 35 response 1",
+    "issue": "Key wording differs from source choice; matched closest printed choice.",
+    "key": "a) Hi, Professor. Thanks for seeing me.",
+    "choice": "Hi Professor. Thanks for seeing me.",
+    "similarity": 0.986
+  },
+  {
+    "location": "Interactive Reading 10 highlight",
+    "issue": "Printed answer is not a selectable span; retain key and also accept matching source span.",
+    "key": "She loved her bird so much",
+    "acceptedSpan": "She loved birds so much"
+  },
+  {
+    "location": "Interactive Reading 20 highlight",
+    "issue": "Printed answer is not a selectable span; retain key and also accept matching source span.",
+    "key": "Their thick, white fur and a layer of fat help",
+    "acceptedSpan": "Polar bears' thick, white fur and a layer of fat help"
+  },
+  {
+    "location": "Interactive Reading 36 highlight",
+    "issue": "Printed answer is not a selectable span; retain key and also accept matching source span.",
+    "key": "the internet as provided a platform for innovation, from groundbreaking medical research shared across continents to the rise of global online communities",
+    "acceptedSpan": "the internet has provided a platform for innovation, from groundbreaking medical research shared across continents to the rise of global online communities"
+  },
+  {
+    "location": "Read and Complete 12",
+    "issue": "Question and answer passage have minor differences in intact words; question wording and all keyed gaps preserved."
+  },
+  {
+    "location": "Read and Complete 17",
+    "issue": "Question and answer passage have minor differences in intact words; question wording and all keyed gaps preserved."
+  }
+]

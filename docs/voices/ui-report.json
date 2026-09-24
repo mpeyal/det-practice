@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-24T03:57:21.729Z",
+  "ok": true,
+  "dist": "/Users/puspita/Developer/det-practice/dist",
+  "checks": [
+    "Actual female and male AAC playback in Settings",
+    "correct natural pack URLs",
+    "preview speed applies immediately and preserves pitch",
+    "preview controls recover after end",
+    "navigation stops sound",
+    "preview restarts after remount",
+    "normal dictation audio and replay count",
+    "normal conversation scenario and partner playback",
+    "GPN conversation generated audio and one-play limit",
+    "GPN original QR recording retained",
+    "failed preview explains retry and unlocks controls",
+    "all network requests outside localhost blocked"
+  ],
+  "errors": []
+}

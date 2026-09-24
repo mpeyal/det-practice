@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-24T02:51:07.242Z",
+  "engine": "Whisper tiny.en local CPU; sample intelligibility check, not a human naturalness rating",
+  "samples": [
+    {
+      "key": "adb95d1d",
+      "voice": "af_heart",
+      "seconds": 58.555,
+      "expected": "Hey, I’ve been considering applying to graduate school. What do you think? I think it’s a great idea! I could definitely see it being a good fit for you. Yeah, but I still don’t know exactly what I want to do for my career. Well, even if you’re not sure what you want to do right away, a graduate degree can provide a lot of opportunities. You should definitely think about your career path before choosing a program, though. Do you know what opportunities you can get with a graduate degree in creative writing? Are you considering creative writing? Cool! You’d have a lot of career options afterwards, like becoming an author, an editor, or working in publishing. Yeah, that’s true, but I feel like I may need a break before going back to school again. That’s totally understandable. There’s no rush. You can always take some time off and then decide later if you want to go to graduate school or not. Yeah, that’s true, too. Alright, I’ll sign up for the class then! Thanks for the advice!",
+      "transcribed": " Hey, I've been considering applying to graduate school. What do you think? I think it's a great idea. I could definitely see it being a good fit for you. Yeah, but I still don't know exactly what I want to do for my career. Well, even if you're not sure what you want to do right away, a graduate degree can provide a lot of opportunities. You should definitely think about your career path before choosing a program, though. Do you know what opportunities you can get with a graduate degree in creative writing? Are you considering creative writing? Cool. You'd have a lot of career options afterwards, like becoming an author, an editor, or working in publishing. Yeah, that's true, but I feel like I may need a break before going back to school again. That's totally understandable. There's no rush. You can always take some time off, and then decide later if you want to go to graduate school or not. Yeah, that's true too. Alright, I'll sign up for the class then. Thanks for the advice.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "75769dd8",
+      "voice": "af_heart",
+      "seconds": 1.85,
+      "expected": "Hi there, come on in.",
+      "transcribed": " Hi there, come on in.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "7e43df7d",
+      "voice": "am_michael",
+      "seconds": 59.61,
+      "expected": "Hey, I need to decide on a thesis topic soon and I wanted to get your opinion. Sure, what are you thinking? Maybe using electricity to make transportation more affordable. Oh, like electric cars? Yeah, electric cars and other vehicles, too. What do you think? I think it’s a great idea! There’s a lot of potential for growth in that area and I think it would be really interesting to see how electricity can be used to power vehicles more affordably. Yeah, that’s what I was thinking, too. I’m just afraid that it’s been done before many times. I think there’s definitely been some research done on it, but there could certainly be more. And even if there is a lot of research out there already, you could always focus on a specific aspect of it or look at it from a different perspective. Yeah, that’s true. I’ll have to talk to my advisor and see what they think. But thanks for the input!",
+      "transcribed": " Hey, I need to decide on a thesis topic soon, and I wanted to get your opinion. Sure, what are you thinking? Maybe using electricity to make transportation more affordable. Oh, like electric cars. Yeah, electric cars and other vehicles too. What do you think? I think it's a great idea. There's a lot of potential for growth in that area, and I think it would be really interesting to see how electricity can be used to power vehicles more affordably. Yeah, that's what I was thinking too. I'm just afraid that it's been done before many times. I think there's definitely been some research done on it, but there could certainly be more. And even if there is a lot of research out there already, you could always focus on a specific aspect of it or look at it from a different perspective. Yeah, that's true. I'll have to talk to my advisor and see what they think, but thanks for the input.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "2c961537",
+      "voice": "am_michael",
+      "seconds": 2.325,
+      "expected": "Do you know how to drive?",
+      "transcribed": " Do you know how to drive?",
+      "wordErrorRate": 0
+    }
+  ]
+}

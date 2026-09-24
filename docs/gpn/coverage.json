@@ -1,0 +1,156 @@
+{
+  "source": "GPN DET Sample Questions - Full.pdf",
+  "sha256": "2699be9bf060806f76d485881adeba7241d3d54b42a86483fbaf02406071b5e5",
+  "physicalPages": 194,
+  "numberedSamples": 1080,
+  "questionRecordings": 100,
+  "scoredRecordings": 3,
+  "questionPhotos": 80,
+  "qrImages": 104,
+  "sections": [
+    {
+      "section": "Front matter and contents",
+      "physicalPages": [
+        1,
+        4
+      ],
+      "count": 0
+    },
+    {
+      "section": "Introduction and rules",
+      "physicalPages": [
+        5,
+        6
+      ],
+      "count": 0
+    },
+    {
+      "section": "Read and Complete",
+      "physicalPages": [
+        7,
+        12
+      ],
+      "count": 40
+    },
+    {
+      "section": "Read and Select",
+      "physicalPages": [
+        13,
+        16
+      ],
+      "count": 500
+    },
+    {
+      "section": "Fill in the Blanks",
+      "physicalPages": [
+        17,
+        19
+      ],
+      "count": 60
+    },
+    {
+      "section": "Listen and Type",
+      "physicalPages": [
+        20,
+        22
+      ],
+      "count": 60
+    },
+    {
+      "section": "Read Aloud",
+      "physicalPages": [
+        23,
+        24
+      ],
+      "count": 60
+    },
+    {
+      "section": "Interactive Reading",
+      "physicalPages": [
+        25,
+        73
+      ],
+      "count": 40
+    },
+    {
+      "section": "Interactive Listening",
+      "physicalPages": [
+        74,
+        125
+      ],
+      "count": 40
+    },
+    {
+      "section": "Write About the Photo",
+      "physicalPages": [
+        126,
+        133
+      ],
+      "count": 40
+    },
+    {
+      "section": "Speak About the Photo",
+      "physicalPages": [
+        134,
+        141
+      ],
+      "count": 40
+    },
+    {
+      "section": "Interactive Writing",
+      "physicalPages": [
+        142,
+        149
+      ],
+      "count": 40
+    },
+    {
+      "section": "Read Then Speak",
+      "physicalPages": [
+        150,
+        152
+      ],
+      "count": 40
+    },
+    {
+      "section": "Listen Then Speak",
+      "physicalPages": [
+        153,
+        154
+      ],
+      "count": 40
+    },
+    {
+      "section": "Writing Sample",
+      "physicalPages": [
+        155,
+        157
+      ],
+      "count": 40
+    },
+    {
+      "section": "Speaking Sample",
+      "physicalPages": [
+        158,
+        160
+      ],
+      "count": 40
+    },
+    {
+      "section": "Answer keys, full conversations, summaries, scored examples and listening transcripts",
+      "physicalPages": [
+        161,
+        193
+      ],
+      "count": 0
+    },
+    {
+      "section": "Further reading",
+      "physicalPages": [
+        194,
+        194
+      ],
+      "count": 0
+    }
+  ]
+}

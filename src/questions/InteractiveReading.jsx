@@ -86,9 +86,9 @@ export default function InteractiveReading({ item, timed, onComplete }) {
   const passageText = p.passage || `${p.paragraph1 || ''} ${p.paragraph2 || ''}`.trim()
   const nBlanks = p.blanks.length
 
-  const steps = ['blanks', 'hl0', 'hl1', 'mainIdea', 'title']
+  const steps = ['blanks', ...(p.sentence ? ['sentence'] : []), 'hl0', 'hl1', 'mainIdea', 'title']
   const [step, setStep] = useState(0)
-  const [state, setState] = useState({ blanks: Array(nBlanks).fill(''), highlights: ['', ''], mainIdea: '', title: '' })
+  const [state, setState] = useState({ blanks: Array(nBlanks).fill(''), highlights: ['', ''], sentence: '', mainIdea: '', title: '' })
   const latest = useLatest(state)
   const passageRef = useRef(null)
 
@@ -149,12 +149,14 @@ export default function InteractiveReading({ item, timed, onComplete }) {
 
   return (
     <QuestionCard
-      label={`Interactive Reading · ${
+      label={`${p.number ? `${p.number}.${step + 1}) ` : ''}Interactive Reading · ${
         cur === 'blanks' ? 'complete the passage' :
+        cur === 'sentence' ? 'complete the sentence' :
         hlIndex != null ? `highlight ${hlIndex + 1} of 2` :
         cur === 'mainIdea' ? 'main idea' : 'best title'}`}
       instructions={
         cur === 'blanks' ? 'Select the best option for each missing word.' :
+        cur === 'sentence' ? 'Select the sentence that completes the passage.' :
         hlIndex != null ? 'Drag over the text in the passage that answers the question.' :
         cur === 'mainIdea' ? 'Select the main idea of the passage.' : 'Select the best title for the passage.'
       }
@@ -192,7 +194,7 @@ export default function InteractiveReading({ item, timed, onComplete }) {
           <div>
             <div className="mb-1 text-xs font-extrabold uppercase tracking-widest text-neutral-400">Passage</div>
             <div className="rounded-2xl bg-neutral-50 p-4">
-              <p ref={passageRef} onMouseUp={() => hlIndex != null && captureSelection(hlIndex)} className="leading-loose text-[15px]">{filledPassage}</p>
+              <p ref={passageRef} onMouseUp={() => hlIndex != null && captureSelection(hlIndex)} className="leading-loose text-[15px]">{cur === 'sentence' ? p.sentencePassage.split('{sentence}').map((text, i) => <React.Fragment key={i}>{i > 0 && <span className="mx-1 rounded border-2 border-dashed border-blue-300 p-1 font-bold">{state.sentence || 'Select a sentence'}</span>}{text}</React.Fragment>) : (p.fullPassage || filledPassage)}</p>
             </div>
           </div>
           <div>
@@ -208,8 +210,9 @@ export default function InteractiveReading({ item, timed, onComplete }) {
                 )}
               </div>
             )}
-            {cur === 'mainIdea' && <Choices options={p.mainIdea.options} value={state.mainIdea} onChange={v => setState(s => ({ ...s, mainIdea: v }))} />}
-            {cur === 'title' && <Choices options={p.title.options} value={state.title} onChange={v => setState(s => ({ ...s, title: v }))} />}
+            {cur === 'sentence' && <Choices letters={item.source === 'gpn'} options={p.sentence.options} value={state.sentence} onChange={v => setState(s => ({ ...s, sentence: v }))} />}
+            {cur === 'mainIdea' && <Choices letters={item.source === 'gpn'} options={p.mainIdea.options} value={state.mainIdea} onChange={v => setState(s => ({ ...s, mainIdea: v }))} />}
+            {cur === 'title' && <Choices letters={item.source === 'gpn'} options={p.title.options} value={state.title} onChange={v => setState(s => ({ ...s, title: v }))} />}
           </div>
         </div>
       )}

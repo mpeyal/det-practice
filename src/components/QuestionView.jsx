@@ -1,5 +1,6 @@
 import React from 'react'
 import { PhotoView } from './ui.jsx'
+import RecordedAudio from './RecordedAudio.jsx'
 import AudioBar from './AudioBar.jsx'
 
 /**
@@ -40,7 +41,7 @@ export default function QuestionView({ item }) {
       return (
         <div className="mb-3">
           <Label>Question — listen and type what you hear</Label>
-          <AudioBar text={p.text} maxPlays={99} />
+          {p.audio ? <RecordedAudio src={p.audio} maxPlays={99} /> : <AudioBar text={p.text} maxPlays={99} />}
         </div>
       )
 
@@ -50,7 +51,7 @@ export default function QuestionView({ item }) {
       return (
         <Box>
           <Label>Passage ({p.topic})</Label>
-          <p>{filled}</p>
+          <p>{p.fullPassage || filled}</p>
         </Box>
       )
     }
@@ -90,6 +91,8 @@ export default function QuestionView({ item }) {
         </Box>
       )
 
+    case 'read_aloud':
+    case 'listen_then_speak':
     case 'read_then_speak':
     case 'writing_sample':
     case 'speaking_sample':

@@ -7,7 +7,7 @@ const DEFAULT_SETTINGS = {
   apiKey: '',            // Anthropic API key (can also come from VITE_ANTHROPIC_API_KEY)
   model: 'claude-sonnet-5',
   ttsRate: 1,            // default playback speed
-  // 'neural' = Studio voices: pre-rendered with Piper and BUNDLED as MP3, so
+  // 'neural' = Studio voices: American Kokoro voices BUNDLED as AAC, so
   // they play instantly (realtime), sound identical on every platform, work
   // offline, and need no download. 'system' = OS/native voices (also instant).
   ttsEngine: 'neural',

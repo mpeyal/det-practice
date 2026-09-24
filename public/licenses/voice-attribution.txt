@@ -1,0 +1,9 @@
+ParrotReady natural listening audio
+Generated locally with Kokoro-82M v1.0 by hexgrad, using kokoro-js 1.2.1.
+American English voices: af_heart, am_michael.
+https://huggingface.co/hexgrad/Kokoro-82M
+https://github.com/hexgrad/kokoro
+The model and generation library are Apache-2.0 licensed.
+The model is not distributed with this application; generated audio is bundled.
+These are synthetic practice voices, not official Duolingo voice recordings.
+GPN QR recordings are separate original source material.

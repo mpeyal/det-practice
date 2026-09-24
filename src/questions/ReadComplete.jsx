@@ -22,6 +22,7 @@ export default function ReadComplete({ item, timed, onComplete }) {
       instructions="Type the missing letters to complete the text."
       seconds={timed ? left : null}
     >
+      {item.source === 'gpn' && <h2 className="mt-3 text-xl font-black">{item.payload.number}) {item.payload.topic}</h2>}
       <div className="py-4 text-lg leading-loose font-medium">
         {parts.map((part, i) => {
           if (part.type === 'text') return <span key={i}>{part.text}</span>

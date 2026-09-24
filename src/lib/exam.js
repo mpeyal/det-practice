@@ -269,6 +269,8 @@ export function assembleSkillPractice(skill, setNo = null) {
 
 export const TYPE_LABELS = {
   read_select: 'Read and Select',
+  read_aloud: 'Read Aloud',
+  listen_then_speak: 'Listen Then Speak',
   fill_blanks: 'Fill in the Blanks',
   read_complete: 'Read and Complete',
   interactive_reading: 'Interactive Reading',

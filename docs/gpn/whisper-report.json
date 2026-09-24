@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-24T02:28:41.461Z",
+  "ok": true,
+  "input": "generated speech through Chromium simulated microphone; no human microphone captured",
+  "checks": [
+    "Whisper fallback transcription",
+    "MediaRecorder capture",
+    "offline Vosk live transcription",
+    "stop and playable blob",
+    "submit retains recording and transcript"
+  ],
+  "liveTranscript": "in books because they help me learn new things last week i read a book about gardening it explained how to grow vegetables in small spaces i planted tomatoes on my balcony",
+  "refinedTranscript": "I enjoy reading books because they help me learn new things. Last week I read a book about gardening. It explained how to grow vegetables in small spaces. I planted tomatoes on my balcony."
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "voice": "af_heart",
+    "sample": 0,
+    "text": " My sister walks to work every morning when the weather is nice."
+  },
+  {
+    "voice": "af_heart",
+    "sample": 1,
+    "text": " Actually, I am working as a translator. I studied languages at university, and I really enjoy helping people communicate."
+  },
+  {
+    "voice": "am_michael",
+    "sample": 0,
+    "text": " My sister walks to work every morning when the weather is nice."
+  },
+  {
+    "voice": "am_michael",
+    "sample": 1,
+    "text": " Actually, I am working as a translator. I studied languages at university, and I really enjoy helping people communicate."
+  }
+]

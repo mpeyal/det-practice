@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-24T02:25:07.813Z",
+  "ok": true,
+  "input": "generated speech through Chromium simulated microphone; no human microphone captured",
+  "transcript": "the books because they help me learn new things last week i read a book about gardening it explained how to grow vegetables in small spaces i planted tomatoes on my balcony",
+  "checks": [
+    "MediaRecorder capture",
+    "offline Vosk live transcription",
+    "stop and playable blob",
+    "submit retains recording and transcript"
+  ]
+}

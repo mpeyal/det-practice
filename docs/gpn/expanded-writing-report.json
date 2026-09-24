@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-24T02:24:36.837Z",
+  "results": [
+    {
+      "task": "Writing Sample",
+      "original": "Parks are good.",
+      "score": 30,
+      "improvedWords": 176,
+      "improved": "Public parks benefit a community by giving people affordable places to exercise, relax and spend time together. They are especially valuable in crowded neighborhoods where many residents do not have gardens or other outdoor spaces.\n\nOne major benefit is better physical and mental health. Walking paths, playgrounds and open fields encourage people of different ages to stay active without paying for a gym membership. For example, a family can visit a local park after school so that the children can play while their parents take a walk. Spending time among trees can also offer a peaceful break from traffic and daily stress.\n\nParks also help neighbors build relationships. Shared spaces give people opportunities to meet, while events such as outdoor concerts or community picnics bring residents together. For instance, a weekend gardening activity can allow older residents and young people to work together and get to know one another.\n\nOverall, well-maintained public parks support healthier lifestyles and stronger community connections. Investing in safe, accessible parks can therefore improve everyday life for a wide range of residents.",
+      "ok": true
+    },
+    {
+      "task": "Interactive Writing",
+      "original": "Part 1: Museums teach us things.\n\nPart 2 (follow-up): They are useful.",
+      "score": 50,
+      "improvedWords": 237,
+      "improved": "Illustrative model answer\n\nPart 1:\nPeople visit museums to learn about the world and experience objects they might otherwise see only in books or online. Museums make history and culture more concrete by displaying real artifacts and explaining the stories behind them. For example, a display of old cooking tools can help visitors imagine how families prepared meals before modern appliances existed. This can make everyday life in the past easier to understand than simply reading a list of historical dates.\n\nMuseums also offer opportunities for enjoyment and inspiration. An art exhibition may introduce visitors to a different perspective, while an interactive science display can encourage children to ask questions. Visiting with friends or family gives people a chance to discuss what they discover. Overall, museums attract visitors because they combine education with memorable experiences.\n\nPart 2:\nVirtual tours make museums accessible to people who live far away or cannot travel. They also let potential visitors explore a collection before deciding whether to visit in person. For example, someone who discovers an interesting exhibition online may become more eager to see the original objects.\n\nHowever, some people may feel that an online tour is enough, which could replace a physical visit. Others will still want to experience the size, detail and atmosphere of an exhibition firsthand. I think virtual tours mainly complement museum visits by introducing collections to a wider audience and helping people plan their trips.",
+      "ok": true
+    }
+  ]
+}

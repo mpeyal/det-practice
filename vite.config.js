@@ -33,7 +33,7 @@ export default defineConfig({
       workbox: {
         // include the vosk speech model + pre-rendered Studio voice clips (mp3)
         // so the PWA works offline end-to-end
-        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,webp,woff2,gz,mp3,m4a}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,webp,woff2,gz,mp3,m4a,wav,pdf}'],
         maximumFileSizeToCacheInBytes: 64 * 1024 * 1024,
         // everything is bundled locally; only the Anthropic API is network-only
         navigateFallback: 'index.html'

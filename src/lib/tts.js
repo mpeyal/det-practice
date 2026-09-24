@@ -1,38 +1,15 @@
-// Offline text-to-speech built on the browser's SpeechSynthesis API.
-// All "listening" audio in the app is produced here — no audio files needed.
-//
-// Voice strategy (cross-platform: Windows / macOS / Linux):
-// - Every available English voice is scored for quality (neural/natural/
-//   premium voices rank far above robotic system ones).
-// - Voices are tagged male/female by name, and the app keeps a POOL of the
-//   best voices of each gender:
-//     * Listen and Type rotates through the pool per question (deterministic
-//       per item), so you hear different speakers like on the real test.
-//     * Interactive Listening uses a female/male pair so the two sides of the
-//       conversation are easy to tell apart.
-// - The user can pin a specific female and male voice in Settings.
-//
-// Best quality per platform:
-//   macOS  — System Settings ▸ Accessibility ▸ Spoken Content ▸ System Voice
-//            ▸ Manage Voices… → download "Enhanced"/"Premium" voices (Ava,
-//            Zoe, Evan, Nathan…). They appear in Safari and Chrome.
-//   Windows — Microsoft Edge ships "… Online (Natural)" neural voices.
-//   Both — Chrome's "Google US English" voices are decent everywhere.
-
 import { getSettings } from './storage.js'
-import { speakNeural, stopNeural, isDownloaded, isNeuralSpeaking, storedNeuralVoices, STUDIO_VOICES } from './neuralTts.js'
-import VOICE_PACK from '../data/voicePack.json'
-import LISTENING_PACK from '../data/listeningVoicePack.json'
+import NATURAL_PACK from '../data/naturalVoicePack.json'
 
-// ---- pre-rendered Studio audio (bundled MP3s) ----
-// The exam's spoken content comes from finite banks, so every clip is rendered
-// ONCE with the Studio (Piper) voices at build time and shipped as MP3. At
-// runtime we just play the matching file — instant, Studio quality, offline,
-// and with NO model download. voicePack.json is the manifest of available keys.
-const _pack = new Set(VOICE_PACK)
-const _listeningPack = new Set(LISTENING_PACK)
+// Kokoro American voices, rendered once at build time and bundled offline.
+// Do not route through legacy packs: some legacy male clips use British Daniel.
+const _pack = new Set(NATURAL_PACK.keys)
+const STUDIO_VOICES = {
+  female: { label: 'Heart · American English' },
+  male: { label: 'Michael · American English' },
+}
 
-/** Deterministic key for a clip — MUST match scripts/render-voices.py exactly. */
+/** Deterministic key for a clip — MUST match scripts/render-natural-voices.mjs exactly. */
 function packKey(text, gender) {
   let h = 7
   const s = gender + String(text)
@@ -41,34 +18,43 @@ function packKey(text, gender) {
 }
 function preRenderedUrl(text, gender) {
   const k = packKey(text, gender)
-  if (_listeningPack.has(k)) return `${import.meta.env.BASE_URL}voices/${k}.m4a`
-  return _pack.has(k) ? `${import.meta.env.BASE_URL}voices/${k}.mp3` : null
+  return _pack.has(k) ? `${import.meta.env.BASE_URL}voices-natural/${k}.m4a` : null
 }
 
 let _preAudio = null
+let _cancelPreAudio = null
 function playUrl(url, rate) {
   return new Promise((resolve) => {
     let a
     try { a = new Audio(url) } catch { resolve(false); return }
-    _preAudio = a
-    a.playbackRate = rate || 1
-    if ('preservesPitch' in a) a.preservesPitch = true
     let done = false
-    const fin = (ok) => { if (done) return; done = true; if (_preAudio === a) _preAudio = null; resolve(ok) }
+    let lastTime = 0, lastProgress = Date.now()
+    const watchdog = setInterval(() => {
+      if (a.currentTime > lastTime) { lastTime = a.currentTime; lastProgress = Date.now() }
+      else if (Date.now() - lastProgress >= 15000) fin(false)
+    }, 1000)
+    const fin = (ok) => {
+      if (done) return
+      done = true
+      clearInterval(watchdog)
+      a.onended = a.onerror = null
+      if (!ok) { try { a.pause() } catch {} }
+      if (_preAudio === a) { _preAudio = null; _cancelPreAudio = null }
+      resolve(ok)
+    }
+    _preAudio = a
+    _cancelPreAudio = () => fin(false)
     a.onended = () => fin(true)
     a.onerror = () => fin(false)
-    a.play().catch(() => fin(false))
+    try {
+      a.playbackRate = rate
+      if ('preservesPitch' in a) a.preservesPitch = true
+      Promise.resolve(a.play()).catch(() => fin(false))
+    } catch { fin(false) }
   })
 }
 
-// learn which studio voices are downloaded as soon as the app starts, so the
-// first listening question already uses them when available
-if (typeof window !== 'undefined') storedNeuralVoices().catch(() => {})
-
-// Which engine speaks: 'neural' = bundled Studio voices (Piper — identical
-// professional quality on Mac/Windows/web), 'system' = OS voices.
-// While a Studio voice is still downloading, speak() falls back to the system
-// voice for that utterance so nothing ever blocks.
+// Preserve the saved engine preference; 'neural' now plays the natural US pack.
 function engine() { return getSettings().ttsEngine || 'neural' }
 
 let cachedVoices = []
@@ -82,13 +68,13 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
 }
 
 export function ttsSupported() {
-  return typeof window !== 'undefined' && 'speechSynthesis' in window
+  return typeof window !== 'undefined' && (typeof Audio !== 'undefined' || !!window.speechSynthesis)
 }
 
 /** Wait until the OS voice list is populated (it loads async on first use). */
 function ensureVoicesLoaded(timeout = 2500) {
   return new Promise((resolve) => {
-    if (!ttsSupported()) { resolve(false); return }
+    if (!window.speechSynthesis) { resolve(false); return }
     loadVoices()
     if (cachedVoices.length) { resolve(true); return }
     let done = false
@@ -100,13 +86,15 @@ function ensureVoicesLoaded(timeout = 2500) {
 
 /**
  * Warm the audio engine before a session. Studio clips are pre-rendered and
- * bundled (nothing to load), so this just enumerates the OS voice list — used
- * both for the 'system' engine and as the fallback when a rare piece of text
- * has no pre-rendered clip. Essentially instant.
+ * bundled (nothing to load). Only explicit system mode waits for OS voices;
+ * background voice enumeration remains available for error fallback.
  */
 export async function prepareTts(onProgress) {
-  await ensureVoicesLoaded()
-  onProgress && onProgress('system', 100)
+  if (engine() === 'system') {
+    if (nativeSay()) await loadNativeVoices()
+    else await ensureVoicesLoaded()
+  }
+  onProgress && onProgress(engine(), 100)
   return { ready: true }
 }
 
@@ -125,9 +113,9 @@ export function guessGender(v) {
 // those so the picker shows only real, natural voices.
 const NOVELTY = /^(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|deranged|hysterical|pipe|princess|junior|ralph|fred|kathy|bruce|agnes|grandma|grandpa|rocko|sandy|shelley|flo|eddy|reed|sara)\b/i
 
-/** Keep only usable English voices (drop other languages + novelty voices). */
+/** Keep only usable American English voices (drop other languages + novelty voices). */
 export function usableVoices(list) {
-  return (list || []).filter(v => /^en/i.test(v.lang) && !NOVELTY.test(v.name))
+  return (list || []).filter(v => /^en[-_]US$/i.test(v.lang) && !NOVELTY.test(v.name))
 }
 
 /** Heuristic quality ranking: neural/premium voices far above robotic ones. */
@@ -146,19 +134,21 @@ export function scoreVoice(v) {
   return s
 }
 
-/** All English voices, best-sounding first. */
+/** American English voices, best-sounding first. */
 export function englishVoices() {
   if (!cachedVoices.length) loadVoices()
-  return cachedVoices
-    .filter(v => /^en([-_]|$)/i.test(v.lang))
+  return usableVoices(cachedVoices)
     .sort((a, b) => scoreVoice(b) - scoreVoice(a))
 }
 
 /** Best voice of a gender, honoring the user's pinned choice in Settings. */
-export function voiceOfGender(gender) {
+function systemVoices() {
+  return nativeSay() && nativeVoices().length ? nativeVoices() : englishVoices()
+}
+
+export function voiceOfGender(gender, pool = systemVoices()) {
   const { voiceFemale, voiceMale } = getSettings()
-  const pool = englishVoices()
-  if (!pool.length) return cachedVoices[0] || null
+  if (!pool.length) return null
   const pinned = gender === 'female' ? voiceFemale : gender === 'male' ? voiceMale : ''
   if (pinned) {
     const m = pool.find(v => v.name === pinned)
@@ -177,7 +167,7 @@ export function pickVoice() {
  * possible, with the user's pinned voices always included.
  */
 export function voicePool() {
-  const pool = englishVoices()
+  const pool = systemVoices()
   if (!pool.length) return []
   const out = []
   const push = v => { if (v && !out.some(x => x.name === v.name)) out.push(v) }
@@ -222,7 +212,7 @@ export function conversationVoices() {
   const f = voiceOfGender('female')
   const m = voiceOfGender('male')
   if (f && m && f.name !== m.name) return [f, m]
-  const pool = englishVoices()
+  const pool = systemVoices()
   return [pool[0] || f, pool[1] || pool[0] || m]
 }
 
@@ -248,38 +238,42 @@ function chunkText(text) {
   const sentences = String(text).match(/[^.!?]+[.!?]*\s*/g) || [String(text)]
   const out = []
   let cur = ''
-  for (const s of sentences) {
-    if (cur && (cur + s).length > 180) { out.push(cur.trim()); cur = s }
-    else cur += s
+  for (const sentence of sentences) {
+    for (const word of sentence.trim().split(/\s+/)) {
+      if (cur && cur.length + word.length + 1 > 180) { out.push(cur); cur = '' }
+      // A pathological long token should not bypass the browser utterance limit.
+      let rest = word
+      while (rest.length > 180) {
+        if (cur) { out.push(cur); cur = '' }
+        out.push(rest.slice(0, 180)); rest = rest.slice(180)
+      }
+      if (rest) cur = cur ? `${cur} ${rest}` : rest
+    }
+    if (cur) { out.push(cur); cur = '' }
   }
   if (cur.trim()) out.push(cur.trim())
   return out.length ? out : [String(text)]
 }
 
-/** Speak text; resolves when finished (or immediately if unsupported). */
+/** Speak text; cancelled playback resolves false and never starts a fallback. */
 export function speak(text, { rate = 1, voice = null, voiceKey = null } = {}) {
-  // Studio (neural) engine first — professional, identical on every platform.
-  // speakNeural picks the requested gender when downloaded, or any downloaded
-  // studio voice; if NONE is downloaded it resolves false and we fall back to
-  // the system voice for this utterance (never a silent question).
+  stopSpeaking()
+  text = String(text ?? '').trim()
+  if (!text) return Promise.resolve(false)
+  rate = Number(rate)
+  if (!Number.isFinite(rate) || rate < 0.5 || rate > 2) rate = 1
+  const token = _speakToken
+  const opts = { rate, voice, voiceKey }
   if (engine() === 'neural') {
     const gender = voice?.neuralGender
-      || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
-      || 'female'
-    // 1) bundled pre-rendered Studio clip → INSTANT, no download, offline
-    const url = preRenderedUrl(text, gender)
-    if (url) {
-      stopSpeaking()
-      return playUrl(url, rate).then(ok => ok ? true : speakSystem(text, { rate, voice, voiceKey }))
-    }
-    // 2) live Studio synthesis if the model is downloaded (slow, non-realtime)
-    if (isDownloaded('female') || isDownloaded('male')) {
-      stopSpeaking()
-      return speakNeural(text, { gender, rate }).then(ok =>
-        ok ? true : speakSystem(text, { rate, voice, voiceKey }))
-    }
+      || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female') || 'female'
+    const url = preRenderedUrl(String(text).trim(), gender)
+    if (url) return playUrl(url, rate).then(ok => {
+      if (token !== _speakToken) return false
+      return ok || speakSystem(text, opts, token)
+    })
   }
-  return speakSystem(text, { rate, voice, voiceKey })
+  return speakSystem(text, opts, token)
 }
 
 // native macOS speech via the desktop app (Apple's engine — reliable; the
@@ -292,72 +286,72 @@ function nativeSay() {
 // cache of the OS voices `say -v '?'` reports (desktop only)
 let _nativeVoices = null
 export function nativeVoices() { return _nativeVoices || [] }
+let _nativeLoading = null
 function loadNativeVoices() {
   const n = nativeSay()
-  if (!n || !n.voices || _nativeVoices) return
-  n.voices().then(vs => { _nativeVoices = usableVoices(vs) }).catch(() => { _nativeVoices = [] })
+  if (!n?.voices) return Promise.resolve()
+  if (_nativeVoices) return Promise.resolve()
+  if (!_nativeLoading) _nativeLoading = n.voices().then(vs => {
+    _nativeVoices = usableVoices(vs).sort((a, b) => scoreVoice(b) - scoreVoice(a))
+  }).catch(() => { _nativeLoading = null })
+  return _nativeLoading
 }
 if (typeof window !== 'undefined') loadNativeVoices()
 
-/** Pick a native `say` voice name for a gender: pinned first, then by name. */
+/** A stored British voice must not bypass the American locale filter. */
 function nativeVoiceName(gender) {
   const st = getSettings()
-  const pin = gender === 'male' ? st.voiceMale : gender === 'female' ? st.voiceFemale : ''
-  if (pin) return pin
+  const pin = gender === 'male' ? st.voiceMale : st.voiceFemale
   const list = nativeVoices()
-  const match = list.find(v => guessGender(v) === gender)
-  return match ? match.name : undefined
+  return (list.find(v => v.name === pin)
+    || list.find(v => guessGender(v) === gender) || list[0])?.name
 }
 
-function speakSystem(text, opts = {}) {
+async function speakSystem(text, opts = {}, token = _speakToken) {
   const native = nativeSay()
   if (native) {
+    await loadNativeVoices()
+    if (token !== _speakToken) return false
     const { rate = 1, voice = null, voiceKey = null } = opts
-    // an explicitly passed native voice (Settings test button) wins; otherwise
-    // resolve the gender and pick a native `say` voice (pinned or by name)
-    let name
-    if (voice && !voice.neuralGender && voice.name) {
-      name = voice.name
-    } else {
-      const gender = voice?.neuralGender
-        || (voiceKey != null ? voiceForKey(voiceKey)?.neuralGender : 'female')
-        || 'female'
-      name = nativeVoiceName(gender)
+    const requested = voice || (voiceKey != null ? voiceForKey(voiceKey) : null)
+    const gender = requested?.neuralGender || (requested ? guessGender(requested) : 'female')
+    const name = nativeVoices().find(v => v.name === requested?.name)?.name || nativeVoiceName(gender)
+    if (name) {
+      _nativeSaying = true
+      try {
+        const r = await native.speak({ text, voice: name, rate })
+        if (token !== _speakToken) return false
+        if (r?.ok) return true
+        if (r?.interrupted) return false
+      } catch { if (token !== _speakToken) return false }
+      finally { if (token === _speakToken) _nativeSaying = false }
     }
-    _nativeSaying = true
-    return native.speak({ text, voice: name, rate })
-      .then(r => {
-        _nativeSaying = false
-        if (r && r.ok) return true
-        if (r && r.interrupted) return false
-        // engine rejected (e.g. unknown voice name) → retry without a voice,
-        // then fall back to the Chromium path so nothing is ever silent
-        return native.speak({ text, rate }).then(r2 =>
-          (r2 && r2.ok) ? true : (r2 && r2.interrupted) ? false : speakChromium(text, opts))
-      })
-      .catch(() => { _nativeSaying = false; return speakChromium(text, opts) })
   }
+  if (token !== _speakToken) return false
+  await ensureVoicesLoaded()
+  if (token !== _speakToken) return false
   return speakChromium(text, opts)
 }
 
 function speakChromium(text, { rate = 1, voice = null, voiceKey = null } = {}) {
   return new Promise((resolve) => {
-    if (!ttsSupported()) { resolve(false); return }
+    if (!window.speechSynthesis) { resolve(false); return }
     const synth = window.speechSynthesis
     const token = ++_speakToken
-    synth.cancel()
+    try { synth.cancel() } catch { resolve(false); return }
     stopKeepAlive()
 
-    // resolve a REAL system voice (a studio marker can land here when the
-    // studio voice is still downloading — map it to a same-gender system voice)
-    let v = voice
-    if (v && v.neuralGender) v = voiceOfGender(v.neuralGender)
-    if (!v) {
-      const k = voiceKey != null ? voiceForKey(voiceKey) : pickVoice()
-      v = k && k.neuralGender ? voiceOfGender(k.neuralGender) : k
-    }
+    // Native IPC voices are plain descriptors. Chromium requires an actual
+    // SpeechSynthesisVoice from its own list, even when the names match.
+    const pool = englishVoices()
+    const requested = voice || (voiceKey != null ? voiceForKey(voiceKey) : pickVoice())
+    const gender = requested?.neuralGender || (requested ? guessGender(requested) : 'female')
+    const v = pool.find(v => v.name === requested?.name) || voiceOfGender(gender, pool)
+    // Never allow the OS default to silently choose a different accent.
+    if (!v) { resolve(false); return }
     const chunks = chunkText(text)
     let i = 0
+    let chunkDeadline = Date.now() + 30000 / rate
 
     // keep-alive: every ~10s, pause+resume to defeat the Chromium cutoff
     _keepAlive = setInterval(() => {
@@ -370,23 +364,32 @@ function speakChromium(text, { rate = 1, voice = null, voiceKey = null } = {}) {
       if (settled) return
       settled = true
       clearInterval(watchdog)
-      if (token === _speakToken) stopKeepAlive()
+      if (token === _speakToken) {
+        stopKeepAlive()
+        if (!ok) { try { synth.cancel() } catch {} }
+      }
       resolve(ok)
     }
     // if another speak()/stopSpeaking supersedes us, Chromium may swallow the
     // 'end' event after cancel() — resolve via watchdog so callers never hang
     // (a hung promise leaves play/replay buttons stuck disabled)
-    const watchdog = setInterval(() => { if (token !== _speakToken) done(false) }, 200)
+    const watchdog = setInterval(() => {
+      if (token !== _speakToken || Date.now() > chunkDeadline) done(false)
+    }, 200)
 
     const speakNext = () => {
+      if (settled) return
       if (token !== _speakToken) { done(false); return } // superseded
       if (i >= chunks.length) { done(true); return }
-      const u = new SpeechSynthesisUtterance(chunks[i++])
-      u.rate = rate
-      if (v) { u.voice = v; u.lang = v.lang } else u.lang = 'en-US'
-      u.onend = () => { if (token === _speakToken) speakNext(); else done(false) }
-      u.onerror = () => done(false)
-      synth.speak(u)
+      try {
+        chunkDeadline = Date.now() + 30000 / rate
+        const u = new SpeechSynthesisUtterance(chunks[i++])
+        u.rate = rate
+        u.voice = v; u.lang = v.lang
+        u.onend = () => { if (token === _speakToken) speakNext(); else done(false) }
+        u.onerror = () => done(false)
+        synth.speak(u)
+      } catch { done(false) }
     }
 
     // small gap after cancel() so Chromium doesn't drop the first utterance
@@ -400,12 +403,13 @@ export function stopSpeaking() {
   // on the desktop app).
   _speakToken++ // invalidate any in-flight sequence
   try { stopKeepAlive() } catch {}
-  try { stopNeural() } catch {}
+  try { _cancelPreAudio?.() } catch {}
+  _cancelPreAudio = null
   if (_preAudio) { try { _preAudio.pause() } catch {} _preAudio = null }
   try { const native = nativeSay(); if (native) { _nativeSaying = false; native.stop()?.catch?.(() => {}) } } catch {}
   try { if (ttsSupported()) window.speechSynthesis.cancel() } catch {}
 }
 
 export function isSpeaking() {
-  return isNeuralSpeaking() || !!_preAudio || _nativeSaying || (ttsSupported() && window.speechSynthesis.speaking)
+  return !!_preAudio || _nativeSaying || (typeof window !== 'undefined' && !!window.speechSynthesis?.speaking)
 }

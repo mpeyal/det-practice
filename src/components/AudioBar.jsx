@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { speak, stopSpeaking, ttsSupported } from '../lib/tts.js'
 import { getSettings, saveSettings } from '../lib/storage.js'
-import { isDownloaded, downloadNeural, onNeuralProgress, storedNeuralVoices } from '../lib/neuralTts.js'
 
 /**
  * Playback control for TTS audio with a replay counter that enforces the
@@ -18,47 +17,50 @@ export default function AudioBar({ text, maxPlays = 3, voice = null, voiceKey = 
   const [playing, setPlaying] = useState(false)
   const [rate, setRate] = useState(getSettings().ttsRate)
   const [failed, setFailed] = useState(false)      // last attempt produced no sound
-  const [dlPct, setDlPct] = useState(null)         // studio-voice download progress
   const mounted = useRef(true)
   const autoPlayed = useRef(false)
+  const playback = useRef({ generation: 0, busy: false, remaining: maxPlays })
 
   useEffect(() => {
     mounted.current = true
-    storedNeuralVoices() // learn download state early
-    const off = onNeuralProgress((_g, p) => { if (mounted.current) setDlPct(p >= 100 ? null : p) })
-    return () => { mounted.current = false; off(); stopSpeaking() }
+    return () => { mounted.current = false; stopSpeaking() }
   }, [])
 
   // reset when the text changes (new sub-question)
-  useEffect(() => { setPlaysLeft(maxPlays); autoPlayed.current = false; setFailed(false) }, [text, maxPlays])
+  useEffect(() => {
+    playback.current = { generation: playback.current.generation + 1, busy: false, remaining: maxPlays }
+    setPlaysLeft(maxPlays); setPlaying(false); autoPlayed.current = false; setFailed(false)
+    return () => { playback.current.generation++; stopSpeaking() }
+  }, [text, maxPlays, voiceKey])
 
   const play = async () => {
-    if (playing || playsLeft <= 0) return
+    const run = playback.current
+    if (run.busy || run.remaining <= 0) return
+    const generation = run.generation
+    run.busy = true
+    const first = run.remaining === maxPlays
+    run.remaining--
     setFailed(false)
-    setPlaysLeft(n => n - 1)
+    setPlaysLeft(run.remaining)
     setPlaying(true)
-    onFirstPlay && playsLeft === maxPlays && onFirstPlay()
-    const ok = await speak(text, { rate, voice, voiceKey })
-    if (!mounted.current) return
+    let ok = false
+    try {
+      if (first) onFirstPlay?.()
+      ok = await speak(text, { rate, voice, voiceKey })
+    } catch { /* Return the attempt if an audio engine throws. */ }
+    if (!mounted.current || generation !== playback.current.generation) return
+    run.busy = false
     setPlaying(false)
     // refund a play that produced no audio (autoplay blocked, silent OS voice,
     // interrupted) so the user never loses a play to a failure they didn't hear
-    if (!ok) { setPlaysLeft(n => Math.min(maxPlays, n + 1)); setFailed(true) }
+    if (!ok) { run.remaining = Math.min(maxPlays, run.remaining + 1); setPlaysLeft(run.remaining); setFailed(true) }
   }
 
-  // Enable the offline Studio voice, then immediately play with it.
+  // The natural US voices are already bundled; no model download is needed.
   const enableStudio = async () => {
-    setFailed(false)
-    setDlPct(0)
-    try {
-      if (!isDownloaded('female')) await downloadNeural('female')
-      saveSettings({ ttsEngine: 'neural' })
-      setDlPct(null)
-      autoPlayed.current = true
-      await play()
-    } catch {
-      if (mounted.current) { setDlPct(null); setFailed(true) }
-    }
+    saveSettings({ ttsEngine: 'neural' })
+    autoPlayed.current = true
+    await play()
   }
 
   useEffect(() => {
@@ -68,24 +70,22 @@ export default function AudioBar({ text, maxPlays = 3, voice = null, voiceKey = 
       const t = setTimeout(play, 400)
       return () => clearTimeout(t)
     }
-  }, [text]) // eslint-disable-line
+  }, [text, maxPlays, voiceKey, autoPlay]) // eslint-disable-line
 
-  if (!ttsSupported() && !isDownloaded('female') && !isDownloaded('male')) {
+  if (!ttsSupported()) {
     return <div className="rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-700">
       Your browser has no speech synthesis — showing the text instead: “{text}”
     </div>
   }
-
-  const downloading = dlPct != null
 
   return (
     <div>
       <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={play}
-          disabled={playing || playsLeft <= 0 || downloading}
+          disabled={playing || playsLeft <= 0}
           className={`flex h-16 w-16 items-center justify-center rounded-full text-white transition
-            ${playing ? 'bg-[#1cb0f6] animate-pulse' : playsLeft > 0 && !downloading ? 'bg-[#1cb0f6] hover:brightness-105 cursor-pointer shadow-[0_4px_0_#1899d6]' : 'bg-neutral-300'}`}
+            ${playing ? 'bg-[#1cb0f6] animate-pulse' : playsLeft > 0 ? 'bg-[#1cb0f6] hover:brightness-105 cursor-pointer shadow-[0_4px_0_#1899d6]' : 'bg-neutral-300'}`}
           title={playsLeft > 0 ? 'Play' : 'No plays left'}
         >
           {playing
@@ -109,21 +109,14 @@ export default function AudioBar({ text, maxPlays = 3, voice = null, voiceKey = 
         </div>
       </div>
 
-      {downloading && (
-        <div className="mt-3 flex items-center gap-2 rounded-xl bg-[#f3fbff] p-3">
-          <div className="pbar !h-2.5 flex-1"><div style={{ width: `${dlPct}%` }} /></div>
-          <span className="text-xs font-bold text-[#1899d6]">Preparing Studio voice… {dlPct}%</span>
-        </div>
-      )}
-
-      {failed && !downloading && (
+      {failed && (
         <div className="mt-3 rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-800">
           Couldn’t play the audio. Check your device volume, then tap ▶ to retry.
-          {!isDownloaded('female') && (
+          {getSettings().ttsEngine === 'system' && (
             <>
-              {' '}For guaranteed, offline audio on any device:{' '}
+              {' '}For the bundled American English voices:{' '}
               <button className="font-black text-[#1899d6] underline" onClick={enableStudio}>
-                Use Studio Voice (one-time ~60 MB)
+                Use Natural US voices
               </button>.
             </>
           )}

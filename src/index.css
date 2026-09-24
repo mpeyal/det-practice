@@ -78,3 +78,9 @@ body {
 /* Pulsing record dot */
 @keyframes pulse-rec { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 .rec-dot { animation: pulse-rec 1.2s infinite; }
+
+/* The booklet's exam frame places its countdown at the upper left. */
+.gpn-practice .question-heading { flex-direction: row-reverse; }
+.gpn-practice .question-heading > div:first-child { flex: 1; text-align: center; }
+.gpn-practice > div:first-child { flex-wrap: wrap; }
+.gpn-practice > div:first-child > div:last-child { white-space: normal; }

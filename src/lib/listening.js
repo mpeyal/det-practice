@@ -3,7 +3,7 @@ export const SUMMARY_SECONDS = 75
 
 export function listeningSummaryItem(item) {
   return { ...item, id: `${item.id}:summary`, type: 'listening_summary', isSample: false,
-    payload: { prompt: `Summarize this conversation.\nScenario: ${item.payload.scenario}\n${item.payload.dialogue.map(t => `${t.speaker}: ${t.text}`).join('\n')}` } }
+    payload: { model: item.payload.summaryModel, prompt: `Summarize this conversation.\nScenario: ${item.payload.scenario}\n${item.payload.dialogue.map(t => `${t.speaker}: ${t.text}`).join('\n')}` } }
 }
 
 export function expandListeningSummaries(items, responses) {

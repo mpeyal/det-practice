@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-24T03:55:03.875Z",
+  "engine": "Whisper tiny.en local CPU; sample intelligibility check, not a human naturalness rating",
+  "samples": [
+    {
+      "key": "bf4c7e0",
+      "voice": "af_heart",
+      "seconds": 1.45,
+      "expected": "Good luck!",
+      "transcribed": " Good luck.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "a32b541c",
+      "voice": "af_heart",
+      "seconds": 2.375,
+      "expected": "What do you like to do in your free time?",
+      "transcribed": " What do you like to do in your free time?",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "2552eba3",
+      "voice": "af_heart",
+      "seconds": 18.52,
+      "expected": "Well, there are a lot of people in our society who are struggling and don’t have anyone to turn to for help. Social workers help these people get through these difficulties. Their jobs are often emotionally and physically taxing because they are responsible for a wide variety of services.",
+      "transcribed": " Well, there are a lot of people in our society who are struggling and don't have anyone to turn to for help. Social workers help these people get through these difficulties. Their jobs are often emotionally and physically taxing because they are responsible for a wide variety of services.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "f8a04b21",
+      "voice": "am_michael",
+      "seconds": 1.475,
+      "expected": "Good luck!",
+      "transcribed": " Good luck.",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "13cc30fe",
+      "voice": "am_michael",
+      "seconds": 6.3,
+      "expected": "Okay, let me see if I can find something to help you out. Do you have a copy of the syllabus?",
+      "transcribed": " Okay, let me see if I can find something to help you out. Do you have a copy of the syllabus?",
+      "wordErrorRate": 0
+    },
+    {
+      "key": "44976f42",
+      "voice": "am_michael",
+      "seconds": 20.37,
+      "expected": "Well, there are a lot of people in our society who are struggling and don’t have anyone to turn to for help. Social workers help these people get through these difficulties. Their jobs are often emotionally and physically taxing because they are responsible for a wide variety of services.",
+      "transcribed": " Well, there are a lot of people in our society who are struggling and don't have anyone to turn to for help. Social workers help these people get through these difficulties. Their jobs are often emotionally and physically taxing because they are responsible for a wide variety of services.",
+      "wordErrorRate": 0
+    }
+  ]
+}

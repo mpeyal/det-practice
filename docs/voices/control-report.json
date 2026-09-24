@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-24T03:55:51.346Z",
+  "ok": true,
+  "checks": [
+    "Rapid double click starts only one clip",
+    "Question change stops old clip and autoplays replacement",
+    "Old completion cannot refund or unlock the new question",
+    "Successful playback enforces limit",
+    "Failed playback refunds and permits retry",
+    "Thrown engine error also refunds and unlocks"
+  ],
+  "errors": []
+}

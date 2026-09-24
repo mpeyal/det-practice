@@ -327,7 +327,8 @@ function runClaude(prompt, model) {
 
 // ---- static file serving (serves the built dist/) ----
 const MIME = {
-  '.m4a': 'audio/mp4', '.mp3': 'audio/mpeg',
+  '.pdf': 'application/pdf',
+  '.m4a': 'audio/mp4', '.mp3': 'audio/mpeg', '.wav': 'audio/wav',
   '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
   '.json': 'application/json', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg', '.png': 'image/png', '.webmanifest': 'application/manifest+json',
